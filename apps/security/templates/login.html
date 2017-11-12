@@ -1,0 +1,32 @@
+		
+
+      {% if form.errors %}
+        <p id="error-msg">
+          
+          {{form.errors}}
+
+        </p>
+      
+      {% endif %}
+
+      <form class="form-signin" method="post" action="">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Username or Email address</label>
+        <input id="id_username" type="text" name="username" class="form-control" placeholder="username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input id="id_password" type="password" name="password" class="form-control" placeholder="password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+
+      <div>
+		<p class="signup-helper">
+	      ¿New in Open Budget?
+	      <a id="id_register_now" href="{%url 'security:register' %}">Register Now »</a>
+		</p>
+      </div>

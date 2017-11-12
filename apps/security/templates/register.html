@@ -1,0 +1,25 @@
+		
+
+      {% if form.errors %}
+        <p id="error-msg">
+          
+          {{form.errors}}
+
+        </p>
+      
+      {% endif %}
+
+      <form class="form-signup" method="post" action="">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">Sign up</h2>
+        <label for="inputName" class="sr-only">Full Name</label>
+        <input id="id_fullname" type="text" name="full_name" class="form-control" placeholder="full name" required autofocus>
+        <label for="id_email" class="sr-only">Email</label>
+        <input id="id_email" type="text" name="username" class="form-control" placeholder="Email">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input id="id_password1" type="password" name="password1" class="form-control" placeholder="password" required>
+        <label class="sr-only">Re-Type Password</label>
+        <input id="id_password2" type="password" name="password2" class="form-control" placeholder="Re-Type password" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      </form>

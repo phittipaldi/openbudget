@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from apps.dashboard.views import HomePage
+from apps.dashboard.views import HomePage, DashboardPage
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', HomePage.as_view(), name='home'),
+    url(r'^dashboard$', DashboardPage.as_view(), name='dashboard'),
     url(r'^security/', include('apps.security.urls', namespace='security')),
 ]

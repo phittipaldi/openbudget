@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
 
@@ -22,10 +23,38 @@ class LoginTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
+        url_login = reverse('security:login')
+        self.browser.get(self.live_server_url + url_login)
 
     def tearDown(self):
         self.browser.quit()
 
     def test_login(self):
-        url_login = reverse('security:login')
-        self.browser.get(self.live_server_url + url_login)
+
+        username_inputbox = self.browser.find_element_by_id('id_username')
+        password_inputbox = self.browser.find_element_by_id('id_password')
+
+        username_inputbox.send_keys('phittipadiX@gmail.com')
+        password_inputbox.send_keys('tibaldix1234')
+
+        password_inputbox.send_keys(Keys.ENTER)
+
+        self.browser.implicitly_wait(3)
+        error_text = self.browser.find_element_by_class_name('errorlist').text
+        self.assertIn('enter a correct username and password', error_text)
+
+    def test_register(self):
+
+        link_create = self.browser.find_element_by_id('id_register_now')
+        link_create.click()
+
+        fullname_inputbox = self.browser.find_element_by_id('id_fullname')
+        email_inputbox = self.browser.find_element_by_id('id_email')
+        password1_inputbox = self.browser.find_element_by_id('id_password1')
+        password2_inputbox = self.browser.find_element_by_id('id_password2')
+
+        fullname_inputbox.send_keys('Tibaldi de Jesus')
+        email_inputbox.send_keys('phittipaldi@gmail.com')
+        password1_inputbox.send_keys('tibaldix1234')
+        password2_inputbox.send_keys('tibaldix1234')
+        password2_inputbox.send_keys(Keys.ENTER)
