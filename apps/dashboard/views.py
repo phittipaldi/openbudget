@@ -7,4 +7,4 @@ class HomePage(TemplateView):
 
 
 class DashboardPage(TemplateView):
-    template_name = "home.html"
+    template_name = "dashboard.html"

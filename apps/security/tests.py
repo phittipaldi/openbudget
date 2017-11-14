@@ -21,3 +21,12 @@ class UserFormTest(TestCase):
                                       'password1': "tibaldix123",
                                       'password2': "tibaldix", })
         self.assertFalse(form.is_valid())
+
+    # Redirect Form
+    def test_redirects_after_POST(self):
+        url = '/security/register/'
+        response = self.client.post(url, data={'username': 'user@mp.com',
+                                               'full_name': 'Tibaldi Jesus',
+                                               'password1': 'tibaldix123',
+                                               'password2': 'tibaldix123'})
+        self.assertRedirects(response, '/dashboard')

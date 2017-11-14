@@ -26,8 +26,8 @@ class LoginTest(StaticLiveServerTestCase):
         url_login = reverse('security:login')
         self.browser.get(self.live_server_url + url_login)
 
-    def tearDown(self):
-        self.browser.quit()
+    # def tearDown(self):
+    #     self.browser.quit()
 
     def test_login(self):
 
