@@ -13,11 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
-from apps.dashboard.views import HomePage
+from django.conf import settings
+from django.conf.urls.static import static
+from apps.dashboard.views import HomePage, DashboardPage
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', HomePage.as_view(), name='home'),
+    url(r'^dashboard$', DashboardPage.as_view(), name='dashboard'),
+    url(r'^security/', include('apps.security.urls', namespace='security')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
