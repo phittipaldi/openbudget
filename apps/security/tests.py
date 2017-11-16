@@ -22,6 +22,15 @@ class UserFormTest(TestCase):
                                       'password2': "tibaldix", })
         self.assertFalse(form.is_valid())
 
+
+class LoginRegisterTestCase(TestCase):
+
+    def test_login(self):
+
+        # First check for the default behavior
+        response = self.client.get('/dashboard')
+        self.assertRedirects(response, '/security/login/?next=/dashboard')
+
     # Redirect Form
     def test_redirects_after_POST(self):
         url = '/security/register/'
@@ -29,4 +38,4 @@ class UserFormTest(TestCase):
                                                'full_name': 'Tibaldi Jesus',
                                                'password1': 'tibaldix123',
                                                'password2': 'tibaldix123'})
-        self.assertRedirects(response, '/dashboard')
+        self.assertRedirects(response, '/security/account_activation_sent/')

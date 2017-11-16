@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.contrib.auth import views
-from .views import UserRegistration
+from .views import UserRegistration, account_activation_sent
 
 
 urlpatterns = [
@@ -9,4 +9,6 @@ urlpatterns = [
         name='login'),
     url(r'^register/$', UserRegistration.as_view(),
         name='register'),
+    url(r'^account_activation_sent/$', account_activation_sent,
+    	name='account_activation_sent'),
 ]

@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 from django.views.generic.edit import FormView
-from django.views.generic.base import RedirectView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 from .forms import RegistrationForm
 
 
@@ -16,4 +16,9 @@ class UserRegistration(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('dashboard')
+        return reverse_lazy('security:account_activation_sent')
+
+
+def account_activation_sent(request):
+    return render_to_response('home.html')
+    # return render_to_response('account_activation_sent.html')
