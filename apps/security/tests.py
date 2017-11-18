@@ -26,16 +26,15 @@ class UserFormTest(TestCase):
 class LoginRegisterTestCase(TestCase):
 
     def test_login(self):
-
         # First check for the default behavior
-        response = self.client.get('/dashboard')
-        self.assertRedirects(response, '/security/login/?next=/dashboard')
+        response = self.client.get('/dashboard/')
+        self.assertRedirects(response, '/accounts/login/?next=/dashboard/')
 
     # Redirect Form
     def test_redirects_after_POST(self):
-        url = '/security/register/'
+        url = '/accounts/register/'
         response = self.client.post(url, data={'username': 'user@mp.com',
                                                'full_name': 'Tibaldi Jesus',
                                                'password1': 'tibaldix123',
                                                'password2': 'tibaldix123'})
-        self.assertRedirects(response, '/security/account_activation_sent/')
+        self.assertRedirects(response, '/accounts/verification_sent/')

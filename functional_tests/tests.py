@@ -17,14 +17,14 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def test_new_visitor(self):
         self.browser.get(self.live_server_url)
-        self.assertIn('openBudget', self.browser.title)
+        self.assertIn('Open Budget', self.browser.title)
 
 
 class LoginTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        url_login = reverse('security:login')
+        url_login = reverse('accounts:login')
         self.browser.get(self.live_server_url + url_login)
 
     def tearDown(self):
@@ -49,7 +49,7 @@ class RegisterTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        url_register = reverse('security:register')
+        url_register = reverse('accounts:register')
         self.browser.get(self.live_server_url + url_register)
 
     def tearDown(self):
@@ -69,4 +69,4 @@ class RegisterTest(StaticLiveServerTestCase):
         password2_inputbox.send_keys(Keys.ENTER)
 
         self.browser.implicitly_wait(5)
-        # self.assertIn('account_activation_sent', self.browser.current_url)
+        # self.assertIn('verification_sent', self.browser.current_url)

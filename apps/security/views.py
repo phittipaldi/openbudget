@@ -7,7 +7,7 @@ from .forms import RegistrationForm
 
 
 class UserRegistration(FormView):
-    template_name = 'register.html'
+    template_name = 'security/register.html'
     form_class = RegistrationForm
 
     def form_valid(self, form):
@@ -16,9 +16,8 @@ class UserRegistration(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('security:account_activation_sent')
+        return reverse_lazy('accounts:verification_sent')
 
 
-def account_activation_sent(request):
-    return render_to_response('home.html')
-    # return render_to_response('account_activation_sent.html')
+def verification_sent(request):
+    return render_to_response('security/verification_sent.html')

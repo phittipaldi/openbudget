@@ -1,0 +1,16 @@
+
+    {% extends "security/base_security.html" %}
+    {% load i18n %}
+    {% load account socialaccount %}
+	{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+      {% block title_content %}
+
+        <h1>Thank you for register in <strong>Open Budget</strong></h1>
+        <div class="description">
+          <p>
+            {% trans "Please verify your inbox, we sent you a link to activate your account..." %}
+          </p>
+        </div>
+
+      {% endblock %}
+
