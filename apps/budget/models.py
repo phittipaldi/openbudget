@@ -4,13 +4,13 @@ from django.contrib.auth.models import User
 
 
 class CurrencyUser(utils.CommonInfo):
-    currency = utils.Currency
+    currency = models.ForeignKey(utils.Currency)
     ratio = models.DecimalField(max_digits=10, decimal_places=2)
     inverse_ratio = models.DecimalField(max_digits=10, decimal_places=2)
     is_base = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return self.currency.name
 
 
 class AccountType(models.Model):
@@ -22,8 +22,8 @@ class AccountType(models.Model):
 
 class Account(utils.CommonInfo):
     name = models.CharField(max_length=64)
-    type_account = models.ForeignKey(AccountType)
-    currency = models.ForeignKey(CurrencyUser)
+    account_type = models.ForeignKey(AccountType)
+    currency = models.ForeignKey(utils.Currency)
     color = models.ForeignKey(utils.Color, blank=True)
     is_active = models.BooleanField(default=True)
 
@@ -34,7 +34,7 @@ class Account(utils.CommonInfo):
 class AccountOwner(utils.CommonInfo):
     account = models.ForeignKey(Account)
     owner = models.ForeignKey(User)
-    is_principal = models.BooleanField(False)
+    is_principal = models.BooleanField(default=False)
 
     def __str__(self):
         return "{} - {}".format(self.owner.username, self.account)

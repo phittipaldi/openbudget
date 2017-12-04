@@ -1,0 +1,20 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$30000$EhoGjYfN1zYw$FPC/2O5UAI2nHVzDb0/mTPFvMoNLfAQn/V0Xk+pLvmk=",
+        "last_login": "2017-04-22T10:40:20.931Z",
+        "is_superuser": true,
+        "username": "openbudget",
+        "first_name": "",
+        "last_name": "",
+        "email": "tibaldidejesus@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2017-04-22T10:38:46.829Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
