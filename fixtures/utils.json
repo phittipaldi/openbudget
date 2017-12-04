@@ -1,0 +1,16 @@
+[
+{
+    "model": "utils.currency",
+    "pk": 1,
+    "fields": {
+        "name": "USD"
+    }
+},
+{
+    "model": "utils.currency",
+    "pk": 2,
+    "fields": {
+        "name": "DOP"
+    }   
+}
+]

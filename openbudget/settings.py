@@ -43,9 +43,23 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'django_nose',
     'openbudget',
+    'factories',
     'apps.dashboard',
     'apps.security',
+    'apps.utils',
+    'apps.budget',
+]
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage apps seperates by colon
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=utils,security',
+    '--cover-html',
 ]
 
 SITE_ID = 1
@@ -93,6 +107,7 @@ DATABASES = {
     }
 }
 
+FIXTURE_DIRS = (os.path.join(BASE_DIR, 'fixtures'),)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

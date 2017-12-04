@@ -1,0 +1,473 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">22%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>309</td>
+                <td>241</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="68 309">22%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps___init___py.html">apps/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget___init___py.html">apps/budget/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget_admin_py.html">apps/budget/admin.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget_apps_py.html">apps/budget/apps.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget_migrations___init___py.html">apps/budget/migrations/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget_models_py.html">apps/budget/models.py</a></td>
+                <td>56</td>
+                <td>56</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 56">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget_tests_py.html">apps/budget/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_budget_views_py.html">apps/budget/views.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_dashboard___init___py.html">apps/dashboard/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_dashboard_admin_py.html">apps/dashboard/admin.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_dashboard_models_py.html">apps/dashboard/models.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_dashboard_tests_py.html">apps/dashboard/tests.py</a></td>
+                <td>2</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 2">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_dashboard_views_py.html">apps/dashboard/views.py</a></td>
+                <td>6</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 6">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security___init___py.html">apps/security/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_admin_py.html">apps/security/admin.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_forms_py.html">apps/security/forms.py</a></td>
+                <td>16</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 16">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_migrations_0001_initial_py.html">apps/security/migrations/0001_initial.py</a></td>
+                <td>8</td>
+                <td>8</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 8">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_migrations___init___py.html">apps/security/migrations/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_mixin___init___py.html">apps/security/mixin/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_mixin_views_py.html">apps/security/mixin/views.py</a></td>
+                <td>19</td>
+                <td>19</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 19">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_models_py.html">apps/security/models.py</a></td>
+                <td>12</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 12">75%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_tests_py.html">apps/security/tests.py</a></td>
+                <td>19</td>
+                <td>19</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 19">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_urls_py.html">apps/security/urls.py</a></td>
+                <td>4</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 4">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_security_views_py.html">apps/security/views.py</a></td>
+                <td>15</td>
+                <td>15</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 15">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils___init___py.html">apps/utils/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_admin_py.html">apps/utils/admin.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_apps_py.html">apps/utils/apps.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_migrations_0001_initial_py.html">apps/utils/migrations/0001_initial.py</a></td>
+                <td>6</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 6">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_migrations___init___py.html">apps/utils/migrations/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_models_py.html">apps/utils/models.py</a></td>
+                <td>16</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="14 16">88%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_tests_models_py.html">apps/utils/tests_models.py</a></td>
+                <td>9</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 9">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="apps_utils_views_py.html">apps/utils/views.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="functional_tests___init___py.html">functional_tests/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="functional_tests_base_py.html">functional_tests/base.py</a></td>
+                <td>9</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 9">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="functional_tests_test_login_py.html">functional_tests/test_login.py</a></td>
+                <td>16</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 16">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="functional_tests_test_new_visitor_py.html">functional_tests/test_new_visitor.py</a></td>
+                <td>5</td>
+                <td>5</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 5">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="functional_tests_test_register_user_py.html">functional_tests/test_register_user.py</a></td>
+                <td>17</td>
+                <td>17</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 17">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="manage_py.html">manage.py</a></td>
+                <td>13</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="7 13">54%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="openbudget___init___py.html">openbudget/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="openbudget_settings_py.html">openbudget/settings.py</a></td>
+                <td>32</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 32">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="openbudget_urls_py.html">openbudget/urls.py</a></td>
+                <td>9</td>
+                <td>9</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 9">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="openbudget_wsgi_py.html">openbudget/wsgi.py</a></td>
+                <td>4</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 4">0%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.4.2</a>,
+            created at 2017-11-28 16:01
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
