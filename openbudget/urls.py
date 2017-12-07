@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^dashboard/$', DashboardPage.as_view(), name='dashboard'),
     url(r'^accounts/', include('apps.security.urls', namespace='accounts')),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^budget/', include('apps.budget.urls', namespace='budget')),
     url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 

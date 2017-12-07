@@ -1,3 +1,12 @@
-from django.shortcuts import render
+from django.views.generic.list import ListView
+from .models import Account
 
-# Create your views here.
+
+class AccountList(ListView):
+    template_name = "account_list.html"
+    model = Account
+    context_object_name = 'accounts'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountList, self).get_context_data(**kwargs)
+        return context
