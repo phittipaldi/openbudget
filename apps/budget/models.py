@@ -23,8 +23,10 @@ class AccountType(models.Model):
 class Account(utils.CommonInfo):
     name = models.CharField(max_length=64)
     account_type = models.ForeignKey(AccountType)
+    starting_amount = models.DecimalField(max_digits=10, decimal_places=2,
+                                          default=0)
     currency = models.ForeignKey(utils.Currency)
-    color = models.ForeignKey(utils.Color, blank=True)
+    color = models.ForeignKey(utils.Color, blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

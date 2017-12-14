@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 ]
 
 # Use nose to run all tests
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Tell nose to measure coverage apps seperates by colon
 NOSE_ARGS = [
