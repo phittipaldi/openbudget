@@ -1,0 +1,82 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12 page-header">
+            <div class="col-lg-6">
+                <h1 class="">{% trans "Account List" %}</h1>
+            </div>
+            <div class="col-lg-6">
+                <a class="btn btn-primary pull-right btn_add_top" href="{% url 'budget:account_add' %}">{% trans "New Account" %} +</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+
+            {% if accounts %}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {% trans "Accounts" %}
+                    </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+
+                            <div class="row"><div class="col-sm-12">
+
+                                <table id="id_list_table" width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline">
+                                <thead>
+                                    <tr role="row"><th>Name</th><th>Type</th><th>Balance</th><th>Action</th></tr>
+                                </thead>
+                                <tbody>
+                                {% for account in accounts %}
+                                    <tr class="">
+                                        <td class="sorting_1">{{account.name}}</td>
+                                        <td>{{account.account_type}}</td>
+                                        <td>{{account.balance}}</td>
+                                        <td class="center">
+                                            <a href="">{% trans 'Edit' %}</a>
+                                            <a href="">{% trans 'Delete' %}</a>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+            {% else %}
+                
+                <div class="display_message text-center">
+                    
+                    <h1 class="msg_no_accounts">{% trans "There are not accounts created" %}</h1>
+                    <h3>{% trans "Please click on the button below to create one" %}</h3>
+                    <a href="{% url 'budget:account_add' %}" class="btn btn-primary">
+                        {% trans "New Account" %}
+                    </a>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_list_table').DataTable();
+    } );
+    </script>
+{% endblock %}

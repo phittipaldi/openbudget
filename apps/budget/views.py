@@ -3,8 +3,9 @@ from django.conf import settings
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import (LoginRequiredMixin)
-from .models import Account
+from .models import Account, AccountType
 from .forms import AccountTransactionForm
+from apps.utils.models import Currency
 
 
 class AccountList(ListView):
@@ -25,6 +26,8 @@ class AccountAdd(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountAdd, self).get_context_data(**kwargs)
+        # context['form'].fields['currency'].choices = self.get_my_currencies()
+        # context['form'].fields['account_type'].choices = self.get_ac_types()
         return context
 
     def form_valid(self, form):
@@ -33,3 +36,11 @@ class AccountAdd(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('budget:account_list')
+
+    def get_my_currencies(self):
+        choices = [(o.id, str(o)) for o in Currency.objects.all()]
+        return choices
+
+    def get_ac_types(self):
+        choices = [(o.id, str(o)) for o in AccountType.objects.all()]
+        return choices

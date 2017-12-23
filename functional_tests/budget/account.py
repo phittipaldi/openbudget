@@ -15,14 +15,13 @@ class AccountTest(FunctionalTest):
         url_register = reverse('budget:account_list')
         self.browser.get(self.live_server_url + url_register)
         # If there are not accounts created, display a message
-        display_text = self.browser.find_element_by_tag_name('h1').text
+        display_text = self.browser.find_element_by_class_name(
+            'msg_no_accounts').text
 
         self.assertIn(display_text, 'There are not accounts created')
 
     @override_settings(DEBUG=True)
-    def test_create_account(self):
-
-        # self.create_pre_authenticated_session('openbudget')
+    def test_create_account_success(self):
 
         url_add_account = reverse('budget:account_add')
         self.browser.get(self.live_server_url + url_add_account)
@@ -35,11 +34,28 @@ class AccountTest(FunctionalTest):
         currency = Select(self.browser.find_element_by_id('id_currency'))
 
         name.send_keys('Family Account')
-        account_type.select_by_value('1')
+        account_type.select_by_visible_text('General')
         amount.send_keys('5700')
-        currency.select_by_value('1')
+        currency.select_by_visible_text('USD')
 
-        log_but2 = "//input[@class='button-text']"
+        log_but2 = "//input[@class='btn btn-success']"
         self.browser.find_element_by_xpath(log_but2).click()
 
-        self.wait_for_row_in_list_table('Family Account')
+        self.wait_for_row_in_list_table('Family Account General 5700.00 Edit Delete')
+
+    @override_settings(DEBUG=True)
+    def test_create_account_fail(self):
+
+        url_add_account = reverse('budget:account_add')
+        self.browser.get(self.live_server_url + url_add_account)
+        self.login()
+
+        name = self.browser.find_element_by_id('id_name')
+        account_type = Select(self.browser.find_element_by_id(
+            'id_account_type'))
+
+        name.send_keys('Fun Time')
+        account_type.select_by_visible_text('General')
+
+        log_but2 = "//input[@class='btn btn-success']"
+        self.browser.find_element_by_xpath(log_but2).click()

@@ -32,6 +32,9 @@ class Account(utils.CommonInfo):
     def __str__(self):
         return self.name
 
+    def balance(self):
+        return self.starting_amount
+
 
 class AccountOwner(utils.CommonInfo):
     account = models.ForeignKey(Account)
