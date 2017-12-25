@@ -71,6 +71,18 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.assertIn(row_text, [row.text for row in rows])
 
     @wait
+    def wait_for_row_not_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertNotIn(row_text, [row.text for row in rows])
+
+    @wait
+    def wait_for_text_display(self, text):
+        text_display = self.browser.find_element_by_class_name(
+            'text_display').text
+        self.assertEqual(text_display, text)
+
+    @wait
     def wait_for_errors_form(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')

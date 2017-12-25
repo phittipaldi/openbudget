@@ -40,8 +40,8 @@
                                         <td>{{account.account_type}}</td>
                                         <td>{{account.balance}}</td>
                                         <td class="center">
-                                            <a href="">{% trans 'Edit' %}</a>
-                                            <a href="">{% trans 'Delete' %}</a>
+                                            <a id="link-update-{{account.pk}}" href="{% url 'budget:account_update' account.pk %}" >{% trans 'Edit' %}</a>
+                                            <a id="link-delete-{{account.pk}}" href="{% url 'budget:account_delete' account.pk %}">{% trans 'Delete' %}</a>
                                         </td>
 
                                     </tr>
@@ -58,7 +58,7 @@
                 
                 <div class="display_message text-center">
                     
-                    <h1 class="msg_no_accounts">{% trans "There are not accounts created" %}</h1>
+                    <h1 class="msg_no_accounts text_display">{% trans "There are not accounts created" %}</h1>
                     <h3>{% trans "Please click on the button below to create one" %}</h3>
                     <a href="{% url 'budget:account_add' %}" class="btn btn-primary">
                         {% trans "New Account" %}

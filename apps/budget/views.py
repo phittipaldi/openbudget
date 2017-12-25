@@ -1,14 +1,15 @@
 from django.urls.base import reverse
 from django.conf import settings
+from django.http import Http404
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .models import Account, AccountType
-from .forms import AccountTransactionForm
+from .forms import AccountTransactionForm, AccountTransactionUpdateForm
 from apps.utils.models import Currency
 
 
-class AccountList(ListView):
+class AccountList(LoginRequiredMixin, ListView):
     template_name = "account_list.html"
     model = Account
     context_object_name = 'accounts'
@@ -27,7 +28,6 @@ class AccountAdd(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(AccountAdd, self).get_context_data(**kwargs)
         # context['form'].fields['currency'].choices = self.get_my_currencies()
-        # context['form'].fields['account_type'].choices = self.get_ac_types()
         return context
 
     def form_valid(self, form):
@@ -44,3 +44,34 @@ class AccountAdd(LoginRequiredMixin, CreateView):
     def get_ac_types(self):
         choices = [(o.id, str(o)) for o in AccountType.objects.all()]
         return choices
+
+
+class AccountUpdate(LoginRequiredMixin, UpdateView):
+    template_name = "account_update.html"
+    model = Account
+    form_class = AccountTransactionUpdateForm
+    login_url = settings.LOGIN_URL
+
+    def form_valid(self, form):
+        form.instance.user_update = self.request.user
+        return super(AccountUpdate, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('budget:account_list')
+
+
+class AccountDelete(LoginRequiredMixin, DeleteView):
+    template_name = "account_delete.html"
+    model = Account
+    form_class = AccountTransactionUpdateForm
+    login_url = settings.LOGIN_URL
+
+    def get_success_url(self):
+        return reverse('budget:account_list')
+
+    # def get_object(self, queryset=None):
+    #     """ Hook to ensure object is owned by request.user. """
+    #     obj = super(AccountDelete, self).get_object()
+    #     if not obj.user_insert == self.request.user:
+    #         raise Http404
+    #     return obj
