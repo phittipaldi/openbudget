@@ -21,6 +21,17 @@ class AccountFactory(factory.django.DjangoModelFactory):
     color = factory.SubFactory(ColorFactory)
     user_insert = factory.SubFactory(UserFactory)
 
+    @factory.post_generation
+    def owners(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for owner in extracted:
+                self.owners.add(owner)
+
 
 class IconCategoryFactory(factory.django.DjangoModelFactory):
     class Meta:

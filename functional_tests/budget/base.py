@@ -35,8 +35,8 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.factory = RequestFactory()
         self.account_type = AccountTypeFactory()
         Currency.objects.create(name='USD')
-        UserFactory(username='openbudget',
-                    password='12345678')
+        self.current_user = UserFactory(username='openbudget',
+                                        password='12345678')
 
     def tearDown(self):
         self.browser.quit()

@@ -18,6 +18,9 @@ class AccountList(LoginRequiredMixin, ListView):
         context = super(AccountList, self).get_context_data(**kwargs)
         return context
 
+    def get_queryset(self):
+        return self.model.objects.all_my_accounts(self.request.user)
+
 
 class AccountAdd(LoginRequiredMixin, CreateView):
     template_name = "account_add.html"
@@ -32,6 +35,8 @@ class AccountAdd(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user_insert = self.request.user
+        form.save()
+        form.instance.owners.add(self.request.user)
         return super(AccountAdd, self).form_valid(form)
 
     def get_success_url(self):
@@ -59,6 +64,14 @@ class AccountUpdate(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('budget:account_list')
 
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(AccountUpdate, self).get_object()
+        if not obj.owners.filter(username__in=[
+                                 self.request.user]).count():
+            raise Http404
+        return obj
+
 
 class AccountDelete(LoginRequiredMixin, DeleteView):
     template_name = "account_delete.html"
@@ -69,9 +82,10 @@ class AccountDelete(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         return reverse('budget:account_list')
 
-    # def get_object(self, queryset=None):
-    #     """ Hook to ensure object is owned by request.user. """
-    #     obj = super(AccountDelete, self).get_object()
-    #     if not obj.user_insert == self.request.user:
-    #         raise Http404
-    #     return obj
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(AccountDelete, self).get_object()
+        if not obj.owners.filter(username__in=[
+                                 self.request.user]).count():
+            raise Http404
+        return obj
