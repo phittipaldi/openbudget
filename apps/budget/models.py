@@ -1,6 +1,7 @@
 from django.db import models
 from apps.utils import models as utils
 from django.contrib.auth.models import User
+from apps.budget.managers import account as managers
 
 
 class CurrencyUser(utils.CommonInfo):
@@ -23,21 +24,19 @@ class AccountType(models.Model):
 class Account(utils.CommonInfo):
     name = models.CharField(max_length=64)
     account_type = models.ForeignKey(AccountType)
+    owners = models.ManyToManyField(User)
+    starting_amount = models.DecimalField(max_digits=10, decimal_places=2,
+                                          default=0)
     currency = models.ForeignKey(utils.Currency)
-    color = models.ForeignKey(utils.Color, blank=True)
+    color = models.ForeignKey(utils.Color, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    objects = managers.AccountManager()
 
     def __str__(self):
         return self.name
 
-
-class AccountOwner(utils.CommonInfo):
-    account = models.ForeignKey(Account)
-    owner = models.ForeignKey(User)
-    is_principal = models.BooleanField(default=False)
-
-    def __str__(self):
-        return "{} - {}".format(self.owner.username, self.account)
+    def balance(self):
+        return self.starting_amount
 
 
 class IconCategory(models.Model):
