@@ -18,7 +18,16 @@
                             
                         </li>
                         <li>
-                            <a href="forms.html"><i class="fa fa-list fa-fw"></i>{% trans "Transactions" %}</a>
+                            <a href="#"><i class="fa fa-list fa-fw"></i>{% trans "Transactions" %}<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{% url 'budget:account_add' %}">New Transaction</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'budget:transaction_list' %}">Transaction List</a>
+                                </li>
+ 
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-briefcase fa-fw"></i>{% trans "Accounts" %}<span class="fa arrow"></span></a>

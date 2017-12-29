@@ -70,7 +70,7 @@ class TransactionType(models.Model):
         return self.name
 
 
-class Transactions(utils.CommonInfo):
+class Transaction(utils.CommonInfo):
     account = models.ForeignKey(Account)
     trx_type = models.ForeignKey(TransactionType)
     subcategory = models.ForeignKey(SubCategory)
