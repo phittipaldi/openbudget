@@ -75,6 +75,8 @@ class Transactions(utils.CommonInfo):
     trx_type = models.ForeignKey(TransactionType)
     subcategory = models.ForeignKey(SubCategory)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payee = models.CharField(max_length=128, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
     photo = models.FileField(upload_to='transactions')
     date = models.DateTimeField(auto_now_add=True)
 
