@@ -1,30 +1,27 @@
-{% extends '_base.html' %}
+{% extends 'base_template.html' %}
 {% load i18n %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{% trans "Delete Account" %}</h1>
-        </div>
-        <!-- /.col-lg-12 -->
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{{object.name}}</h4>
+        <p class="category">{% trans "account name" %}</p>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">{% trans "Account" %}</div>
-                <div class="panel-body">
 
-                    <form method="post" novalidate="novalidate">
-                      {% csrf_token %}
-                        <h3>{% trans "Are you sure you want to delete the " %} {{object.name}} {% trans "account" %} ?</h3>
-                        <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
-                        <input class="btn btn-danger" type="submit" value="Delete" />
-                    </form>
-                </div><!-- panel body -->
-            </div><!-- panel panel-default -->
-        </div>
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+            <h3>{% trans "Are you sure you want to delete this account " %}?</h3>
+            <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
+            <input class="btn btn-danger" type="submit" value="Delete" />
+        </form>
+
     </div>
+
+</div>
 
 {% endblock %}

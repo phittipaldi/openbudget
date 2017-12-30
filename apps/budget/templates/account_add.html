@@ -1,44 +1,40 @@
-{% extends '_base.html' %}
+{% extends 'base_template.html' %}
 {% load i18n %}
 
 {% block content %}
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{% trans "New Account" %}</h1>
-        </div>
-        <!-- /.col-lg-12 -->
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{% trans "New Account" %}</h4>
+        <p class="category">{% trans "account data" %}</p>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">{% trans "Account data" %}</div>
-                <div class="panel-body">
 
-                    <form method="post" novalidate="novalidate">
-                      {% csrf_token %}
+    <div class="content">
 
-                      {% for hidden_field in form.hidden_fields %}
-                        {{ hidden_field }}
-                      {% endfor %}
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
 
-                      {% for field in form.visible_fields %}
-                        <div class="form-group">
-                          {{ field.errors }}
-                          {{ field.label_tag }}
-                          {{ field }}
-                          {% if field.help_text %}
-                            <small class="form-text text-muted">{{ field.help_text }}</small>
-                          {% endif %}
-                        </div>
-                      {% endfor %}
-                        <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
-                        <input class="btn btn-success" type="submit" value="Save" />
-                    </form>
-                </div><!-- panel body -->
-            </div><!-- panel panel-default -->
-        </div>
-    </div>
+          {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+          {% endfor %}
+
+          {% for field in form.visible_fields %}
+            <div class="form-group">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          {% endfor %}
+            <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
+            <input class="btn btn-success" type="submit" value="Save" />
+        </form>
+    </div><!-- panel body -->
+
+</div>
 
 {% endblock %}
