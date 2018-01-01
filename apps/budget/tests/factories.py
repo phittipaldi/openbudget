@@ -27,10 +27,12 @@ class AccountFactory(factory.django.DjangoModelFactory):
             # Simple build, do nothing.
             return
 
-        if extracted:
-            # A list of groups were passed in, use them
-            for owner in extracted:
-                self.owners.add(owner)
+        if self.user_insert:
+            self.owners.add(self.user_insert)
+        # if extracted:
+        #     # A list of groups were passed in, use them
+        #     for owner in extracted:
+        #         self.owners.add(owner)
 
 
 class IconCategoryFactory(factory.django.DjangoModelFactory):

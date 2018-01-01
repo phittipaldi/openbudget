@@ -54,9 +54,8 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     @wait
     def wait_to_be_logged_in(self, username):
-        self.browser.find_element_by_id('user-dropdown').click()
-        self.browser.find_element_by_link_text('Logout')
-        # navbar = self.browser.find_element_by_css_selector('.dropdown-user')
+        # self.browser.find_element_by_id('user-dropdown').click()
+        # self.browser.find_element_by_link_text('Logout')
         navbar = self.browser.find_element_by_id('user-display')
         self.assertIn(username, navbar.text)
 

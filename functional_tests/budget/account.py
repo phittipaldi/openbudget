@@ -15,6 +15,7 @@ class AccountTest(FunctionalTest):
 
         url_register = reverse('budget:account_list')
         self.browser.get(self.live_server_url + url_register)
+        self.login()
         # If there are not accounts created, display a message
         display_text = self.browser.find_element_by_class_name(
             'msg_no_accounts').text
@@ -42,7 +43,7 @@ class AccountTest(FunctionalTest):
         log_but2 = "//input[@class='btn btn-success']"
         self.browser.find_element_by_xpath(log_but2).click()
 
-        self.wait_for_row_in_list_table('Family Account General 5700.00 Edit Delete')
+        self.wait_for_row_in_list_table('Family Account General 5700.00')
 
     @override_settings(DEBUG=True)
     def test_create_account_fail(self):
@@ -63,7 +64,6 @@ class AccountTest(FunctionalTest):
 
     @override_settings(DEBUG=True)
     def test_update_account_success(self):
-
         account_created = AccountFactory()
         url_list_account = reverse('budget:account_list')
         self.browser.get(self.live_server_url + url_list_account)
@@ -80,7 +80,7 @@ class AccountTest(FunctionalTest):
         self.browser.find_element_by_xpath(log_but2).click()
 
         text = 'Family Update General 0.00'
-        self.wait_for_row_in_list_table(text + ' Edit Delete')
+        self.wait_for_row_in_list_table(text)
 
     @override_settings(DEBUG=True)
     def test_delete_account_success(self):
@@ -108,4 +108,4 @@ class AccountTest(FunctionalTest):
         self.login()
 
         text = 'Family Account General 0.00'
-        self.wait_for_row_in_list_table(text + ' Edit Delete')
+        self.wait_for_row_in_list_table(text)
