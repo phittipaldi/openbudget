@@ -4,10 +4,15 @@ from selenium import webdriver
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 from apps.utils.models import Currency
 from apps.security.tests.factories import UserFactory
 from django.test import RequestFactory
-from apps.budget.tests.factories import AccountTypeFactory
+from apps.budget.tests.factories import (AccountTypeFactory,
+                                         SubCategoryFactory,
+                                         TransactionTypeFactory,
+                                         CurrencyUserFactory, AccountFactory)
+from apps.utils.tests.factories import CurrencyFactory
 from ..management.commands.create_session import create_authenticated_session
 import time
 
@@ -34,7 +39,11 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.browser.implicitly_wait(3)
         self.factory = RequestFactory()
         self.account_type = AccountTypeFactory()
-        Currency.objects.create(name='USD')
+        CurrencyFactory()
+        SubCategoryFactory()
+        CurrencyUserFactory()
+        AccountFactory()
+        TransactionTypeFactory()
         self.current_user = UserFactory(username='openbudget',
                                         password='12345678')
 
@@ -79,6 +88,18 @@ class FunctionalTest(StaticLiveServerTestCase):
     def wait_for_text_display(self, text):
         text_display = self.browser.find_element_by_class_name(
             'text_display').text
+        self.assertEqual(text_display, text)
+
+    @wait
+    def wait_for_select_fill(self, select_id, text):
+        # import ipdb; ipdb.set_trace()
+        try:
+            dropdown = Select(self.browser.find_element_by_id(select_id))
+            dropdown.select_by_visible_text(text)
+            text_display = text
+        except Exception:
+            text_display = ""
+
         self.assertEqual(text_display, text)
 
     @wait

@@ -11,5 +11,17 @@ urlpatterns = [
         name='account_delete'),
 
     url(r'transactions/$', views_trx.TransactionList.as_view(),
-        name='transaction_list')
+        name='transaction_list'),
+    url(r'transaction/add/$', views_trx.TransactionAdd.as_view(),
+        name='transaction_add'),
+    url(r'transaction/update/(?P<pk>\d+)/$',
+        views_trx.TransactionUpdate.as_view(),
+        name='transaction_update'),
+    url(r'transaction/delete/(?P<pk>\d+)/$',
+        views_trx.TransactionDelete.as_view(),
+        name='transaction_delete'),
+
+    url(r'category/subcategory/json/(?P<category>\d+)/$',
+        views_trx.SubCategoryView.as_view(),
+        name='subcategories_x_category')
 ]
