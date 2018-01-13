@@ -1,58 +1,60 @@
+ {% load static %} 
 {% load i18n %}
-<div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <!--<li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <li>
-                            <a href="/"><i class="fa fa-dashboard fa-fw"></i>{% trans "Dashboard" %}</a>
-                            
-                        </li>
-                        <li>
-                            <a href="forms.html"><i class="fa fa-list fa-fw"></i>{% trans "Transactions" %}</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-briefcase fa-fw"></i>{% trans "Accounts" %}<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{% url 'budget:account_add' %}">New Account</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'budget:account_list' %}">Account List</a>
-                                </li>
- 
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="tables.html"><i class="fa fa-yelp fa-fw"></i>{% trans "Budget" %}</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i>{% trans "Settings" %}<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="panels-wells.html">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="buttons.html">Buttons</a>
-                                </li>
- 
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
+<div class="sidebar" data-color="green" data-image="{% static 'assets/img/sidebar-.jpg' %}">
 
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
+    <!--
+
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
+
+    -->
+
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="http://www.creative-tim.com" class="simple-text">
+                    Open Budget
+                </a>
             </div>
-            <!-- /.navbar-static-side -->
-        </nav>
+
+            <ul class="nav">
+                <li class="active">
+                    <a href="/">
+                        <i class="pe-7s-graph"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'budget:transaction_list' %}">
+                        <i class="pe-7s-note"></i>
+                        <p>{% trans "Transactions" %}</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'budget:account_list' %}">
+                        <i class="pe-7s-wallet"></i>
+                        <p>{% trans "Accounts" %}</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="typography.html">
+                        <i class="pe-7s-news-paper"></i>
+                        <p>{% trans "Budget" %}</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="icons.html">
+                        <i class="pe-7s-settings"></i>
+                        <p>{% trans "Settings" %}</p>
+                    </a>
+                </li>
+
+                <li class="active-pro">
+                    <a href="upgrade.html">
+                        <i class="pe-7s-rocket"></i>
+                        <p>Upgrade to PRO</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+</div>

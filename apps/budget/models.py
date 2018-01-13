@@ -1,10 +1,11 @@
 from django.db import models
 from apps.utils import models as utils
 from django.contrib.auth.models import User
-from apps.budget.managers import account as managers
+from apps.budget import managers
 
 
 class CurrencyUser(utils.CommonInfo):
+    owner = models.ForeignKey(User)
     currency = models.ForeignKey(utils.Currency)
     ratio = models.DecimalField(max_digits=10, decimal_places=2)
     inverse_ratio = models.DecimalField(max_digits=10, decimal_places=2)
@@ -41,6 +42,7 @@ class Account(utils.CommonInfo):
 
 class IconCategory(models.Model):
     name = models.CharField(max_length=30)
+    css = models.CharField(max_length=30)
     color = models.ForeignKey(utils.Color)
 
     def __str__(self):
@@ -70,13 +72,27 @@ class TransactionType(models.Model):
         return self.name
 
 
-class Transactions(utils.CommonInfo):
+class Transaction(utils.CommonInfo):
     account = models.ForeignKey(Account)
     trx_type = models.ForeignKey(TransactionType)
     subcategory = models.ForeignKey(SubCategory)
+    currency = models.ForeignKey(utils.Currency)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    photo = models.FileField(upload_to='transactions')
-    date = models.DateTimeField(auto_now_add=True)
+    exchange = models.DecimalField(max_digits=10, decimal_places=2)
+    place = models.CharField(max_length=128, blank=True, null=True)
+    payee = models.CharField(max_length=128, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    photo = models.FileField(upload_to='transactions', blank=True, null=True)
+    date = models.DateTimeField()
+    objects = managers.TransactionManager()
 
     def __str__(self):
         return "{}-{}".format(self.account, self.amount)
+
+    @property
+    def date_display(self):
+        return self.date.strftime('%b/%d/%Y')
+
+    @property
+    def date_format(self):
+        return self.date.strftime('%m/%d/%Y')

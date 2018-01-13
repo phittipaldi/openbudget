@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
 from django import forms
-from .models import Account, AccountType
+from .models import (Account, AccountType, Category,
+                     Category, SubCategory, Transaction)
 from apps.utils.models import Currency
+import datetime
 
 
 class AccountTransactionForm(forms.models.ModelForm):
@@ -73,3 +75,62 @@ class AccountTransactionUpdateForm(forms.models.ModelForm):
                                                                  'True'}
                                                           )
                                       )
+
+
+class TransactionBaseForm(forms.ModelForm):
+
+    class Meta:
+        model = Transaction
+        fields = ('subcategory', 'account', 'amount', 'currency',
+                  'place', 'date')
+
+
+class TransactionForm(TransactionBaseForm):
+
+    category = forms.IntegerField()
+
+    class Meta(TransactionBaseForm.Meta):
+        fields = ('category',) + TransactionBaseForm.Meta.fields
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+                                      empty_label="------------------",
+                                      widget=forms.Select(
+                                      attrs={'class': 'form-control'}))
+
+    subcategory = forms.ModelChoiceField(queryset=SubCategory.objects.all(),
+                                         empty_label="------------------",
+                                         widget=forms.Select(
+                                         attrs={'class': 'form-control'}))
+
+    account = forms.ModelChoiceField(queryset=Account.objects.all(),
+                                     empty_label="------------------",
+                                     widget=forms.Select(
+                                     attrs={'class': 'form-control'}))
+
+    amount = forms.CharField(required=True,
+                             label="Amount",
+                             max_length=20,
+                             widget=forms.TextInput(attrs={'class':
+                                                    "form-control",
+                                                           'placeholder':
+                                                           "Amount"})
+                             )
+
+    currency = forms.ModelChoiceField(queryset=Currency.objects.all(),
+                                      empty_label="------------------",
+                                      widget=forms.Select(
+                                      attrs={'class': 'form-control'}))
+
+    place = forms.CharField(required=True,
+                            label="Place",
+                            max_length=20,
+                            widget=forms.TextInput(attrs={'class':
+                                                          "form-control",
+                                                          'placeholder':
+                                                          'Place Name'}),)
+
+    date = forms.DateField(initial=datetime.date.today,
+                           widget=forms.DateInput(attrs={'class':
+                                                  "form-control datepicker",
+                                                         'placeholder':
+                                                         'Transaction Date'}),)

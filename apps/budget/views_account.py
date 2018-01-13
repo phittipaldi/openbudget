@@ -30,7 +30,7 @@ class AccountAdd(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AccountAdd, self).get_context_data(**kwargs)
-        # context['form'].fields['currency'].choices = self.get_my_currencies()
+        context['form'].fields['currency'].queryset = self.get_my_currencies()
         return context
 
     def form_valid(self, form):
@@ -43,7 +43,7 @@ class AccountAdd(LoginRequiredMixin, CreateView):
         return reverse('budget:account_list')
 
     def get_my_currencies(self):
-        choices = [(o.id, str(o)) for o in Currency.objects.all()]
+        choices = Currency.objects.all_my_currencies(self.request.user)
         return choices
 
     def get_ac_types(self):

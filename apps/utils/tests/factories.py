@@ -1,4 +1,5 @@
 import factory
+from apps.security.tests.factories import UserFactory
 
 
 class CurrencyFactory(factory.django.DjangoModelFactory):
@@ -7,6 +8,7 @@ class CurrencyFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('name',)
 
     name = 'USD'
+    user_insert = factory.SubFactory(UserFactory)
 
 
 class ColorFactory(factory.django.DjangoModelFactory):
