@@ -96,3 +96,38 @@ class Transaction(utils.CommonInfo):
     @property
     def date_format(self):
         return self.date.strftime('%m/%d/%Y')
+
+
+class PeriodType(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+
+class BudgetPeriod(utils.CommonInfo):
+    description = models.CharField(max_length=128)
+    period_type = models.ForeignKey(PeriodType)
+    init_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return self.description
+
+
+class Budget(utils.CommonInfo):
+    name = models.CharField(max_length=32)
+    period_type = models.ForeignKey(PeriodType)
+
+    def __str__(self):
+        return self.name
+
+
+class BudgetDetail(models.Model):
+    budget = models.ForeignKey(Budget)
+    category = models.ForeignKey(Category)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    accounts = models.ManyToManyField(Account)
+
+    def __str__(self):
+        return self.category.name
