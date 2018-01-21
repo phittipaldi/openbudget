@@ -1,0 +1,65 @@
+{% extends 'base_template.html' %}
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{% trans "Budget Report" %}</h4>
+        <p class="category">{% trans "account data" %}</p>
+    </div>
+
+
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+
+          {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+          {% endfor %}
+
+          {% for field in form.visible_fields %}
+            <div class="form-group">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          {% endfor %}
+            <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
+            <input class="btn btn-success" type="submit" value="Submit" />
+        </form>
+    </div><!-- panel body -->
+
+</div>
+
+<div class="card">
+    
+    <div class="content">
+
+        <table class="table">
+            <th>{% trans "Category" %}</th>
+            <th>{% trans "Budgeted" %}</th>
+            <th>{% trans "Activity" %}</th>
+            <th>{% trans "Available" %}</th>
+            {% for object in object_list %}
+              <tr>
+                <td>{{object.category}}</td>
+                <td>{{object.budgeted|intcomma}}</td>
+                <td>{{object.activity|intcomma}}</td>
+                <td>{{object.available|intcomma}}</td>
+              </tr>
+            {% endfor %}
+        </table>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

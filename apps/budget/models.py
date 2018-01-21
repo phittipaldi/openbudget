@@ -124,7 +124,7 @@ class Budget(utils.CommonInfo):
 
 
 class BudgetDetail(models.Model):
-    budget = models.ForeignKey(Budget)
+    budget = models.ForeignKey(Budget, related_name='details')
     category = models.ForeignKey(Category)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     accounts = models.ManyToManyField(Account)

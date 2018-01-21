@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from . import views_account as views
 from . import views_transaction as views_trx
+from . import views_reports
 
 urlpatterns = [
     url(r'^accounts/$', views.AccountList.as_view(), name='account_list'),
@@ -23,5 +24,9 @@ urlpatterns = [
 
     url(r'category/subcategory/json/(?P<category>\d+)/$',
         views_trx.SubCategoryView.as_view(),
-        name='subcategories_x_category')
+        name='subcategories_x_category'),
+
+    url(r'^report/$',
+        views_reports.BudgetReport.as_view(),
+        name='budget_report')
 ]

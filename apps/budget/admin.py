@@ -3,6 +3,34 @@ from django.contrib.auth.models import User
 from . import models
 
 
+@admin.register(models.Budget)
+class BudgetAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.BudgetDetail)
+class BudgetDetailAdmin(admin.ModelAdmin):
+    filter_horizontal = ('accounts',)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "accounts":
+            kwargs["queryset"] = models.Account.objects.all_my_accounts(
+                request.user)
+        return super(BudgetDetailAdmin,
+                     self).formfield_for_manytomany(db_field,
+                                                    request, **kwargs)
+
+
+@admin.register(models.PeriodType)
+class PeriodTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.BudgetPeriod)
+class BudgetPeriodAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.Account)
 class AccountAdmin(admin.ModelAdmin):
     filter_horizontal = ('owners',)
