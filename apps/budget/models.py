@@ -2,6 +2,7 @@ from django.db import models
 from apps.utils import models as utils
 from django.contrib.auth.models import User
 from apps.budget import managers
+from django.db.models import signals
 
 
 class CurrencyUser(utils.CommonInfo):
@@ -100,6 +101,7 @@ class Transaction(utils.CommonInfo):
 
 class PeriodType(models.Model):
     name = models.CharField(max_length=32)
+    code = models.CharField(max_length=16, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -131,3 +133,8 @@ class BudgetDetail(models.Model):
 
     def __str__(self):
         return self.category.name
+
+
+from .signals import auto_period_register
+
+signals.post_save.connect(auto_period_register, sender=Budget)

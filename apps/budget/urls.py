@@ -5,20 +5,20 @@ from . import views_reports
 
 urlpatterns = [
     url(r'^accounts/$', views.AccountList.as_view(), name='account_list'),
-    url(r'^account/add/$', views.AccountAdd.as_view(), name='account_add'),
-    url(r'account/update/(?P<pk>\d+)/$', views.AccountUpdate.as_view(),
+    url(r'^accounts/_add/$', views.AccountAdd.as_view(), name='account_add'),
+    url(r'accounts/_update/(?P<pk>\d+)/$', views.AccountUpdate.as_view(),
         name='account_update'),
-    url(r'account/delete/(?P<pk>\d+)/$', views.AccountDelete.as_view(),
+    url(r'accounts/_delete/(?P<pk>\d+)/$', views.AccountDelete.as_view(),
         name='account_delete'),
 
     url(r'transactions/$', views_trx.TransactionList.as_view(),
         name='transaction_list'),
-    url(r'transaction/add/$', views_trx.TransactionAdd.as_view(),
+    url(r'transactions/_add/$', views_trx.TransactionAdd.as_view(),
         name='transaction_add'),
-    url(r'transaction/update/(?P<pk>\d+)/$',
+    url(r'transactions/_update/(?P<pk>\d+)/$',
         views_trx.TransactionUpdate.as_view(),
         name='transaction_update'),
-    url(r'transaction/delete/(?P<pk>\d+)/$',
+    url(r'transactions/_delete/(?P<pk>\d+)/$',
         views_trx.TransactionDelete.as_view(),
         name='transaction_delete'),
 
@@ -26,7 +26,7 @@ urlpatterns = [
         views_trx.SubCategoryView.as_view(),
         name='subcategories_x_category'),
 
-    url(r'^report/$',
+    url(r'^reports/$',
         views_reports.BudgetReport.as_view(),
-        name='budget_report')
+        name='reports')
 ]

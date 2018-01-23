@@ -17,7 +17,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li class="">
                     <a href="/">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
@@ -36,13 +36,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="typography.html">
-                        <i class="pe-7s-news-paper"></i>
-                        <p>{% trans "Budget" %}</p>
+                    <a href="#">
+                        <i class="pe-7s-cash"></i>
+                        <p>{% trans "Budgets" %}</p>
                     </a>
                 </li>
                 <li>
-                    <a href="icons.html">
+                    <a href="{% url 'budget:reports' %}">
+                        <i class="pe-7s-news-paper"></i>
+                        <p>{% trans "Reports" %}</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
                         <i class="pe-7s-settings"></i>
                         <p>{% trans "Settings" %}</p>
                     </a>
