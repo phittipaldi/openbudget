@@ -257,7 +257,28 @@ demo = {
                 align: align
             }
         });
-	}
+	},
 
+
+  activeMenuClick: function(){
+
+      var url = window.location.href;
+      
+
+      if (url.includes('_')) {
+      url = url.split('_')[0]
+      }
+
+      var as = $('a').filter(function() {
+        return this.href == url;
+      })
+
+      as.parent('li').addClass('active')
+
+      //as.closest('ul').parent('li').addClass('active')
+      //as.parent('li').addClass('active-link');
+
+  }
 
 }
+

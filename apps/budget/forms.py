@@ -1,9 +1,23 @@
 # -*- encoding: utf-8 -*-
 from django import forms
 from .models import (Account, AccountType, Category,
-                     Category, SubCategory, Transaction)
+                     Category, SubCategory, Transaction,
+                     Budget, BudgetPeriod)
 from apps.utils.models import Currency
 import datetime
+
+
+class BudgetReportForm(forms.Form):
+
+    budget = forms.ModelChoiceField(queryset=Budget.objects.all(),
+                                    empty_label="------------------",
+                                    widget=forms.Select(
+                                    attrs={'class': 'form-control'}))
+
+    period = forms.ModelChoiceField(queryset=BudgetPeriod.objects.all(),
+                                    empty_label="------------------",
+                                    widget=forms.Select(
+                                    attrs={'class': 'form-control'}))
 
 
 class AccountTransactionForm(forms.models.ModelForm):
