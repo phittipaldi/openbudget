@@ -10,6 +10,11 @@ class BudgetReport(FormView):
     form_class = BudgetReportForm
     model = models.Transaction
 
+    def get_context_data(self, **kwargs):
+        context = super(BudgetReport, self).get_context_data(**kwargs)
+        context['form'].fields['budget'].queryset = self.get_my_budgets()
+        return context
+
     def get(self, request, *args, **kwargs):
         if request.GET.items():
             form = self.form_class(self.request.GET)
@@ -17,6 +22,10 @@ class BudgetReport(FormView):
                 return self.get_data_report(form)
 
         return self.render_to_response(self.get_context_data())
+
+    def get_my_budgets(self):
+        choices = models.Budget.objects.all_my_budgets(self.request.user)
+        return choices
 
     def form_valid(self, form):
         budget = form.cleaned_data.get('budget')

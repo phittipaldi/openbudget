@@ -120,6 +120,7 @@ class BudgetPeriod(utils.CommonInfo):
 class Budget(utils.CommonInfo):
     name = models.CharField(max_length=32)
     period_type = models.ForeignKey(PeriodType)
+    objects = managers.BudgetManager()
 
     def __str__(self):
         return self.name
