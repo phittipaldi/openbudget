@@ -17,12 +17,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.dashboard.views import HomePage, DashboardPage, Page
+from apps.dashboard.views import DashboardPage
 import debug_toolbar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', Page.as_view(), name='home'),
+    url(r'^$', DashboardPage.as_view(), name='home'),
     url(r'^dashboard/$', DashboardPage.as_view(), name='dashboard'),
     url(r'^accounts/', include('apps.security.urls', namespace='accounts')),
     url(r'^accounts/', include('allauth.urls')),
