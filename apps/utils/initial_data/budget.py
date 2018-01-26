@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from apps.budget.models import (IconCategory, Category, SubCategory,
-                                AccountType)
+                                AccountType, TransactionType, PeriodType)
 from apps.utils.models import Color
 from .users import create_super_user
 
@@ -10,6 +10,12 @@ def data_default_budget():
     user = create_super_user()
     AccountType.objects.get_or_create(name="Cash")
     AccountType.objects.get_or_create(name="General")
+
+    TransactionType.objects.get_or_create(name="Expense")
+    TransactionType.objects.get_or_create(name="Income")
+    TransactionType.objects.get_or_create(name="Transfer")
+
+    PeriodType.objects.get_or_create(name="Monthly", code="MONTHLY")
 
     red = Color.objects.get_or_create(name="Red")[0]
     blue = Color.objects.get_or_create(name="Blue")[0]
