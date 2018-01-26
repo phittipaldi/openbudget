@@ -40,7 +40,8 @@ def data_default_budget():
                                               icon=icon_medicine[0])[0]
 
     SubCategory.objects.get_or_create(category=food,
-                                      name="General - Food & Drink")
+                                      name="General - Food & Drink",
+                                      user_insert=user)
 
     SubCategory.objects.get_or_create(category=food,
                                       name="Bar, cafe",
