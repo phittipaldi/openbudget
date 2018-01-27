@@ -74,3 +74,8 @@ class TransactionTypeAdmin(admin.ModelAdmin):
 @admin.register(models.CurrencyUser)
 class CurrencyUserAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.DurationFilter)
+class DurationFilterAdmin(admin.ModelAdmin):
+    pass

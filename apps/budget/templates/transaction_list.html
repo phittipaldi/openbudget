@@ -7,9 +7,22 @@
     {% if transactions %}
             <div class="header">
                 <h4 class="title">{% trans "Transactions" %}</h4>
-                <p class="category">{% trans "Transaction List" %}</p>
+
+                    <div class="form-group col-xs-3" style="padding-left: 0px;">
+                        
+                        <select id="duractions_filter" class="form-control input-sm">
+                        {% for duration in duration_filter %}
+                            {% if current_duration == duration.pk %}
+                                <option value="{{duration.pk}}" selected>{{duration.name}}</option>
+                            {% else %}}
+                                <option value="{{duration.pk}}">{{duration.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
 
             </div>
+
             <div class="content table-responsive table-full-width">
                 <table id="id_list_table" class="table table-hover table-striped">
                  <thead>
@@ -17,7 +30,7 @@
                         <th>Transaction</th>
                         <th>Place</th>
                         <th>Date</th><th>Amount</th><th class="text-center">Action</th>
-                        <th></th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +55,29 @@
                     {% endfor %} 
                 </tbody>
                 </table>
+
+
+                    <div class="col-xs-3 col-xs-offset-10">
+                    {% if is_paginated %}
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                                <li class="active"><span>{{ page_obj.number }}<span class="sr-only"></span></span></li>
+                            {% if page_obj.has_next %}
+                              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                    </div>
+
+
+
+
                 <div class="text-center">
                     <a href="{% url 'budget:transaction_add' %}" class="btn btn-info btn-fill">{% trans "New Transaction" %} +</a>
                 </div>
@@ -74,8 +110,11 @@
 {% block extra_js %}
 
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('#id_list_table').DataTable();
-    } );
+        $(function() {
+            $('#duractions_filter').change(function() {
+                window.location.href = "/budget/transactions/_filter/"+this.value+"/";
+            });
+        });
     </script>
+
 {% endblock %}

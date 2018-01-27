@@ -7,7 +7,7 @@ from django.views.generic.edit import (CreateView, View, UpdateView,
 from django.http.response import JsonResponse
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .models import (Transaction, Account, SubCategory,
-                     TransactionType)
+                     TransactionType, DurationFilter)
 from .forms import TransactionForm
 from apps.utils.models import Currency
 
@@ -16,13 +16,22 @@ class TransactionList(LoginRequiredMixin, ListView):
     template_name = "transaction_list.html"
     model = Transaction
     context_object_name = 'transactions'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(TransactionList, self).get_context_data(**kwargs)
+        context['duration_filter'] = DurationFilter.objects.all()
+        if 'duration' in self.kwargs:
+            context['current_duration'] = int(self.kwargs.get('duration'))
         return context
 
     def get_queryset(self):
-        return self.model.objects.all_my_transactions(self.request.user)
+        if 'duration' not in self.kwargs:
+            return self.model.objects.last_30_days_transactions(
+                self.request.user)
+        else:
+            return self.model.objects.transactions_by_duration(
+                self.request.user, self.kwargs['duration'])
 
 
 class TransactionAdd(LoginRequiredMixin, CreateView):
