@@ -137,7 +137,7 @@ class TransactionForm(TransactionBaseForm):
 
     place = forms.CharField(required=True,
                             label="Place",
-                            max_length=20,
+                            max_length=128,
                             widget=forms.TextInput(attrs={'class':
                                                           "form-control",
                                                           'placeholder':

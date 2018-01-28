@@ -69,6 +69,7 @@ var attachClickLoadModal = function(selector, modal, after_success=null, data_ur
         attachClickLoadModal(selector, modal, after_success)
      
      */
+
     var modal_body = modal + ' .modal-body'
     var modal_form = modal_body + ' form'
     

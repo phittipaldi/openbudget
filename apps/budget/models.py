@@ -136,6 +136,17 @@ class BudgetDetail(models.Model):
         return self.category.name
 
 
+class DurationFilter(models.Model):
+    name = models.CharField(max_length=64)
+    value = models.IntegerField()
+    is_day = models.BooleanField(default=True)
+    is_month = models.BooleanField(default=False)
+    is_year = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+
 from .signals import auto_period_register
 
 signals.post_save.connect(auto_period_register, sender=Budget)

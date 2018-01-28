@@ -13,6 +13,10 @@
 
 </head>
 <body>
+{% with modal_title='Transaction Details'%}
+        {% include 'modals/modal_transaction_details.html' %}
+{% endwith %}
+
 <div class="wrapper">
     {% include 'base/sidebar.html' %}
 
@@ -42,6 +46,8 @@
     {% include 'base/js.html' %}
 
     {% block extra_js %}
+  
+        
 
     {% endblock %}
 
