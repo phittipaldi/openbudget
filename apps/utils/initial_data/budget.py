@@ -62,7 +62,7 @@ def data_default_budget():
     housing = Category.objects.get_or_create(name="Housing",
                                              icon=icon_housing[0])[0]
 
-    life = Category.objects.get_or_create(name="Housing",
+    life = Category.objects.get_or_create(name="Life & Entertainment",
                                           icon=icon_life[0])[0]
 
     others = Category.objects.get_or_create(name="Others",
