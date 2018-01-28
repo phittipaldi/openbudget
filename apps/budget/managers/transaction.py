@@ -8,10 +8,11 @@ class TransactionManager(models.Manager):
     def all_my_transactions(self, owner):
         return self.filter(account__owners__in=[owner]).order_by('-date')
 
-    def all_my_transactions_by_period(self, owner, period):
+    def my_transactions_by_period(self, owner, category, period):
         filter_data = dict()
         filter_data['date__range'] = [period.init_date, period.end_date]
-        filter_data['account__in'] = [owner]
+        filter_data['account__owners__in'] = [owner]
+        filter_data['subcategory__category__in'] = [category]
         return self.filter(**filter_data).order_by('-date')
 
     def my_last_transactions(self, owner):

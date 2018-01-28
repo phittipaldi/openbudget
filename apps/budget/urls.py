@@ -32,5 +32,8 @@ urlpatterns = [
 
     url(r'^reports/$',
         views_reports.BudgetReport.as_view(),
-        name='reports')
+        name='reports'),
+    url(r'^reports/details/(?P<category>\d+)/(?P<period>\d+)/$',
+        views_reports.TransactionDetails.as_view(),
+        name='report_details')
 ]

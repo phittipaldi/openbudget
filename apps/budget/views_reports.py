@@ -1,4 +1,5 @@
-from django.views.generic import FormView
+from django.http.response import HttpResponseForbidden
+from django.views.generic import FormView, ListView
 from .forms import BudgetReportForm
 from . import models
 from django.db.models import Sum
@@ -76,3 +77,31 @@ class BudgetData:
     def available(self):
         result = Decimal(self.budgeted) - self.activity()
         return result
+
+
+class TransactionDetails(ListView):
+    model = models.Transaction
+    template_name = 'modals/content_transaction_details.html'
+    paginate_by = 5
+
+    def __init__(self, *args, **kwargs):
+        super(TransactionDetails, self).__init__(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionDetails, self).get_context_data(**kwargs)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        response = super(TransactionDetails, self).get(
+            request, *args, **kwargs)
+        if self.request.is_ajax():
+            return response
+        return HttpResponseForbidden()
+
+    def get_queryset(self):
+        category = models.Category.objects.get(
+            pk=int(self.kwargs['category']))
+        period = models.BudgetPeriod.objects.get(
+            pk=int(self.kwargs['period']))
+        return self.model.objects.my_transactions_by_period(
+            self.request.user, category, period)
