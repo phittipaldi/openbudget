@@ -11,8 +11,12 @@ urlpatterns = [
     url(r'accounts/_delete/(?P<pk>\d+)/$', views.AccountDelete.as_view(),
         name='account_delete'),
 
-    url(r'transactions/$', views_trx.TransactionList.as_view(),
+    url(r'transactions/$',
+        views_trx.TransactionList.as_view(),
         name='transaction_list'),
+    url(r'transactions/_filter/(?P<duration>\d+)/$',
+        views_trx.TransactionList.as_view(),
+        name='transaction_list_duration'),
     url(r'transactions/_add/$', views_trx.TransactionAdd.as_view(),
         name='transaction_add'),
     url(r'transactions/_update/(?P<pk>\d+)/$',
@@ -28,5 +32,8 @@ urlpatterns = [
 
     url(r'^reports/$',
         views_reports.BudgetReport.as_view(),
-        name='reports')
+        name='reports'),
+    url(r'^reports/details/(?P<category>\d+)/(?P<period>\d+)/$',
+        views_reports.TransactionDetails.as_view(),
+        name='report_details')
 ]

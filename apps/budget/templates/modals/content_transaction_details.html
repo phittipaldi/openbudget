@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-xs-12">
+                <table id="id_list_table" class="table table-hover table-striped">
+                 <thead>
+                    <tr role="row">
+                        <th>Transaction</th>
+                        <th>Place</th>
+                        <th>Date</th><th>Amount</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in object_list %}
+                        <tr class="">
+                            <td class="sorting_1">
+                                {{transaction.subcategory}}<br>
+                                <small>{{transaction.account}}</small>
+                            </td>
+                            <td>{{transaction.place}}</td>
+                            <td>{{transaction.date_display}}</td>
+                            <td>{{transaction.amount}}&nbsp;{{transaction.currency}}</td>
+                        </tr>
+                    {% endfor %} 
+                </tbody>
+                </table>
+    </div>
+</div>
+
+<div class="row">
+    
+                        <div class="col-xs-3 col-xs-offset-10">
+                    {% if is_paginated %}
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                                <li class="active"><span>{{ page_obj.number }}<span class="sr-only"></span></span></li>
+                            {% if page_obj.has_next %}
+                              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                    </div>
+
+</div>
