@@ -50,15 +50,16 @@ class IconCategory(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category(utils.CommonInfo):
     icon = models.ForeignKey(IconCategory)
     name = models.CharField(max_length=32)
+    objects = managers.CategoryManager()
 
     def __str__(self):
         return self.name
 
 
-class SubCategory(utils.CommonInfo):
+class SubCategory(models.Model):
     category = models.ForeignKey(Category)
     name = models.CharField(max_length=32)
 
@@ -107,9 +108,20 @@ class PeriodType(models.Model):
         return self.name
 
 
+class Budget(utils.CommonInfo):
+    name = models.CharField(max_length=64)
+    year = models.IntegerField()
+    period_type = models.ForeignKey(PeriodType)
+    accounts = models.ManyToManyField(Account)
+    objects = managers.BudgetManager()
+
+    def __str__(self):
+        return self.name
+
+
 class BudgetPeriod(utils.CommonInfo):
     description = models.CharField(max_length=128)
-    period_type = models.ForeignKey(PeriodType)
+    budget = models.ForeignKey(Budget)
     init_date = models.DateField()
     end_date = models.DateField()
 
@@ -117,23 +129,13 @@ class BudgetPeriod(utils.CommonInfo):
         return self.description
 
 
-class Budget(utils.CommonInfo):
-    name = models.CharField(max_length=32)
-    period_type = models.ForeignKey(PeriodType)
-    objects = managers.BudgetManager()
-
-    def __str__(self):
-        return self.name
-
-
-class BudgetDetail(models.Model):
-    budget = models.ForeignKey(Budget, related_name='details')
-    category = models.ForeignKey(Category)
+class BudgetLine(models.Model):
+    period = models.ForeignKey(BudgetPeriod, related_name='details')
+    subcategory = models.ForeignKey(SubCategory)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    accounts = models.ManyToManyField(Account)
 
     def __str__(self):
-        return self.category.name
+        return self.subcategory.name
 
 
 class DurationFilter(models.Model):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from apps.budget.models import (IconCategory, Category, SubCategory,
-                                AccountType, TransactionType, PeriodType)
+                                AccountType, TransactionType, PeriodType,
+                                DurationFilter)
 from apps.utils.models import Color
 from .users import create_super_user
 
@@ -16,6 +17,15 @@ def data_default_budget():
     TransactionType.objects.get_or_create(name="Transfer")
 
     PeriodType.objects.get_or_create(name="Monthly", code="MONTHLY")
+
+    DurationFilter.objects.get_or_create(name="Last 30 days", value=30,
+                                         is_day=True)
+
+    DurationFilter.objects.get_or_create(name="Past 3 months", value=3,
+                                         is_month=True)
+
+    DurationFilter.objects.get_or_create(name="Past 6 months", value=6,
+                                         is_month=True)
 
     red = Color.objects.get_or_create(name="Red")[0]
     blue = Color.objects.get_or_create(name="Blue")[0]
@@ -51,121 +61,103 @@ def data_default_budget():
                                                      css="pe-7s-keypad")
 
     food = Category.objects.get_or_create(name="Food & Drink",
-                                          icon=icon_wine)[0]
+                                          icon=icon_wine,
+                                          user_insert=user)[0]
 
     vehicle = Category.objects.get_or_create(name="Vehicle",
-                                             icon=icon_car)[0]
+                                             icon=icon_car,
+                                             user_insert=user)[0]
 
     medicine = Category.objects.get_or_create(name="Medicine",
-                                              icon=icon_medicine[0])[0]
+                                              icon=icon_medicine[0],
+                                              user_insert=user)[0]
 
     housing = Category.objects.get_or_create(name="Housing",
-                                             icon=icon_housing[0])[0]
+                                             icon=icon_housing[0],
+                                             user_insert=user)[0]
 
     life = Category.objects.get_or_create(name="Life & Entertainment",
-                                          icon=icon_life[0])[0]
+                                          icon=icon_life[0],
+                                          user_insert=user)[0]
 
     others = Category.objects.get_or_create(name="Others",
-                                            icon=icon_others[0])[0]
+                                            icon=icon_others[0],
+                                            user_insert=user)[0]
 
     SubCategory.objects.get_or_create(category=food,
-                                      name="General - Food & Drink",
-                                      user_insert=user)
+                                      name="General - Food & Drink")
 
     SubCategory.objects.get_or_create(category=food,
-                                      name="Bar, cafe",
-                                      user_insert=user)
+                                      name="Bar, cafe")
 
     SubCategory.objects.get_or_create(category=food,
-                                      name="Groceries",
-                                      user_insert=user)
+                                      name="Groceries")
 
     SubCategory.objects.get_or_create(category=food,
-                                      name="Restaurant, fast-food",
-                                      user_insert=user)
+                                      name="Restaurant, fast-food")
 
     # --------VEHICULE CATEGORY----------------
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="General - Vehicle",
-                                      user_insert=user)
+                                      name="General - Vehicle")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Fuel",
-                                      user_insert=user)
+                                      name="Fuel")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Leasing",
-                                      user_insert=user)
+                                      name="Leasing")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Parking",
-                                      user_insert=user)
+                                      name="Parking")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Rentals",
-                                      user_insert=user)
+                                      name="Rentals")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Vehicle Insurance",
-                                      user_insert=user)
+                                      name="Vehicle Insurance")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Vehicle Maintanance",
-                                      user_insert=user)
+                                      name="Vehicle Maintanance")
 
     SubCategory.objects.get_or_create(category=vehicle,
-                                      name="Vehicle Maintanance",
-                                      user_insert=user)
+                                      name="Vehicle Maintanance")
 
     # --------MEDICINE CATEGORY----------------
 
     SubCategory.objects.get_or_create(category=medicine,
-                                      name="Health Care, doctor",
-                                      user_insert=user)
+                                      name="Health Care, doctor")
 
     SubCategory.objects.get_or_create(category=medicine,
-                                      name="Drug-store, chemist",
-                                      user_insert=user)
+                                      name="Drug-store, chemist")
 
     # --------HOUSING CATEGORY-----------------
     SubCategory.objects.get_or_create(category=housing,
-                                      name="General - Housing",
-                                      user_insert=user)
+                                      name="General - Housing")
 
     SubCategory.objects.get_or_create(category=housing,
-                                      name="Energy, utilities",
-                                      user_insert=user)
+                                      name="Energy, utilities")
 
     SubCategory.objects.get_or_create(category=housing,
-                                      name="Maintenance, repairs",
-                                      user_insert=user)
+                                      name="Maintenance, repairs")
 
     SubCategory.objects.get_or_create(category=housing,
-                                      name="Mortgage",
-                                      user_insert=user)
+                                      name="Mortgage")
 
     SubCategory.objects.get_or_create(category=housing,
-                                      name="Rent",
-                                      user_insert=user)
+                                      name="Rent")
 
     SubCategory.objects.get_or_create(category=housing,
-                                      name="Services",
-                                      user_insert=user)
+                                      name="Services")
 
     # --------LIFE & ENTERTAINMENT CATEGORY-----------------
     SubCategory.objects.get_or_create(category=life,
-                                      name="General - Life & Entertainment",
-                                      user_insert=user)
+                                      name="General - Life & Entertainment")
 
     SubCategory.objects.get_or_create(category=life,
-                                      name="Theater",
-                                      user_insert=user)
+                                      name="Theater")
 
     SubCategory.objects.get_or_create(category=life,
-                                      name="Education, development",
-                                      user_insert=user)
+                                      name="Education, development")
 
     # --------OTHERS CATEGORY-----------------
     SubCategory.objects.get_or_create(category=others,
-                                      name="General - Others",
-                                      user_insert=user)
+                                      name="General - Others")
