@@ -1,10 +1,35 @@
 # -*- encoding: utf-8 -*-
 from django import forms
-from .models import (Account, AccountType, Category,
+from django.forms import CheckboxSelectMultiple
+from .models import (Account, AccountType,
                      Category, SubCategory, Transaction,
-                     Budget, BudgetPeriod)
+                     Budget, BudgetPeriod, PeriodType)
 from apps.utils.models import Currency
 import datetime
+
+
+class BudgetForm(forms.models.ModelForm):
+
+    class Meta:
+        model = Budget
+        fields = ('name', 'period_type', 'accounts')
+
+    name = forms.CharField(required=True,
+                           label="Name",
+                           max_length=64,
+                           widget=forms.TextInput(attrs={'class':
+                                                         "form-control",
+                                                         'placeholder':
+                                                         'Budget name'}),)
+
+    period_type = forms.ModelChoiceField(queryset=PeriodType.objects.all(),
+                                         empty_label="------------------",
+                                         widget=forms.Select(
+                                         attrs={'class': 'form-control'}))
+
+    accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all(),
+                                              widget=CheckboxSelectMultiple,
+                                              required=False, help_text='')
 
 
 class BudgetReportForm(forms.Form):
@@ -104,7 +129,13 @@ class TransactionForm(TransactionBaseForm):
     category = forms.IntegerField()
 
     class Meta(TransactionBaseForm.Meta):
-        fields = ('category',) + TransactionBaseForm.Meta.fields
+        fields = ('account',
+                  'category',) + TransactionBaseForm.Meta.fields
+
+    account = forms.ModelChoiceField(queryset=Account.objects.all(),
+                                     empty_label="------------------",
+                                     widget=forms.Select(
+                                     attrs={'class': 'form-control'}))
 
     category = forms.ModelChoiceField(queryset=Category.objects.all(),
                                       empty_label="------------------",
@@ -115,11 +146,6 @@ class TransactionForm(TransactionBaseForm):
                                          empty_label="------------------",
                                          widget=forms.Select(
                                          attrs={'class': 'form-control'}))
-
-    account = forms.ModelChoiceField(queryset=Account.objects.all(),
-                                     empty_label="------------------",
-                                     widget=forms.Select(
-                                     attrs={'class': 'form-control'}))
 
     amount = forms.CharField(required=True,
                              label="Amount",

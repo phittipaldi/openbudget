@@ -7,7 +7,7 @@ from django.views.generic.edit import (CreateView, View, UpdateView,
 from django.http.response import JsonResponse
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .models import (Transaction, Account, SubCategory,
-                     TransactionType, DurationFilter)
+                     TransactionType, DurationFilter, Category)
 from .forms import TransactionForm
 from apps.utils.models import Currency
 
@@ -45,6 +45,7 @@ class TransactionAdd(LoginRequiredMixin, CreateView):
         context['form'].fields['currency'].queryset = self.get_my_currencies()
         context['form'].fields['account'].queryset = self.get_my_accounts()
         empty_query = SubCategory.objects.none()
+        context['form'].fields['category'].queryset = empty_query
         context['form'].fields['subcategory'].queryset = empty_query
         return context
 
@@ -123,6 +124,22 @@ class TransactionDelete(LoginRequiredMixin, DeleteView):
                                          self.request.user]).count():
             raise Http404
         return obj
+
+
+class CategoryView(View):
+    model = Category
+
+    def get(self, request, *args, **kwargs):
+        account = Account.objects.get(
+            id=self.kwargs.get('account_pk'))
+        objects = self.model.objects.filter(
+            user_insert__id=account.user_insert.pk)
+
+        result = []
+        for i in objects:
+            result.append({"id": i.pk, "name": i.name})
+
+        return JsonResponse(result, safe=False)
 
 
 class SubCategoryView(View):

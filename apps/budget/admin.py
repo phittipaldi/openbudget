@@ -5,20 +5,20 @@ from . import models
 
 @admin.register(models.Budget)
 class BudgetAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(models.BudgetDetail)
-class BudgetDetailAdmin(admin.ModelAdmin):
     filter_horizontal = ('accounts',)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "accounts":
             kwargs["queryset"] = models.Account.objects.all_my_accounts(
                 request.user)
-        return super(BudgetDetailAdmin,
+        return super(BudgetAdmin,
                      self).formfield_for_manytomany(db_field,
                                                     request, **kwargs)
+
+
+@admin.register(models.BudgetLine)
+class BudgetLineAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(models.PeriodType)

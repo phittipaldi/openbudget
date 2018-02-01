@@ -41,6 +41,11 @@
 
 <div class="card">
     
+    <div class="header">
+        <h4 class="title">{{budget}}</h4>
+        <p class="category">{{period}}</p>
+    </div>
+
     <div class="content">
 
         <table class="table">
@@ -52,7 +57,7 @@
               <tr>
                 <td>{{object.category}}</td>
                 <td>{{object.budgeted|intcomma}}</td>
-                <td><a href="{% url 'budget:report_details' object.category.pk object.period.pk %}" class="show-details">{{object.activity|intcomma}}</a></td>
+                <td><a href="{% url 'budget:report_subcategories' object.budget.pk object.category.pk object.period.pk %}">{{object.activity|intcomma}}</a></td>
                 <td>{{object.available|intcomma}}</td>
               </tr>
             {% endfor %}
@@ -68,6 +73,6 @@
 
 {% block extra_js %}
   
-  <script src="{% static 'budget/modal_transaction_details.js' %}"></script>
+  <script src="{% static 'budget/periods_filter.js' %}"></script>
   
 {% endblock %}
