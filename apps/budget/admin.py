@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 from . import models
 
 
+@admin.register(models.BudgetYear)
+class BudgetYearAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.Budget)
 class BudgetAdmin(admin.ModelAdmin):
     filter_horizontal = ('accounts',)

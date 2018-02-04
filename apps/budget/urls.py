@@ -13,9 +13,14 @@ urlpatterns = [
         name='account_delete'),
 
     url(r'^create/$', views_budget.BudgetCreate.as_view(),
-        name='budget_create'),
-    url(r'^details/$', views_budget.BudgetDetailCreate.as_view(),
-        name='budget_details'),
+        name='create'),
+    url(r'^update/(?P<pk>\d+)/$', views_budget.BudgetUpdate.as_view(),
+        name='update'),
+    url(r'^global_details/(?P<budget_pk>\d+)/$',
+        views_budget.BudgetDetailGlobal.as_view(),
+        name='budget_global_details'),
+    url(r'^detail/(?P<pk>\d+)/$', views_budget.BudgetDetail.as_view(),
+        name='detail'),
 
     url(r'transactions/$',
         views_trx.TransactionList.as_view(),

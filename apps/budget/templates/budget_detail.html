@@ -8,23 +8,24 @@
  <div class="card">
 
     <div class="header">
-        <h4 class="title">{% trans "New Budget" %}</h4>
-        <p class="category">{% trans "budget data" %}</p>
+
     </div>
 
 
     <div class="content">
 
-        <form method="post" novalidate="novalidate">
-          {% csrf_token %}
+            <h4 class="title">{{object}}/{{object.year}}</h4>
+            <p class="category">{{object.period_type}}</p>
+            <p class="category">
+                {% for item in object.accounts.all %}
+                    {{item}} &nbsp; &nbsp;
+                {% endfor %}
+            </p>
 
-            <table>
-                <tr><th>Hola Mundo</th></tr>    
-            </table>
 
-            <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
-            <input class="btn btn-success" type="submit" value="Next" />
-        </form>
+            <a class="btn btn-default" href="{% url 'budget:budget_global_details' object.pk %}">{% trans "Prior" %}</a>
+            <input class="btn btn-success" type="submit" value="Active Budget" />
+
     </div><!-- panel body -->
 
 </div>

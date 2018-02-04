@@ -1,0 +1,58 @@
+{% extends 'base_template.html' %}
+ {% load staticfiles %}
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{{budget.name}}</h4>
+        <p class="category">{% trans "budget data" %}</p>
+    </div>
+
+
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+
+            <table class="table">
+                <tr>
+                    <th>{% trans "Category" %}</th>
+                    <th>{% trans "Budgeted" %}</th>
+                </tr>
+                {% for category in categories %}
+                    <tr>
+                        <td colspan="2"><h4 class="title">{{category.name}}</h4></td>
+                    </tr>  
+                    {% for subcategory in category.subcategories.all %}  
+
+                        <tr>
+                            <td>{{subcategory.name}}</td>
+                            <td><input id="id_subcategory{{subcategory.pk}}" type="text" name="{{subcategory.pk}}"></td>
+                        </tr>
+
+                    {% endfor %}
+
+                {% endfor %}
+            </table>
+
+            <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Prior" %}</a>
+            <input class="btn btn-success" type="submit" value="Next" />
+
+        </form>
+    </div><!-- panel body -->
+
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+  
+  <script src="{% static 'budget/modal_transaction_details.js' %}"></script>
+  
+{% endblock %}

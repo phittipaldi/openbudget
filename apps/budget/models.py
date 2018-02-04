@@ -60,7 +60,7 @@ class Category(utils.CommonInfo):
 
 
 class SubCategory(models.Model):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, related_name='subcategories')
     name = models.CharField(max_length=32)
 
     def __str__(self):
@@ -108,9 +108,17 @@ class PeriodType(models.Model):
         return self.name
 
 
+class BudgetYear(models.Model):
+    value = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.value)
+
+
 class Budget(utils.CommonInfo):
     name = models.CharField(max_length=64)
-    year = models.IntegerField()
+    year = models.ForeignKey(BudgetYear)
     period_type = models.ForeignKey(PeriodType)
     accounts = models.ManyToManyField(Account)
     objects = managers.BudgetManager()
@@ -121,7 +129,7 @@ class Budget(utils.CommonInfo):
 
 class BudgetPeriod(utils.CommonInfo):
     description = models.CharField(max_length=128)
-    budget = models.ForeignKey(Budget)
+    budget = models.ForeignKey(Budget, related_name='periods')
     init_date = models.DateField()
     end_date = models.DateField()
 
@@ -132,7 +140,7 @@ class BudgetPeriod(utils.CommonInfo):
 class BudgetLine(models.Model):
     period = models.ForeignKey(BudgetPeriod, related_name='details')
     subcategory = models.ForeignKey(SubCategory)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
         return self.subcategory.name
