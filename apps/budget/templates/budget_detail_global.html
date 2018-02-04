@@ -1,0 +1,62 @@
+{% extends 'base_template.html' %}
+ {% load staticfiles %}
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{{budget.name}}</h4>
+        <p class="category">{% trans "budget data" %}</p>
+    </div>
+
+
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+
+            <table class="table">
+                <tr>
+                    <th>{% trans "Category" %}</th>
+                    <th>{% trans "Budgeted" %}</th>
+                </tr>
+                {% for object in object_list %}
+
+                    {% ifchanged %} 
+                        <tr>
+                            <td colspan="2">
+                                <h4 class="title">
+                                    {{object.subcategory.category.name}}
+                                </h4>
+                            </td>
+                        </tr>
+                    {% endifchanged %}
+                    <tr>
+                        <td>{{object}}</td>
+                        <td>
+                            <input class="form-control input-sm" id="id_subcategory{{subcategory.pk}}" type="text" name="{{object.pk}}" value="{{object.amount}}">
+                        </td>
+                    </tr> 
+                {% endfor %}
+            </table>
+
+            <a class="btn btn-default" href="{% url 'budget:update' budget.pk %}">{% trans "Prior" %}</a>
+            <input class="btn btn-warning" type="submit" value="Next" />
+
+        </form>
+    </div><!-- panel body -->
+
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+  
+  <script src="{% static 'budget/modal_transaction_details.js' %}"></script>
+  
+{% endblock %}

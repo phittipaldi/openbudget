@@ -3,7 +3,8 @@ from django import forms
 from django.forms import CheckboxSelectMultiple
 from .models import (Account, AccountType,
                      Category, SubCategory, Transaction,
-                     Budget, BudgetPeriod, PeriodType)
+                     Budget, BudgetPeriod, PeriodType,
+                     BudgetYear)
 from apps.utils.models import Currency
 import datetime
 
@@ -12,7 +13,7 @@ class BudgetForm(forms.models.ModelForm):
 
     class Meta:
         model = Budget
-        fields = ('name', 'period_type', 'accounts')
+        fields = ('name', 'year', 'period_type', 'accounts')
 
     name = forms.CharField(required=True,
                            label="Name",
@@ -21,6 +22,11 @@ class BudgetForm(forms.models.ModelForm):
                                                          "form-control",
                                                          'placeholder':
                                                          'Budget name'}),)
+
+    year = forms.ModelChoiceField(
+        queryset=BudgetYear.objects.filter(is_active=True),
+        empty_label="------------------",
+        widget=forms.Select(attrs={'class': 'form-control'}))
 
     period_type = forms.ModelChoiceField(queryset=PeriodType.objects.all(),
                                          empty_label="------------------",
