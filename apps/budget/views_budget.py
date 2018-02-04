@@ -66,8 +66,10 @@ class BudgetDetailGlobal(LoginRequiredMixin, ListView):
                                     kwargs={'pk': kwargs.get('budget_pk')}))
 
     def get_queryset(self):
+        budget = Budget.objects.get(pk=self.kwargs.get('budget_pk'))
+        BudgetGlobalAmount.set_global_lines(budget)
         first_period = BudgetPeriod.objects.filter(
-            budget__pk=self.kwargs.get('budget_pk')).first()
+            budget__pk=budget.pk).first()
         queryset = self.model.objects.select_related(
             'subcategory', 'subcategory__category').filter(
             period__pk=first_period.pk)
