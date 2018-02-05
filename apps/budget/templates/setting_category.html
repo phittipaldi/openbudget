@@ -1,0 +1,72 @@
+{% extends 'base_template.html' %}
+ {% load staticfiles %}
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+
+    <ul class="nav nav-tabs">
+      <li role="presentation"><a href="#">{% trans "General" %}</a></li>
+      <li role="presentation" class="active"><a href="#">{% trans "Categories" %}</a></li>
+      <li role="presentation"><a href="#">{% trans "Currencies" %}</a></li>
+    </ul>
+
+    </div>
+
+
+    <div class="content">
+
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      {% for object in object_list %}
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+          <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{object.pk}}" aria-expanded="true" aria-controls="collapseOne">
+              {{object}}
+            </a>
+          </h4>
+        </div>
+        <div id="collapse{{object.pk}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            <table class="table">
+                  {% for subcategory in object.subcategories.all %}
+                        <tr>
+                            <td><p>{{subcategory}}</p></td>
+                            <td>
+                                <a id="link-update-{{subcategory.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit SubCategory" href="{% url 'budget:account_update' subcategory.pk %}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a id="link-delete-{{subcategory.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:account_delete' subcategory.pk %}">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+            </table>
+            <a href="{% url 'budget:account_add' %}" class="btn btn-info btn-fill">{% trans "New SubCategory" %} +</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+
+
+    </div><!-- panel body -->
+
+</div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+  
+  <script src="{% static 'budget/modal_transaction_details.js' %}"></script>
+  
+{% endblock %}
