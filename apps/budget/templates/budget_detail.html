@@ -8,7 +8,17 @@
  <div class="card">
 
     <div class="header">
-
+        <ul class="nav nav-pills card-header-pills">
+          <li class="nav-item">
+            <a class="nav-link done" href="#">1. Basic Data</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link done" href="#">2. Budget Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">3. Budget Resume</a>
+          </li>
+        </ul>
     </div>
 
 
@@ -22,9 +32,24 @@
                 {% endfor %}
             </p>
 
+            <table class="table table-bordered">
+                <th>{% trans "Category" %}</th>
+                <th>{% trans "Budgeted" %}</th>
+                    {% for object in object_list %}
+                      <tr>
+                        <td>{{object.subcategory__category__name}}</td>
+                        <td>{{object.amount|intcomma}}</td>
+                      </tr>
+                    {% endfor %}
+            </table>
 
-            <a class="btn btn-default" href="{% url 'budget:budget_global_details' object.pk %}">{% trans "Prior" %}</a>
-            <input class="btn btn-success" type="submit" value="Active Budget" />
+
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <a class="btn btn-default" href="{% url 'budget:budget_global_details' object.pk %}">{% trans "Prior" %}</a>
+                    <a class="btn btn-success" href="{% url 'budget:list' %}" />{% trans 'Confirmed Budget' %}</a>
+                </div>
+            </div>
 
     </div><!-- panel body -->
 

@@ -184,9 +184,9 @@ class TransactionDetails(ListView):
         return HttpResponseForbidden()
 
     def get_queryset(self):
-        category = models.Category.objects.get(
-            pk=int(self.kwargs['category']))
+        subcategory = models.SubCategory.objects.get(
+            pk=int(self.kwargs['subcategory']))
         period = models.BudgetPeriod.objects.get(
             pk=int(self.kwargs['period']))
-        return self.model.objects.my_transactions_by_period(
-            self.request.user, category, period)
+        return self.model.objects.my_transactions_by_subcategory(
+            self.request.user, subcategory, period)

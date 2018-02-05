@@ -1,0 +1,81 @@
+{% extends 'base_template.html' %}
+{% load i18n %}
+
+{% block content %}
+
+ <div class="card">
+    {% if object_list %}
+            <div class="header">
+                <h4 class="title">{% trans "Budgets" %}</h4>
+                <p class="category">{% trans "Budget List" %}</p>
+
+            </div>
+            <div class="content table-responsive table-full-width">
+                <table id="id_list_table" class="table table-hover table-striped">
+                 <thead>
+                    <tr role="row"><th>Name</th><th>Year</th><th>Period Type</th>
+                    <th>Created By</th><th class="text-center">Action</th></tr>
+                </thead>
+                <tbody>
+                    {% for budget in object_list %}
+                        <tr class="">
+                            <td class="sorting_1">{{budget.name}}</td>
+                            <td>{{budget.year}}</td>
+                            <td>{{budget.period_type}}</td>
+                            <td>{{budget.user_insert}}</td>
+                            
+                            <td class="td-actions text-center">
+                                {% if budget.user_insert == request.user %}
+                                    <a id="link-update-{{budget.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Budget" href="{% url 'budget:update' budget.pk %}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a id="link-delete-{{budget.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:delete' budget.pk %}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="#" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="View">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %} 
+                </tbody>
+                </table>
+                <div class="text-center">
+                    <a href="{% url 'budget:create' %}" class="btn btn-info btn-fill">{% trans "New Budget" %} +</a>
+                </div>
+            </div>
+
+
+    {% else %}
+
+            <div class="header">
+
+            </div>
+            <div class="content table-responsive table-full-width">
+                
+                <div class="display_message text-center">
+                    
+                    <h1 class="msg_no_accounts text_display">{% trans "There are not budgets created" %}</h1>
+                    <h3>{% trans "Please click on the button below to create one" %}</h3>
+                    <a href="{% url 'budget:create' %}" class="btn btn-primary">
+                        {% trans "New Budget" %}
+                    </a>
+                </div>
+
+            </div>
+
+    {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_list_table').DataTable();
+    } );
+    </script>
+{% endblock %}
