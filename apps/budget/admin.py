@@ -10,7 +10,7 @@ class BudgetYearAdmin(admin.ModelAdmin):
 
 @admin.register(models.Budget)
 class BudgetAdmin(admin.ModelAdmin):
-    filter_horizontal = ('accounts',)
+    filter_horizontal = ('accounts', 'owners',)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "accounts":

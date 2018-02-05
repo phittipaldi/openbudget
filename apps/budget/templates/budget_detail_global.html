@@ -8,8 +8,17 @@
  <div class="card">
 
     <div class="header">
-        <h4 class="title">{{budget.name}}</h4>
-        <p class="category">{% trans "budget data" %}</p>
+        <ul class="nav nav-pills card-header-pills">
+          <li class="nav-item">
+            <a class="nav-link done" href="#">1. Basic Data</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">2. Budget Details</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">3. Budget Resume</a>
+          </li>
+        </ul>
     </div>
 
 
@@ -37,14 +46,17 @@
                     <tr>
                         <td>{{object}}</td>
                         <td>
-                            <input class="form-control input-sm" id="id_subcategory{{subcategory.pk}}" type="text" name="{{object.pk}}" value="{{object.amount}}">
+                            <input class="form-control input-sm" id="id_subcategory{{subcategory.pk}}" type="text" name="{{object.subcategory.name}}" value="{{object.amount}}">
                         </td>
                     </tr> 
                 {% endfor %}
             </table>
-
-            <a class="btn btn-default" href="{% url 'budget:update' budget.pk %}">{% trans "Prior" %}</a>
-            <input class="btn btn-warning" type="submit" value="Next" />
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <a class="btn btn-default" href="{% url 'budget:update' budget.pk %}">{% trans "Prior" %}</a>
+                    <input class="btn btn-warning" type="submit" value="Next" />
+                </div>
+            </div>
 
         </form>
     </div><!-- panel body -->
