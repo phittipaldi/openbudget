@@ -121,6 +121,7 @@ class Budget(utils.CommonInfo):
     year = models.ForeignKey(BudgetYear)
     period_type = models.ForeignKey(PeriodType)
     accounts = models.ManyToManyField(Account)
+    owners = models.ManyToManyField(User, blank=True)
     objects = managers.BudgetManager()
 
     def __str__(self):

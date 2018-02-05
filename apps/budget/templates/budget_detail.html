@@ -22,6 +22,16 @@
                 {% endfor %}
             </p>
 
+            <table class="table table-bordered">
+                <th>{% trans "Category" %}</th>
+                <th>{% trans "Budgeted" %}</th>
+                    {% for object in object_list %}
+                      <tr>
+                        <td>{{object.subcategory__category__name}}</td>
+                        <td>{{object.amount|intcomma}}</td>
+                      </tr>
+                    {% endfor %}
+            </table>
 
             <a class="btn btn-default" href="{% url 'budget:budget_global_details' object.pk %}">{% trans "Prior" %}</a>
             <input class="btn btn-success" type="submit" value="Active Budget" />

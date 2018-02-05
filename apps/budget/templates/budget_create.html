@@ -8,7 +8,7 @@
  <div class="card">
 
     <div class="header">
-        <h4 class="title">{% trans "New Budget" %}</h4>
+        <h4 class="title">{% trans "Budget" %}</h4>
         <p class="category">{% trans "budget data" %}</p>
     </div>
 
@@ -32,7 +32,7 @@
               {% endif %}
             </div>
           {% endfor %}
-            <a class="btn btn-default" href="{% url 'budget:account_list' %}">{% trans "Cancel" %}</a>
+            <a class="btn btn-default" href="{% url 'budget:list' %}">{% trans "Cancel" %}</a>
             <input class="btn btn-warning" type="submit" value="Next" />
         </form>
     </div><!-- panel body -->
