@@ -1,0 +1,40 @@
+{% extends 'base_template.html' %}
+{% load i18n %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{% trans "Update SubCategory" %}</h4>
+        <p class="category">{{category}}</p>
+    </div>
+
+
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+
+          {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+          {% endfor %}
+
+          {% for field in form.visible_fields %}
+            <div class="form-group">
+              {{ field.errors }}
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}
+                <small class="form-text text-muted">{{ field.help_text }}</small>
+              {% endif %}
+            </div>
+          {% endfor %}
+            <a class="btn btn-default" href="{% url 'budget:setting_category' %}">{% trans "Cancel" %}</a>
+            <input class="btn btn-success" type="submit" value="Save" />
+        </form>
+    </div><!-- panel body -->
+
+</div>
+
+{% endblock %}

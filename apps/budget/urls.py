@@ -65,5 +65,14 @@ urlpatterns = [
 
     url(r'^setting/category/$',
         views_settings.SettingCategory.as_view(),
-        name='setting_category')
+        name='setting_category'),
+    url(r'^setting/subcategory/(?P<category_pk>\d+)/create/$',
+        views_settings.SettingSubCategoryAdd.as_view(),
+        name='setting_subcategory_add'),
+    url(r'^setting/subcategory/(?P<pk>\d+)/update/$',
+        views_settings.SettingSubCategoryUpdate.as_view(),
+        name='setting_subcategory_update'),
+    url(r'^setting/subcategory/(?P<pk>\d+)/delete/$',
+        views_settings.SettingSubCategoryDelete.as_view(),
+        name='setting_subcategory_delete')
 ]

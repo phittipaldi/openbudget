@@ -38,17 +38,17 @@
                         <tr>
                             <td><p>{{subcategory}}</p></td>
                             <td>
-                                <a id="link-update-{{subcategory.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit SubCategory" href="{% url 'budget:account_update' subcategory.pk %}">
+                                <a id="link-update-{{subcategory.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit SubCategory" href="{% url 'budget:setting_subcategory_update' subcategory.pk %}">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a id="link-delete-{{subcategory.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:account_delete' subcategory.pk %}">
+                                <a id="link-delete-{{subcategory.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:setting_subcategory_delete' subcategory.pk %}">
                                     <i class="fa fa-times"></i>
                                 </a>
                             </td>
                         </tr>
                     {% endfor %}
             </table>
-            <a href="{% url 'budget:account_add' %}" class="btn btn-info btn-fill">{% trans "New SubCategory" %} +</a>
+            <a href="{% url 'budget:setting_subcategory_add'  object.pk %}" class="btn btn-info btn-fill">{% trans "New SubCategory" %} +</a>
           </div>
         </div>
       </div>

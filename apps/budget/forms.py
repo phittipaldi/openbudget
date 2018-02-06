@@ -9,6 +9,21 @@ from apps.utils.models import Currency
 import datetime
 
 
+class SubcategoryForm(forms.models.ModelForm):
+
+    class Meta:
+        model = SubCategory
+        fields = ('name', 'category')
+        widgets = {'category': forms.HiddenInput(attrs={'required': False})}
+
+    name = forms.CharField(required=True,
+                           label="Name",
+                           widget=forms.TextInput(attrs={'class':
+                                                         "form-control",
+                                                         'placeholder':
+                                                         "Subcategory Name"}))
+
+
 class BudgetForm(forms.models.ModelForm):
 
     class Meta:
