@@ -3,6 +3,8 @@ from . import views_account as views
 from . import views_transaction as views_trx
 from . import views_reports
 from . import views_budget
+from . import views_settings
+
 
 urlpatterns = [
     url(r'^accounts/$', views.AccountList.as_view(), name='account_list'),
@@ -59,5 +61,18 @@ urlpatterns = [
         name='report_details'),
     url(r'^periods/json/(?P<budget>\d+)/$',
         views_reports.BudgetPeriodView.as_view(),
-        name='budget_periods')
+        name='budget_periods'),
+
+    url(r'^setting/category/$',
+        views_settings.SettingCategory.as_view(),
+        name='setting_category'),
+    url(r'^setting/subcategory/(?P<category_pk>\d+)/create/$',
+        views_settings.SettingSubCategoryAdd.as_view(),
+        name='setting_subcategory_add'),
+    url(r'^setting/subcategory/(?P<pk>\d+)/update/$',
+        views_settings.SettingSubCategoryUpdate.as_view(),
+        name='setting_subcategory_update'),
+    url(r'^setting/subcategory/(?P<pk>\d+)/delete/$',
+        views_settings.SettingSubCategoryDelete.as_view(),
+        name='setting_subcategory_delete')
 ]
