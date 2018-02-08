@@ -27,7 +27,25 @@ class Color(models.Model):
 
 class Currency(CommonInfo):
     name = models.CharField(max_length=64, blank=True, null=True)
+    description = models.CharField(max_length=120, blank=True, null=True)
     objects = managers.CurrencyManager()
 
     def __str__(self):
-        return self.name
+        return self.name + ' - ' + self.description
+
+
+class CurrencyRate(models.Model):
+    source = models.ForeignKey(Currency)
+
+    def __str__(self):
+        return self.source
+
+
+class CurrencyRateLine(models.Model):
+    source = models.ForeignKey(CurrencyRate, related_name='quotes')
+    quote = models.ForeignKey(Currency)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+    #https://free.currencyconverterapi.com/api/v5/convert?q=USD_PHP&compact=y
+
+    def __str__(self):
+        return str(self.value)

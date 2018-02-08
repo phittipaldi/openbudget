@@ -74,5 +74,9 @@ urlpatterns = [
         name='setting_subcategory_update'),
     url(r'^setting/subcategory/(?P<pk>\d+)/delete/$',
         views_settings.SettingSubCategoryDelete.as_view(),
-        name='setting_subcategory_delete')
+        name='setting_subcategory_delete'),
+
+    url(r'^setting/currency/$',
+        views_settings.SettingCurrency.as_view(),
+        name='setting_currency')
 ]

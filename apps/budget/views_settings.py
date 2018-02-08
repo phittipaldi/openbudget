@@ -7,6 +7,20 @@ from apps.budget import models
 from .forms import SubcategoryForm
 
 
+class SettingCurrency(LoginRequiredMixin, ListView):
+    template_name = "setting_currency.html"
+    model = models.CurrencyUser
+
+    def get_queryset(self):
+        queryset = self.model.objects.all_my_currencies(self.request.user)
+        return queryset
+
+
+class SettingCurrencyAdd(LoginRequiredMixin, CreateView):
+    template_name = "setting_currency_add.html"
+    model = models.CurrencyUser
+
+
 class SettingCategory(LoginRequiredMixin, ListView):
     template_name = "setting_category.html"
     model = models.Category

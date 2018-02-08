@@ -11,6 +11,7 @@ class CurrencyUser(utils.CommonInfo):
     ratio = models.DecimalField(max_digits=10, decimal_places=2)
     inverse_ratio = models.DecimalField(max_digits=10, decimal_places=2)
     is_base = models.BooleanField(default=False)
+    objects = managers.CurrencyManager()
 
     def __str__(self):
         return self.currency.name
