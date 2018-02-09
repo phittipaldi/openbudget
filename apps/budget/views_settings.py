@@ -4,7 +4,100 @@ from django.views.generic import (ListView, CreateView, UpdateView,
                                   DeleteView)
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from apps.budget import models
-from .forms import SubcategoryForm
+from apps.utils.models import Currency
+from .forms import SubcategoryForm, CurrencyUserForm, CurrencyUserUpdateForm
+
+
+class SettingCurrency(LoginRequiredMixin, ListView):
+    template_name = "setting_currency.html"
+    model = models.CurrencyUser
+
+    def get_queryset(self):
+        queryset = self.model.objects.all_my_currencies(self.request.user)
+        return queryset
+
+
+class SettingCurrencyAdd(LoginRequiredMixin, CreateView):
+    template_name = "setting_currency_add.html"
+    model = models.CurrencyUser
+    form_class = CurrencyUserForm
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingCurrencyAdd, self).get_context_data(**kwargs)
+        context['form'].fields[
+            'currency'].queryset = self.get_pending_currencies()
+        return context
+
+    def form_valid(self, form):
+        form.instance.user_insert = self.request.user
+        form.save()
+        return super(SettingCurrencyAdd, self).form_valid(form)
+
+    def get_initial(self):
+        return {'owner': self.request.user}
+
+    def get_success_url(self):
+        return reverse('budget:setting_currency')
+
+    def get_pending_currencies(self):
+        return Currency.objects.get_pending_currencies(self.request.user)
+
+
+class SettingCurrencyUpdate(LoginRequiredMixin, UpdateView):
+    template_name = "setting_currency_update.html"
+    model = models.CurrencyUser
+    form_class = CurrencyUserUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingCurrencyUpdate, self).get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        form.instance.user_insert = self.request.user
+        form.save()
+        return super(SettingCurrencyUpdate, self).form_valid(form)
+
+    def get_initial(self):
+        return {'owner': self.request.user}
+
+    def get_success_url(self):
+        return reverse('budget:setting_currency')
+
+    def get_pending_currencies(self):
+        return Currency.objects.get_pending_currencies(self.request.user)
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(SettingCurrencyUpdate, self).get_object()
+        if not obj.user_insert == self.request.user:
+            raise Http404
+        return obj
+
+
+class SettingCurrencyDelete(LoginRequiredMixin, DeleteView):
+    template_name = "setting_currency_delete.html"
+    model = models.CurrencyUser
+    form_class = CurrencyUserForm
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingCurrencyDelete, self).get_context_data(**kwargs)
+        context['object_list'] = self.get_transactions_with_this_currency()
+        return context
+
+    def get_success_url(self):
+        return reverse('budget:setting_currency')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(SettingCurrencyDelete, self).get_object()
+        if not obj.user_insert == self.request.user:
+            raise Http404
+        return obj
+
+    def get_transactions_with_this_currency(self):
+        return models.Transaction.objects.filter(
+            user_insert=self.request.user,
+            currency__pk=self.get_object().currency.pk)
 
 
 class SettingCategory(LoginRequiredMixin, ListView):
@@ -24,7 +117,6 @@ class SettingSubCategoryAdd(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(SettingSubCategoryAdd, self).get_context_data(**kwargs)
         context['category'] = self.get_category()
-        # context['form'].fields['category'].value = category.pk
         return context
 
     def form_valid(self, form):

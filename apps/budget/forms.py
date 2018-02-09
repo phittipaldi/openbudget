@@ -4,9 +4,66 @@ from django.forms import CheckboxSelectMultiple
 from .models import (Account, AccountType,
                      Category, SubCategory, Transaction,
                      Budget, BudgetPeriod, PeriodType,
-                     BudgetYear)
+                     BudgetYear, CurrencyUser)
 from apps.utils.models import Currency
 import datetime
+
+
+class CurrencyUserForm(forms.models.ModelForm):
+
+    class Meta:
+        model = CurrencyUser
+        fields = ('currency', 'ratio', 'inverse_ratio', 'owner')
+        widgets = {'owner': forms.HiddenInput(attrs={'required': False})}
+
+    currency = forms.ModelChoiceField(
+        queryset=Currency.objects.all().order_by('name'),
+        empty_label="------------------",
+        widget=forms.Select(attrs={'class': 'form-control'}))
+
+    ratio = forms.CharField(required=True,
+                            label="Ratio",
+                            max_length=64,
+                            widget=forms.TextInput(attrs={'class':
+                                                          "form-control",
+                                                          'placeholder':
+                                                          'Ratio'}),)
+
+    inverse_ratio = forms.CharField(required=True,
+                                    label="Inverse Ratio",
+                                    max_length=64,
+                                    widget=forms.TextInput(
+                                        attrs={'class': 'form-control',
+                                               'placeholder': 'Ratio'}),)
+
+
+class CurrencyUserUpdateForm(forms.models.ModelForm):
+
+    class Meta:
+        model = CurrencyUser
+        fields = ('currency', 'ratio', 'inverse_ratio', 'owner')
+        widgets = {'owner': forms.HiddenInput(attrs={'required': False})}
+
+    currency = forms.ModelChoiceField(
+        queryset=Currency.objects.all().order_by('name'),
+        empty_label="------------------",
+        widget=forms.Select(attrs={'class': 'form-control',
+                                   'readonly': 'True'}))
+
+    ratio = forms.CharField(required=True,
+                            label="Ratio",
+                            max_length=64,
+                            widget=forms.TextInput(attrs={'class':
+                                                          "form-control",
+                                                          'placeholder':
+                                                          'Ratio'}),)
+
+    inverse_ratio = forms.CharField(required=True,
+                                    label="Inverse Ratio",
+                                    max_length=64,
+                                    widget=forms.TextInput(
+                                        attrs={'class': 'form-control',
+                                               'placeholder': 'Ratio'}),)
 
 
 class SubcategoryForm(forms.models.ModelForm):

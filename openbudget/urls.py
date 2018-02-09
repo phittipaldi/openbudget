@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^accounts/', include('apps.security.urls', namespace='accounts')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^budget/', include('apps.budget.urls', namespace='budget')),
+    url(r'^utils/', include('apps.utils.urls', namespace="utils")),
     url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 
