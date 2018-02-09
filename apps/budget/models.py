@@ -8,13 +8,22 @@ from django.db.models import signals
 class CurrencyUser(utils.CommonInfo):
     owner = models.ForeignKey(User)
     currency = models.ForeignKey(utils.Currency)
-    ratio = models.DecimalField(max_digits=10, decimal_places=2)
-    inverse_ratio = models.DecimalField(max_digits=10, decimal_places=2)
+    ratio = models.DecimalField(max_digits=10, decimal_places=6)
+    inverse_ratio = models.DecimalField(max_digits=10, decimal_places=4)
     is_base = models.BooleanField(default=False)
     objects = managers.CurrencyManager()
 
     def __str__(self):
         return self.currency.name
+
+    @property
+    def description_inverse_ratio(self):
+        if self.is_base:
+            return "This is your base currency"
+        else:
+            msg = get_inverse_ratio_desc(self)
+            return msg
+            # return "This is not your base currency " + base_currency.currency
 
 
 class AccountType(models.Model):
@@ -157,6 +166,16 @@ class DurationFilter(models.Model):
 
     def __str__(self):
         return self.name
+
+
+def get_inverse_ratio_desc(currency_user):
+    base_currency = CurrencyUser.objects.get_my_base_currency(
+        currency_user.user_insert)
+
+    result = "1 " + base_currency.currency.name + " = "
+    result = result + str(
+        currency_user.inverse_ratio) + " " + currency_user.currency.name
+    return result
 
 
 from .signals import auto_period_register

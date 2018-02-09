@@ -78,5 +78,14 @@ urlpatterns = [
 
     url(r'^setting/currency/$',
         views_settings.SettingCurrency.as_view(),
-        name='setting_currency')
+        name='setting_currency'),
+    url(r'^setting/currency/add/$',
+        views_settings.SettingCurrencyAdd.as_view(),
+        name='setting_currency_add'),
+    url(r'^setting/currency/update/(?P<pk>\d+)/$',
+        views_settings.SettingCurrencyUpdate.as_view(),
+        name='setting_currency_update'),
+    url(r'^setting/currency/delete/(?P<pk>\d+)/$',
+        views_settings.SettingCurrencyDelete.as_view(),
+        name='setting_currency_delete')
 ]

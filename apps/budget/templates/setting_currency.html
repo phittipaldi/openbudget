@@ -11,7 +11,7 @@
 
     <ul class="nav nav-tabs">
       <li role="presentation"><a href="#">{% trans "General" %}</a></li>
-      <li role="presentation"><a href="#">{% trans "Categories" %}</a></li>
+      <li role="presentation"><a href="{% url 'budget:setting_category' %}">{% trans "Categories" %}</a></li>
       <li role="presentation" class="active"><a href="#">{% trans "Currencies" %}</a></li>
     </ul>
 
@@ -33,25 +33,29 @@
                                 {% if object.is_base %}
                                     {% trans "This is your Base Currency" %}
                                 {% else %}
-                                    {{object.ratio}}
+                                    {{object.description_inverse_ratio}}
                                 {% endif %}
                                 
                             </td>
                                 
                             <td class="td-actions text-center">
-                                <a id="link-update-{{object.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Account" href="{% url 'budget:account_update' object.pk %}">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <a id="link-delete-{{object.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:account_delete' object.pk %}">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                                {% if object.is_base %}
+                                    &nbsp;
+                                {% else %}
+                                    <a id="link-update-{{object.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Currency" href="{% url 'budget:setting_currency_update' object.pk %}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a id="link-delete-{{object.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:setting_currency_delete' object.pk %}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %} 
                 </tbody>
                 </table>
                 <div class="text-center">
-                    <a href="{% url 'budget:account_add' %}" class="btn btn-info btn-fill">{% trans "Add Currency" %} +</a>
+                    <a href="{% url 'budget:setting_currency_add' %}" class="btn btn-info btn-fill">{% trans "Add Currency" %} +</a>
                 </div>
             </div>
 
