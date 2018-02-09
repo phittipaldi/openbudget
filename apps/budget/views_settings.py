@@ -5,7 +5,7 @@ from django.views.generic import (ListView, CreateView, UpdateView,
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from apps.budget import models
 from apps.utils.models import Currency
-from .forms import SubcategoryForm, CurrencyUserForm
+from .forms import SubcategoryForm, CurrencyUserForm, CurrencyUserUpdateForm
 
 
 class SettingCurrency(LoginRequiredMixin, ListView):
@@ -44,9 +44,9 @@ class SettingCurrencyAdd(LoginRequiredMixin, CreateView):
 
 
 class SettingCurrencyUpdate(LoginRequiredMixin, UpdateView):
-    template_name = "setting_currency_add.html"
+    template_name = "setting_currency_update.html"
     model = models.CurrencyUser
-    form_class = CurrencyUserForm
+    form_class = CurrencyUserUpdateForm
 
     def get_context_data(self, **kwargs):
         context = super(SettingCurrencyUpdate, self).get_context_data(**kwargs)
@@ -79,6 +79,11 @@ class SettingCurrencyDelete(LoginRequiredMixin, DeleteView):
     model = models.CurrencyUser
     form_class = CurrencyUserForm
 
+    def get_context_data(self, **kwargs):
+        context = super(SettingCurrencyDelete, self).get_context_data(**kwargs)
+        context['object_list'] = self.get_transactions_with_this_currency()
+        return context
+
     def get_success_url(self):
         return reverse('budget:setting_currency')
 
@@ -88,6 +93,11 @@ class SettingCurrencyDelete(LoginRequiredMixin, DeleteView):
         if not obj.user_insert == self.request.user:
             raise Http404
         return obj
+
+    def get_transactions_with_this_currency(self):
+        return models.Transaction.objects.filter(
+            user_insert=self.request.user,
+            currency__pk=self.get_object().currency.pk)
 
 
 class SettingCategory(LoginRequiredMixin, ListView):
