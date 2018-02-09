@@ -17,7 +17,7 @@ class BudgetReport(FormView):
         context = super(BudgetReport, self).get_context_data(**kwargs)
         context['form'].fields['budget'].queryset = self.get_my_budgets()
         empty_query = models.BudgetPeriod.objects.none()
-        context['form'].fields['period'].queryset = empty_query
+        # context['form'].fields['period'].queryset = empty_query
         return context
 
     def get(self, request, *args, **kwargs):
