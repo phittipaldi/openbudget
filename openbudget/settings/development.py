@@ -20,3 +20,5 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INTERNAL_IPS = '127.0.0.1'
+
+CURRENT_DOMAIN = '127.0.0.1'

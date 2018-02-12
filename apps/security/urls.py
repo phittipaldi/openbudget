@@ -12,4 +12,6 @@ urlpatterns = [
         name='register'),
     url(r'^verification_sent/$', core.verification_sent,
         name='verification_sent'),
+    url(r'^activation/(?P<token>[0-9a-f-]+)/$', core.UserActivation.as_view(),
+        name='user_activation')
 ]

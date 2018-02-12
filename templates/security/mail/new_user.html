@@ -1,0 +1,40 @@
+
+{% extends 'security/mail/base.html'%}
+    {% load i18n %}
+
+    {% block contenido %}
+
+              <tr>
+                <td class="wrapper">
+                  <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>
+
+                        <p>{% trans "New user registration to Open Budget" %}</p>
+                        
+                      <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                          <tbody>
+                            <tr>
+                              <td align="left">
+                                <table border="0" cellpadding="0" cellspacing="0">
+                                  <tbody>
+                                    <tr>
+                                      <td> 
+                                        <a href="{{current_domain}}:8080/accounts/activation/{{profile.token}}" target="_blank">{% trans "Active Account" %}</a>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+    {% endblock %}
+
