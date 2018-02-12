@@ -20,7 +20,7 @@ class ActivationPending(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_pending = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
-    experition_date = models.DateField(null=True, blank=True)
+    expiration_date = models.DateField(null=True, blank=True)
 
 
 @receiver(post_save, sender=User)
