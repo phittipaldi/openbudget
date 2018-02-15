@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from apps.security.models import ActivationPending
 from django import forms
 from django.contrib.auth import authenticate
+from django import forms
 
 
 class RegistrationForm(UserCreationForm):
@@ -22,3 +24,15 @@ class RegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ActivationForm(forms.models.ModelForm):
+    # token = forms.CharField(required=True,
+    #                         label="Token",
+    #                         max_length=100)
+
+    class Meta:
+        model = ActivationPending
+        fields = ('user', 'token')
+        widgets = {'user': forms.HiddenInput(attrs={'required': False}),
+                   'token': forms.HiddenInput(attrs={'required': False})}

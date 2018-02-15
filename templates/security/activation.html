@@ -1,0 +1,20 @@
+    {% extends "security/base_security.html" %}
+    {% load i18n %}
+    {% load account socialaccount %}
+    {% block head_title %}{% trans "Activation User" %}{% endblock %}
+      {% block title_content %}
+
+        <h1>Please click in the button below to <strong>activate the user</strong> in Open Budget</h1>
+        <div class="description">
+          <p>
+            <form role="form" action="" method="post">
+              {% csrf_token %}
+              {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+              {% endfor %}
+              <button type="submit" class="btn">Activate!</button>
+            </form>
+          </p>
+        </div>
+
+      {% endblock %}
