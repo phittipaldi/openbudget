@@ -56,7 +56,7 @@ class UserRegistration(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('accounts:verification_sent')
+        return reverse_lazy('verification_sent')
 
     def send_notification(self, pending_activation):
         subject = 'Formulario Solicitud Proyecto'
