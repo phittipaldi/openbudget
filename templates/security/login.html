@@ -30,7 +30,7 @@
           <div class="form-top">
             <div class="form-top-left">
               <h3>{% trans "Login to our site" %}</h3>
-                <p>Enter username and password to log on:</p>
+                <small>Enter username and password to log on:</small>
             </div>
             <div class="form-top-right">
               <i class="fa fa-key"></i>
@@ -49,13 +49,18 @@
                 </div>
                   <button type="submit" class="btn">Sign in!</button>
               </form>
+              <div>
+              <p class="signup-helper">
+                <a href="{% url 'password_reset' %}">Forget password?</a>
+              </p>
+              </div>
           </div>
       </div>
                     
       <div class="social-login">
           <h3>...or login with:</h3>
           <div class="social-login-buttons">
-            <a class="btn btn-link-1 btn-link-1-github" href="{% provider_login_url 'github' %}">
+            <a class="btn btn-link-1 btn-link-1-github" href="">
               <i class="fa fa-github"></i> Github
             </a>
             <a class="btn btn-link-1 btn-link-1-facebook" href="#">
@@ -71,7 +76,7 @@
       <div>
     		<p class="signup-helper">
     	      ¿New in Open Budget?
-    	      <a id="id_register_now" href="{%url 'accounts:register' %}">Register Now »</a>
+    	      <a id="id_register_now" href="{%url 'register' %}">Register Now »</a>
     		</p>
       </div>
 
