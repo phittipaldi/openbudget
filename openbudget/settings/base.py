@@ -172,3 +172,11 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
+
+# DEFAULT_FROM_EMAIL = "no-reply@getopenbudget.com"
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = get_env_variable('APIKEY_MAIL')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
