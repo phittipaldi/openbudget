@@ -173,7 +173,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-# DEFAULT_FROM_EMAIL = "no-reply@getopenbudget.com"
+DEFAULT_FROM_EMAIL = "no-reply@getopenbudget.com"
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
