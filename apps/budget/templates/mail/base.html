@@ -8,14 +8,20 @@
       /* -------------------------------------
           GLOBAL RESETS
       ------------------------------------- */
+      .brand-logo {
+          width: 180px;
+          float: left;
+      }
+
       img {
         border: none;
         -ms-interpolation-mode: bicubic;
         max-width: 100%; }
       body {
         background-color: #f6f6f6;
-        font-family: sans-serif;
+        font-family: 'Gotham Rounded','Helvetica Neue',Helvetica,sans-serif;
         -webkit-font-smoothing: antialiased;
+        color: #8d9aa5;
         font-size: 14px;
         line-height: 1.4;
         margin: 0;
@@ -28,7 +34,9 @@
         mso-table-rspace: 0pt;
         width: 100%; }
         table td {
-          font-family: sans-serif;
+          font-family: 'Gotham Rounded','Helvetica Neue',Helvetica,sans-serif;
+          color: #8d9aa5;
+        -webkit-font-smoothing: antialiased;
           font-size: 14px;
           vertical-align: top; }
       /* -------------------------------------
@@ -81,21 +89,27 @@
       h2,
       h3,
       h4 {
-        color: #000000;
-        font-family: sans-serif;
+        font-family: 'Gotham Rounded','Helvetica Neue',Helvetica,sans-serif;
+        color: #8d9aa5;
+        -webkit-font-smoothing: antialiased;
         font-weight: 400;
         line-height: 1.4;
         margin: 0;
         Margin-bottom: 30px; }
-      h1 {
-        font-size: 35px;
-        font-weight: 300;
-        text-align: center;
-        text-transform: capitalize; }
+      h1 { color: #384047;
+           font-family: 'Gotham Rounded','Helvetica Neue',Helvetica,sans-serif;
+           font-size: 18px;
+           line-height: 130%;
+           display: block;
+           font-weight: bold;
+           letter-spacing: normal;
+           margin: 15px 0;
+         }
       p,
       ul,
       ol {
-        font-family: sans-serif;
+        font-family: 'Gotham Rounded','Helvetica Neue',Helvetica,sans-serif;
+        -webkit-font-smoothing: antialiased;
         font-size: 14px;
         font-weight: normal;
         margin: 0;
@@ -124,10 +138,10 @@
           text-align: center; }
         .btn a {
           background-color: #ffffff;
-          border: solid 1px #3498db;
+          border: solid 1px #5fcf80;
           border-radius: 5px;
           box-sizing: border-box;
-          color: #3498db;
+          color: #5fcf80;
           cursor: pointer;
           display: inline-block;
           font-size: 14px;
@@ -137,10 +151,10 @@
           text-decoration: none;
           text-transform: capitalize; }
       .btn-primary table td {
-        background-color: #3498db; }
+        background-color: #5fcf80; }
       .btn-primary a {
-        background-color: #3498db;
-        border-color: #3498db;
+        background-color: #5fcf80;
+        border-color: #5fcf80;
         color: #ffffff; }
       /* -------------------------------------
           OTHER STYLES THAT MIGHT BE USEFUL
@@ -173,7 +187,10 @@
         visibility: hidden;
         width: 0; }
       .powered-by a {
-        text-decoration: none; }
+        font-weight: bold;
+        text-decoration: none;
+        color: #9ba6b0;
+      }
       hr {
         border: 0;
         border-bottom: 1px solid #f6f6f6;
@@ -247,7 +264,16 @@
           <div class="content">
 
             <!-- START CENTERED WHITE CONTAINER -->
-            <span class="preheader">Vista Preliminar</span>
+            <span class="preheader">Preview</span>
+
+            <table cellpadding="5px">
+              <tr>
+                <td>
+                    <img src="http://getopenbudget.com/static/img/logo_green.png" alt="Open Budget" width="180" style="display: block;" />
+                </td>
+              </tr>
+            </table>
+
             <table class="main">
 
               <!-- START MAIN CONTENT AREA -->
@@ -262,17 +288,25 @@
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <span class="apple-link">Open Budget, Dominican Republic</span>
-                    <br> This is an informative e-mail, please do not respond to it.
-                    <br /> 
-                    <a href="http://openbudget.cloudya.com.do" target="_blank">Web Page</a>.
+                    <span class="apple-link">This is an informative e-mail, please do not respond to it.</span>
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block powered-by">
-                    Powered by <a href="http://openbudget.cloudya.com.do">Open Budget</a>.
+                    <a href="http://getopenbudget.com/">Powered by Open Budget.</a>.
                   </td>
                 </tr>
+
+                <!--
+                <td style="padding-top:30px;padding-bottom:5px;border-collapse:collapse" align="center" valign="top">
+                      <a href="#" target="_blank" data-saferedirecturl=""><img width="39" height="42" style="width:39px;height:auto;line-height:100%;outline:none;text-decoration:none;border:0" src="https://ci3.googleusercontent.com/proxy/C8JSGCz1wzMJmKtuXEpaEia9bb0Xv8ongqv2-CiDYbbZUjADevJ6O30yzuk7FIMDqbOnVSsGqrecHc6FsApay5NYiKXDKa7xHvy2FnFsh4MRg7QkDg_8Yg=s0-d-e1-ft#https://email-images.teamtreehouse.com/global/footer-twitter2x.png" class="CToWUd"></a>
+                      <a href="#" data-saferedirecturl=""><img width="39" height="42" style="height:auto;line-height:100%;outline:none;text-decoration:none" src="https://ci3.googleusercontent.com/proxy/fqp2EzyiVv6Jlx-fndXYsUe75OWeDpRBt8QPB0OG80OZ1ysSlEcfeIO0djWka85J32CPCSTOIdZpFSo3DBvZ_bCO9B4Z5GNpTCR4I_nCLSuOoiIR5z0H1w=s0-d-e1-ft#https://email-images.teamtreehouse.com/global/footer-youtube2x.png" class="CToWUd"></a>
+                      <a href="#" target="_blank" data-saferedirecturl=""><img width="39" height="42" style="width:39px;height:auto;line-height:100%;outline:none;text-decoration:none;border:0" src="https://ci4.googleusercontent.com/proxy/_p9bzerAosi3CtIv330IRK-h_FoG-rWnW8CCZQ-_5T9NuzTi18N1vFCul02BihlOqx0c_T_z_6KE1xXff6ngMoZaUbVbWoy2cvBsqYDocV1Tp1ydckeZpiM=s0-d-e1-ft#https://email-images.teamtreehouse.com/global/footer-facebook2x.png" class="CToWUd"></a>
+                      <a href="#"><img width="39" height="42" style="width:39px;height:auto;line-height:100%;outline:none;text-decoration:none;border:0" src="https://ci6.googleusercontent.com/proxy/spxBpI5wLDg_zI-N1enICNJgRV6EcqXobHujziDwVG0d1bg2GoWkdOK-FB5306TUaXW_3huauA8Juw2kV2v36hZvO2fPmVEqCHs_DhTau8P0QibCUsoG=s0-d-e1-ft#https://email-images.teamtreehouse.com/global/footer-google2x.png" class="CToWUd"></a>
+                      <a href="#" target="_blank" data-saferedirecturl="#"><img width="39" height="42" style="width:39px;height:auto;line-height:100%;outline:none;text-decoration:none;border:0" src="https://ci6.googleusercontent.com/proxy/SEik6R6t3hfJhCMEraV61TPwJeLOTq3dIQ5VO56vTdTRY_aeNjzxSNolVlrOgi3DJi_Bjz9eHge2yXRVTU_RuTY0OvKmUeULxDAdAOtbtHRnBf90jVXhYnZj=s0-d-e1-ft#https://email-images.teamtreehouse.com/global/footer-instagram2x.png" class="CToWUd"></a>
+                    </td>
+                  -->
+
               </table>
             </div>
             <!-- END FOOTER -->
