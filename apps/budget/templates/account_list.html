@@ -27,7 +27,7 @@
                             <td>{{account.account_type}}</td>
                             <td>{{account.balance}}</td>
                             <td class="td-actions text-center">
-                                {% if budget.user_insert == request.user %}
+                                {% if account.user_insert == request.user %}
                                     <a id="link-update-{{account.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Account" href="{% url 'budget:account_update' account.pk %}">
                                         <i class="fa fa-edit"></i>
                                     </a>
