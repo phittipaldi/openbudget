@@ -4,7 +4,7 @@ from django.forms import CheckboxSelectMultiple
 from .models import (Account, AccountType,
                      Category, SubCategory, Transaction,
                      Budget, BudgetPeriod, PeriodType,
-                     BudgetYear, CurrencyUser)
+                     BudgetYear, CurrencyUser, BudgetShareMember)
 from apps.utils.models import Currency
 import datetime
 
@@ -121,6 +121,23 @@ class BudgetReportForm(forms.Form):
                                     empty_label="------------------",
                                     widget=forms.Select(
                                     attrs={'class': 'form-control'}))
+
+
+class BudgetShareForm(forms.Form):
+
+    budget = forms.EmailField(
+        required=True,
+        label="Email",
+        widget=forms.TextInput(attrs={'class': 'form-control',
+                                      'placeholder': 'Email'}))
+
+
+class ShareConfirmationForm(forms.models.ModelForm):
+
+    class Meta:
+        model = BudgetShareMember
+        fields = ('status',)
+        widgets = {'status': forms.HiddenInput(attrs={'required': False})}
 
 
 class AccountTransactionForm(forms.models.ModelForm):

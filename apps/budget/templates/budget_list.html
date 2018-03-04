@@ -19,7 +19,12 @@
                 <tbody>
                     {% for budget in object_list %}
                         <tr class="">
-                            <td class="sorting_1">{{budget.name}}</td>
+                            <td class="sorting_1">
+                            {% if budget.user_insert != request.user %}
+                                 <i class="fa fa-globe" title="Shared"></i>
+                            {% endif %}
+                            {{budget.name}}
+                            </td>
                             <td>{{budget.year}}</td>
                             <td>{{budget.period_type}}</td>
                             <td>{{budget.user_insert}}</td>
@@ -28,6 +33,9 @@
                                 {% if budget.user_insert == request.user %}
                                     <a id="link-update-{{budget.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Budget" href="{% url 'budget:update' budget.pk %}">
                                         <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a id="link-share-{{budget.pk}}" rel="tooltip" title="" class="btn btn-warning btn-simple btn-xs" data-original-title="Share" href="{% url 'budget:budget_share_list' budget.pk %}">
+                                        <i class="fa fa-share-square"></i>
                                     </a>
                                     <a id="link-delete-{{budget.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:delete' budget.pk %}">
                                         <i class="fa fa-times"></i>

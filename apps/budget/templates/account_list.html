@@ -18,16 +18,27 @@
                 <tbody>
                     {% for account in accounts %}
                         <tr class="">
-                            <td class="sorting_1">{{account.name}}</td>
+                            <td class="sorting_1">
+                                {% if budget.user_insert != request.user %}
+                                    <i class="fa fa-globe" title="Shared"></i>
+                                {% endif %}
+                                {{account.name}}
+                            </td>
                             <td>{{account.account_type}}</td>
                             <td>{{account.balance}}</td>
                             <td class="td-actions text-center">
-                                <a id="link-update-{{account.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Account" href="{% url 'budget:account_update' account.pk %}">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <a id="link-delete-{{account.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:account_delete' account.pk %}">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                                {% if budget.user_insert == request.user %}
+                                    <a id="link-update-{{account.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Account" href="{% url 'budget:account_update' account.pk %}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a id="link-delete-{{account.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:account_delete' account.pk %}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="#" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="View">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %} 

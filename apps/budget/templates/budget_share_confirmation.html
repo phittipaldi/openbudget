@@ -1,0 +1,29 @@
+{% extends 'base_template.html' %}
+{% load i18n %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{{object.budget}}</h4>
+        <p class="category">{% trans "Shared" %}</p>
+    </div>
+
+
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+            {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field }}
+            {% endfor %}
+            <h3>{% trans "Please click to accept sharing this budget with" %} {{object.user_insert.first_name}}</h3>
+            <input class="btn btn-success" type="submit" value="Confirm" />
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
