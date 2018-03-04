@@ -19,7 +19,7 @@
                     {% for account in accounts %}
                         <tr class="">
                             <td class="sorting_1">
-                                {% if budget.user_insert != request.user %}
+                                {% if account.user_insert != request.user %}
                                     <i class="fa fa-globe" title="Shared"></i>
                                 {% endif %}
                                 {{account.name}}
