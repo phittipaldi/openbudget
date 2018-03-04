@@ -19,10 +19,9 @@ DATABASES = {
     }
 }
 
-CURRENT_DOMAIN = 'http://openbudget.cloudya.com.do'
+CURRENT_DOMAIN = 'http://getopenbudget.com.do'
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INTERNAL_IPS = '127.0.0.1'
