@@ -1,28 +1,126 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.http import Http404
 from django.urls.base import reverse
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import (CreateView, ListView, UpdateView, DeleteView,
+                                  FormView)
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import (LoginRequiredMixin)
-from .forms import BudgetForm
-from .models import Budget, Category, BudgetLine, BudgetPeriod
+from .forms import BudgetForm, BudgetShareForm, ShareConfirmationForm
+from .models import (Budget, Category, BudgetLine, BudgetPeriod,
+                     BudgetShareMember, BudgetShareStatus)
 import threading
 from django.db.models import Sum
+from apps.utils.services import mail
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
-class BudgetList(LoginRequiredMixin, ListView):
-    template_name = "budget_list.html"
-    model = Budget
+class BudgetShareConfirmation(LoginRequiredMixin, UpdateView):
+    template_name = "budget_share_confirmation.html"
+    model = BudgetShareMember
+    form_class = ShareConfirmationForm
+
+    def form_valid(self, form):
+        form.instance.status = BudgetShareStatus.objects.get(
+            pk=2)
+        form.save()
+        self.extend_budget()
+        return super(BudgetShareConfirmation, self).form_valid(
+            form)
+
+    def get_success_url(self):
+        return reverse('budget:list')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(BudgetShareConfirmation, self).get_object()
+        if not obj.member == self.request.user or not obj.status.pk == 1:
+            raise Http404
+        return obj
+
+    def extend_budget(self):
+        obj = self.get_object()
+        # ---Budget---
+        obj.budget.owners.add(obj.member)
+        obj.budget.save()
+        # ---Accounts---\
+        for account in obj.budget.accounts.all():
+            account.owners.add(obj.member)
+
+
+class BudgetShareCreate(LoginRequiredMixin, FormView):
+    template_name = "budget_share_create.html"
+    model = BudgetShareMember
+    form_class = BudgetShareForm
+
+    def get_context_data(self, **kwargs):
+        context = super(BudgetShareCreate, self).get_context_data(**kwargs)
+        context['budget'] = Budget.objects.get(pk=self.kwargs.get('budget_pk'))
+        return context
+
+    def form_valid(self, form):
+
+        instance_created = self.create_share(form.cleaned_data['budget'])
+        if instance_created:
+            # Send notification
+            self.send_share_notification(instance_created)
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('budget:budget_share_list',
+                       kwargs={'budget_pk': self.kwargs.get('budget_pk')})
+
+    def send_share_notification(self, budget_share):
+        subject = 'Confirm Request Budget Sharing'
+        html = render_to_string("mail/request_share_budget.html", {
+                                'owner': budget_share.user_insert.first_name,
+                                'member': budget_share.member,
+                                'token': budget_share.token,
+                                'current_domain': settings.CURRENT_DOMAIN})
+
+        email = budget_share.member.email
+
+        mail.send_html_mail(subject, html, [email])
+        return True
+
+    def create_share(self, email_user):
+        try:
+            share_user = User.objects.get(email=email_user)
+            share_status = BudgetShareStatus.objects.get(pk=1)
+            share_budget = Budget.objects.get(pk=self.kwargs.get('budget_pk'))
+            instance = self.model.objects.create(
+                member=share_user,
+                budget=share_budget,
+                status=share_status,
+                user_insert=self.request.user)
+        except User.DoesNotExist:
+            instance = None
+
+        return instance
+
+
+class BudgetShareList(LoginRequiredMixin, ListView):
+    template_name = "budget_share_list.html"
+    model = BudgetShareMember
+
+    def get_context_data(self, **kwargs):
+        context = super(BudgetShareList, self).get_context_data(**kwargs)
+        context['budget'] = Budget.objects.get(pk=self.kwargs.get('budget_pk'))
+        return context
 
     def get_queryset(self):
-        return self.model.objects.all_my_budgets(self.request.user)
+        return self.model.objects.all_my_members_budget(
+            self.request.user, self.kwargs.get('budget_pk'))
 
 
 class BudgetDelete(LoginRequiredMixin, DeleteView):
-    template_name = "budget_delete.html"
-    model = Budget
-    form_class = BudgetForm
+    template_name = "budget_share_delete.html"
+    model = BudgetShareMember
+    form_class = BudgetShareForm
     login_url = settings.LOGIN_URL
 
     def get_success_url(self):
@@ -33,6 +131,31 @@ class BudgetDelete(LoginRequiredMixin, DeleteView):
         obj = super(BudgetDelete, self).get_object()
         if not obj.owners.filter(username__in=[
                                  self.request.user]).count():
+            raise Http404
+        return obj
+
+
+class BudgetList(LoginRequiredMixin, ListView):
+    template_name = "budget_list.html"
+    model = Budget
+
+    def get_queryset(self):
+        return self.model.objects.all_my_budgets(self.request.user)
+
+
+class BudgetShareDelete(LoginRequiredMixin, DeleteView):
+    template_name = "budget_share_delete.html"
+    model = BudgetShareMember
+    form_class = BudgetForm
+    login_url = settings.LOGIN_URL
+
+    def get_success_url(self):
+        return reverse('budget:list')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(BudgetShareDelete, self).get_object()
+        if not obj.user_insert == self.request.user:
             raise Http404
         return obj
 

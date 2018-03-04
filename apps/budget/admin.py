@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from . import models
 
 
+@admin.register(models.BudgetShareStatus)
+class BudgetShareStatusAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.BudgetShareMember)
+class BudgetShareMemberAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.BudgetYear)
 class BudgetYearAdmin(admin.ModelAdmin):
     pass

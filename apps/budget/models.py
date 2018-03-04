@@ -3,6 +3,7 @@ from apps.utils import models as utils
 from django.contrib.auth.models import User
 from apps.budget import managers
 from django.db.models import signals
+import uuid
 
 
 class CurrencyUser(utils.CommonInfo):
@@ -155,6 +156,26 @@ class BudgetLine(models.Model):
 
     def __str__(self):
         return self.subcategory.name
+
+
+class BudgetShareStatus(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+
+class BudgetShareMember(utils.CommonInfo):
+    budget = models.ForeignKey(Budget, related_name='shares')
+    member = models.ForeignKey(User)
+    status = models.ForeignKey(BudgetShareStatus)
+    objects = managers.BudgetShareManager()
+    token = models.UUIDField(primary_key=True,
+                             default=uuid.uuid4,
+                             editable=False)
+
+    def __str__(self):
+        return "{} - {}".format(self.budget, self.member)
 
 
 class DurationFilter(models.Model):
