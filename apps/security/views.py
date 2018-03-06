@@ -13,6 +13,8 @@ from .forms import RegistrationForm, ActivationForm
 from django.contrib.auth import views
 from apps.utils.services import mail
 from .models import ActivationPending
+from apps.budget.models import CurrencyUser
+from apps.utils.models import Currency
 
 
 class UserActivation(FormView):
@@ -27,6 +29,7 @@ class UserActivation(FormView):
         user = User.objects.get(pk=request.POST['user'])
         user.is_active = True
         user.save()
+        self.set_default_currency(user)
         login(request, user,
               backend='django.contrib.auth.backends.ModelBackend')
         return HttpResponseRedirect(self.get_success_url())
@@ -41,6 +44,16 @@ class UserActivation(FormView):
         pending = ActivationPending.objects.get(
             token=self.kwargs.get('token'))
         return {'user': pending.user, 'token': pending.token}
+
+    def set_default_currency(self, user):
+        # Temp method to insert default currency base DOP
+        currency = Currency.objects.get(pk=2)
+        CurrencyUser.objects.get_or_create(owner=user,
+                                           currency=currency,
+                                           ratio=0,
+                                           inverse_ratio=0,
+                                           is_base=True,
+                                           user_insert=user)
 
 
 class UserRegistration(FormView):
