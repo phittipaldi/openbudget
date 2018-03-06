@@ -59,5 +59,14 @@
 {% block extra_js %}
   
   <script src="{% static 'budget/modal_transaction_details.js' %}"></script>
+
+  <script>
+  $('#myButton').on('click', function () {
+
+      $('body').loading({
+          stoppable: true
+        });
+  })
+</script>
   
 {% endblock %}

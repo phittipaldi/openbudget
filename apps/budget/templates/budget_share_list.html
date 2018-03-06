@@ -8,7 +8,7 @@
     {% if object_list %}
             <div class="header">
                 <h4 class="title">{{budget.name}}</h4>
-                <small>{% trans "Members Shared" %}</small>
+                <small><a href="{% url 'budget:list' %}">{% trans "My Budget List" %}</a></small>
             </div>
 
             <div class="content table-responsive table-full-width">

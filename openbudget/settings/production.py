@@ -19,7 +19,7 @@ DATABASES = {
     }
 }
 
-CURRENT_DOMAIN = 'http://getopenbudget.com.do'
+CURRENT_DOMAIN = 'http://getopenbudget.com'
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = False
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False

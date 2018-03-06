@@ -9,7 +9,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .forms import BudgetForm, BudgetShareForm, ShareConfirmationForm
 from .models import (Budget, Category, BudgetLine, BudgetPeriod,
-                     BudgetShareMember, BudgetShareStatus)
+                     BudgetShareMember, BudgetShareStatus, CurrencyUser)
 import threading
 from django.db.models import Sum
 from apps.utils.services import mail
@@ -26,7 +26,7 @@ class BudgetShareConfirmation(LoginRequiredMixin, UpdateView):
         form.instance.status = BudgetShareStatus.objects.get(
             pk=2)
         form.save()
-        self.extend_budget()
+        self.extend_budget(form.instance)
         return super(BudgetShareConfirmation, self).form_valid(
             form)
 
@@ -40,14 +40,29 @@ class BudgetShareConfirmation(LoginRequiredMixin, UpdateView):
             raise Http404
         return obj
 
-    def extend_budget(self):
-        obj = self.get_object()
+    def extend_budget(self, budget_share):
         # ---Budget---
-        obj.budget.owners.add(obj.member)
-        obj.budget.save()
+        budget_share.budget.owners.add(budget_share.member)
+        budget_share.budget.save()
         # ---Accounts---\
-        for account in obj.budget.accounts.all():
-            account.owners.add(obj.member)
+        for account in budget_share.budget.accounts.all():
+            account.owners.add(budget_share.member)
+            self.extend_currency(account)
+
+    def extend_currency(self, account):
+
+        if CurrencyUser.objects.filter(
+                currency__pk=account.currency.pk,
+                owner=self.request.user).count() == 0:
+            origin = CurrencyUser.objects.get(currency__pk=account.currency.pk,
+                                              user_insert=account.user_insert)
+            CurrencyUser.objects.create(currency=origin.currency,
+                                        owner=self.request.user,
+                                        ratio=origin.ratio,
+                                        inverse_ratio=origin.inverse_ratio,
+                                        user_insert=origin.user_insert
+                                        )
+
 
 
 class BudgetShareCreate(LoginRequiredMixin, FormView):
@@ -118,9 +133,9 @@ class BudgetShareList(LoginRequiredMixin, ListView):
 
 
 class BudgetDelete(LoginRequiredMixin, DeleteView):
-    template_name = "budget_share_delete.html"
-    model = BudgetShareMember
-    form_class = BudgetShareForm
+    template_name = "budget_delete.html"
+    model = Budget
+    form_class = BudgetForm
     login_url = settings.LOGIN_URL
 
     def get_success_url(self):
