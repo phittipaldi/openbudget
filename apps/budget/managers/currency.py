@@ -7,4 +7,4 @@ class CurrencyManager(models.Manager):
         return self.filter(user_insert=owner)
 
     def get_my_base_currency(self, owner):
-        return self.filter(owner=owner, is_base=True)[0]
+        return self.get(owner=owner, is_base=True)
