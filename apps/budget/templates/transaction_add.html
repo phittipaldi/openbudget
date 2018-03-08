@@ -9,6 +9,16 @@
     <div class="header">
         <h4 class="title">{% trans "New Transaction" %}</h4>
         <p class="category">{% trans "transaction data" %}</p>
+
+        {% if messages %}
+             {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %} fade in" id="alert">
+                            <button class="close" data-dismiss="alert"><span>×</span></button>
+                            <strong id="alert-message">{{ message }}</strong>
+                </div>
+             {% endfor %}
+         {% endif %}
+
     </div>
 
 
@@ -32,7 +42,8 @@
             </div>
           {% endfor %}
             <a class="btn btn-default" href="{% url 'budget:transaction_list' %}">{% trans "Cancel" %}</a>
-            <input class="btn btn-success" type="submit" value="Save" />
+            <input name="_continue" class="btn btn-default" type="submit" value="Save and add another" />
+            <input name="_save" class="btn btn-success" type="submit" value="Save" />
         </form>
     </div><!-- panel body -->
 

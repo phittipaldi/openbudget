@@ -100,7 +100,7 @@ class Transaction(utils.CommonInfo):
     objects = managers.TransactionManager()
 
     def __str__(self):
-        return "{}-{}".format(self.account, self.amount)
+        return "{}-{}".format(self.subcategory, self.amount)
 
     @property
     def date_display(self):
