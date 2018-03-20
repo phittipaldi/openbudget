@@ -47,7 +47,6 @@ class RecurrentCreate(LoginRequiredMixin, CreateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        import ipdb; ipdb.set_trace()
         return super(RecurrentCreate, self).post(request)
 
     def form_valid(self, form):
@@ -77,7 +76,6 @@ class RecurrentUpdate(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        # form.instance.user_insert = self.request.user_insert
         form.instance.user_update = self.request.user
         form.instance.trx_type = TransactionType.objects.get(pk=1)
         form.instance.exchange = 1
