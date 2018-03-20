@@ -94,3 +94,13 @@ class CurrencyUserAdmin(admin.ModelAdmin):
 @admin.register(models.DurationFilter)
 class DurationFilterAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.RecurrentTransaction)
+class RecurrentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.RecurrentShedule)
+class RecurrentSheduleAdmin(admin.ModelAdmin):
+    pass

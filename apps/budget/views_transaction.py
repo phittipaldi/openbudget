@@ -1,4 +1,5 @@
 from django.urls.base import reverse
+from django.contrib import messages
 from django.conf import settings
 from django.http import Http404
 from django.views.generic.list import ListView
@@ -39,6 +40,7 @@ class TransactionAdd(LoginRequiredMixin, CreateView):
     form_class = TransactionForm
     model = Transaction
     login_url = settings.LOGIN_URL
+    success_url = 'budget:transaction_list'
 
     def get_context_data(self, **kwargs):
         context = super(TransactionAdd, self).get_context_data(**kwargs)
@@ -54,13 +56,24 @@ class TransactionAdd(LoginRequiredMixin, CreateView):
         form.instance.trx_type = TransactionType.objects.get(pk=1)
         form.instance.exchange = 1
         form.save()
+
+        if "_continue" in self.request.POST:
+            self.success_url = "budget:transaction_add"
+            message = self.save_and_continue_string(form.instance)
+            messages.success(self.request, message)
+
         return super(TransactionAdd, self).form_valid(form)
 
     def form_invalid(self, form):
-        return super(TransactionAdd, self).form_valid(form)
+        return super(TransactionAdd, self).form_invalid(form)
 
     def get_success_url(self):
-        return reverse('budget:transaction_list')
+        return reverse(self.success_url)
+
+    def save_and_continue_string(self, instance):
+        return 'The transaction "{1}" was added successfully. '\
+               'You may add another {0}'.format(instance._meta.object_name,
+                                                instance)
 
     def get_my_currencies(self):
         choices = Currency.objects.all_my_currencies(self.request.user)
