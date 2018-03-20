@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-md-12 text-right">
                     <a class="btn btn-default" href="{% url 'budget:update' budget.pk %}">{% trans "Prior" %}</a>
-                    <input class="btn btn-warning" type="submit" value="Next" />
+                    <input id="btn-submit" class="btn btn-warning" type="submit" value="Next" />
                 </div>
             </div>
 
@@ -71,4 +71,13 @@
   
   <script src="{% static 'budget/modal_transaction_details.js' %}"></script>
   
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $("#btn-submit").click(function(){
+            $('body').loading({
+              stoppable: true
+            });
+        }); 
+    });
+  </script>
 {% endblock %}
