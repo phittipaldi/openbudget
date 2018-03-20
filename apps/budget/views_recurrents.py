@@ -2,7 +2,8 @@ from django.views.generic import (CreateView, ListView, UpdateView,
                                   View, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import (RecurrentTransaction, TransactionType, RecurrentShedule,
-                     DayShedule)
+                     DayShedule, SubCategory, Account)
+from apps.utils.models import Currency
 from .forms import RecurrentTransactionForm, RecurrentSheduleForm
 from django.conf import settings
 from django.urls.base import reverse
@@ -44,6 +45,11 @@ class RecurrentCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(RecurrentCreate, self).get_context_data(**kwargs)
+        context['form'].fields['currency'].queryset = self.get_my_currencies()
+        context['form'].fields['account'].queryset = self.get_my_accounts()
+        empty_query = SubCategory.objects.none()
+        context['form'].fields['category'].queryset = empty_query
+        context['form'].fields['subcategory'].queryset = empty_query
         return context
 
     def post(self, request, *args, **kwargs):
@@ -62,6 +68,14 @@ class RecurrentCreate(LoginRequiredMixin, CreateView):
         return reverse('budget:setting_recurrent_shedule',
                        kwargs={'pk': recurrent_shedule.pk})
 
+    def get_my_currencies(self):
+        choices = Currency.objects.all_my_currencies(self.request.user)
+        return choices
+
+    def get_my_accounts(self):
+        choices = Account.objects.all_my_accounts(self.request.user)
+        return choices
+
 
 class RecurrentUpdate(LoginRequiredMixin, UpdateView):
     template_name = "recurrent_trx_create.html"
@@ -71,6 +85,11 @@ class RecurrentUpdate(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(RecurrentUpdate, self).get_context_data(**kwargs)
+        context['form'].fields['account'].queryset = self.get_my_accounts()
+        context['form'].fields['currency'].queryset = self.get_my_currencies()
+        context['form'].fields[
+            'subcategory'].queryset = SubCategory.objects.filter(
+                category__id=self.get_object().subcategory.category.pk)
         context['form'].fields[
             'category'].initial = self.get_object().subcategory.category.pk
         return context
@@ -86,6 +105,14 @@ class RecurrentUpdate(LoginRequiredMixin, UpdateView):
         recurrent_shedule = self.object.shedule.all()[0]
         return reverse('budget:setting_recurrent_shedule',
                        kwargs={'pk': recurrent_shedule.pk})
+
+    def get_my_currencies(self):
+        choices = Currency.objects.all_my_currencies(self.request.user)
+        return choices
+
+    def get_my_accounts(self):
+        choices = Account.objects.all_my_accounts(self.request.user)
+        return choices
 
 
 class RecurrentSetShedule(LoginRequiredMixin, UpdateView):
