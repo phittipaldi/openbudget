@@ -4,6 +4,7 @@ from . import views_transaction as views_trx
 from . import views_reports
 from . import views_budget
 from . import views_settings
+from . import views_recurrents
 
 
 urlpatterns = [
@@ -100,5 +101,24 @@ urlpatterns = [
         name='setting_currency_update'),
     url(r'^setting/currency/delete/(?P<pk>\d+)/$',
         views_settings.SettingCurrencyDelete.as_view(),
-        name='setting_currency_delete')
+        name='setting_currency_delete'),
+
+    url(r'^setting/recurrent/$',
+        views_recurrents.RecurrentList.as_view(),
+        name='setting_recurrent'),
+    url(r'^setting/recurrent/add/$',
+        views_recurrents.RecurrentCreate.as_view(),
+        name='setting_recurrent_add'),
+    url(r'^setting/recurrent/(?P<pk>\d+)/update/$',
+        views_recurrents.RecurrentUpdate.as_view(),
+        name='setting_recurrent_update'),
+    url(r'^setting/recurrent/(?P<pk>\d+)/shedule/$',
+        views_recurrents.RecurrentSetShedule.as_view(),
+        name='setting_recurrent_shedule'),
+    url(r'recurrent/days/(?P<period_type>\d+)/json/$',
+        views_recurrents.DaySheduleView.as_view(),
+        name='setting_sheduleday_json'),
+    url(r'^setting/recurrent/(?P<pk>\d+)/delete/$',
+        views_recurrents.RecurrentDelete.as_view(),
+        name='setting_recurrent_delete'),
 ]

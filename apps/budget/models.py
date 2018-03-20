@@ -119,6 +119,44 @@ class PeriodType(models.Model):
         return self.name
 
 
+class DayShedule(models.Model):
+    period_type = models.ForeignKey(PeriodType)
+    name = models.CharField(max_length=16)
+    value = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
+
+class RecurrentTransaction(utils.CommonInfo):
+    account = models.ForeignKey(Account)
+    trx_type = models.ForeignKey(TransactionType)
+    subcategory = models.ForeignKey(SubCategory)
+    currency = models.ForeignKey(utils.Currency)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    exchange = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    place = models.CharField(max_length=128, blank=True, null=True)
+    payee = models.CharField(max_length=128, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    photo = models.FileField(upload_to='transactions', blank=True, null=True)
+    objects = managers.RecurrentsManager()
+
+    def __str__(self):
+        return "{}-{}".format(self.subcategory, self.amount)
+
+
+class RecurrentShedule(models.Model):
+    recurrent_transaction = models.ForeignKey(RecurrentTransaction,
+                                              related_name='shedule')
+    day = models.ForeignKey(DayShedule, blank=True, null=True)
+    start_posting = models.DateField(blank=True, null=True)
+
+
+class RecurrentHistory(models.Model):
+    recurrent_transaction = models.ForeignKey(RecurrentTransaction)
+    date = models.DateField()
+
+
 class BudgetYear(models.Model):
     value = models.IntegerField()
     is_active = models.BooleanField(default=True)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from apps.budget.models import (IconCategory, Category, SubCategory,
                                 AccountType, TransactionType, PeriodType,
-                                DurationFilter)
+                                DurationFilter, DayShedule)
 from apps.utils.models import Color
 from .users import create_super_user
 
@@ -16,7 +16,7 @@ def data_default_budget():
     TransactionType.objects.get_or_create(name="Income")
     TransactionType.objects.get_or_create(name="Transfer")
 
-    PeriodType.objects.get_or_create(name="Monthly", code="MONTHLY")
+    monthly = PeriodType.objects.get_or_create(name="Monthly", code="MONTHLY")[0]
 
     DurationFilter.objects.get_or_create(name="Last 30 days", value=30,
                                          is_day=True)
@@ -161,3 +161,11 @@ def data_default_budget():
     # --------OTHERS CATEGORY-----------------
     SubCategory.objects.get_or_create(category=others,
                                       name="General - Others")
+
+    # --------RECURRENT DAY SHEDULE---------------------
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='First',
+                                     value=1)
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='Last',
+                                     value='last')
