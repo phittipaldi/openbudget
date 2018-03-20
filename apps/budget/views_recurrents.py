@@ -2,7 +2,7 @@ from django.views.generic import (CreateView, ListView, UpdateView,
                                   View, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import (RecurrentTransaction, TransactionType, RecurrentShedule,
-                     DayShedule, SubCategory, Account)
+                     DayShedule, SubCategory, Account, Category)
 from apps.utils.models import Currency
 from .forms import RecurrentTransactionForm, RecurrentSheduleForm
 from django.conf import settings
@@ -87,6 +87,9 @@ class RecurrentUpdate(LoginRequiredMixin, UpdateView):
         context = super(RecurrentUpdate, self).get_context_data(**kwargs)
         context['form'].fields['account'].queryset = self.get_my_accounts()
         context['form'].fields['currency'].queryset = self.get_my_currencies()
+        context['form'].fields[
+            'category'].queryset = Category.objects.all_my_categories(
+                self.request.user)
         context['form'].fields[
             'subcategory'].queryset = SubCategory.objects.filter(
                 category__id=self.get_object().subcategory.category.pk)

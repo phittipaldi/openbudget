@@ -95,6 +95,9 @@ class TransactionUpdate(LoginRequiredMixin, UpdateView):
         context['form'].fields['currency'].queryset = self.get_my_currencies()
         context['form'].fields['account'].queryset = self.get_my_accounts()
         context['form'].fields[
+            'category'].queryset = Category.objects.all_my_categories(
+                self.request.user)
+        context['form'].fields[
             'subcategory'].queryset = SubCategory.objects.filter(
                 category__id=self.get_object().subcategory.category.pk)
         context['form'].fields[
