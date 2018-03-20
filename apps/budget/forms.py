@@ -271,6 +271,10 @@ class TransactionForm(TransactionBaseForm):
                                                          'placeholder':
                                                          'Transaction Date'}),)
 
+    def clean(self):
+        amount = self.cleaned_data.get('amount').replace(',', '')
+        self.cleaned_data['amount'] = amount
+
 
 class RecurrentSheduleBaseForm(forms.ModelForm):
 
@@ -337,7 +341,7 @@ class RecurrentTransactionForm(forms.models.ModelForm):
                              widget=forms.TextInput(attrs={'class':
                                                     "form-control",
                                                            'placeholder':
-                                                           "Amount"})
+                                                           "Amount mnk"})
                              )
 
     currency = forms.ModelChoiceField(queryset=Currency.objects.all(),
@@ -352,3 +356,7 @@ class RecurrentTransactionForm(forms.models.ModelForm):
                                                           "form-control",
                                                           'placeholder':
                                                           'Place Name'}),)
+
+    def clean(self):
+        amount = self.cleaned_data.get('amount').replace(',', '')
+        self.cleaned_data['amount'] = amount
