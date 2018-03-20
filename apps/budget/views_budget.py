@@ -64,7 +64,6 @@ class BudgetShareConfirmation(LoginRequiredMixin, UpdateView):
                                         )
 
 
-
 class BudgetShareCreate(LoginRequiredMixin, FormView):
     template_name = "budget_share_create.html"
     model = BudgetShareMember

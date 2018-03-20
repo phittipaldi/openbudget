@@ -3,8 +3,9 @@ from django import forms
 from django.forms import CheckboxSelectMultiple
 from .models import (Account, AccountType,
                      Category, SubCategory, Transaction,
-                     Budget, BudgetPeriod, PeriodType,
-                     BudgetYear, CurrencyUser, BudgetShareMember)
+                     Budget, BudgetPeriod, PeriodType, DayShedule,
+                     BudgetYear, CurrencyUser, BudgetShareMember,
+                     RecurrentTransaction, RecurrentShedule)
 from apps.utils.models import Currency
 import datetime
 
@@ -269,3 +270,93 @@ class TransactionForm(TransactionBaseForm):
                                                   "form-control datepicker",
                                                          'placeholder':
                                                          'Transaction Date'}),)
+
+    def clean(self):
+        amount = self.cleaned_data.get('amount').replace(',', '')
+        self.cleaned_data['amount'] = amount
+
+
+class RecurrentSheduleBaseForm(forms.ModelForm):
+
+    class Meta:
+        model = RecurrentShedule
+        fields = ('day', 'start_posting')
+
+
+class RecurrentSheduleForm(forms.models.ModelForm):
+
+    period_type = forms.IntegerField()
+
+    class Meta(RecurrentSheduleBaseForm.Meta):
+        fields = ('period_type',) + RecurrentSheduleBaseForm.Meta.fields
+
+    period_type = forms.ModelChoiceField(queryset=PeriodType.objects.all(),
+                                         empty_label="------------------",
+                                         widget=forms.Select(
+                                         attrs={'class': 'form-control'}))
+
+    day = forms.ModelChoiceField(queryset=DayShedule.objects.all(),
+                                 empty_label="------------------",
+                                 widget=forms.Select(
+                                 attrs={'class': 'form-control'}))
+
+    start_posting = forms.DateField(initial=datetime.date.today,
+                                    widget=forms.DateInput(attrs={
+                                        'class': 'form-control datepicker'}))
+
+
+class RecurrentBaseForm(forms.ModelForm):
+
+    class Meta:
+        model = RecurrentTransaction
+        fields = ('subcategory', 'account', 'amount', 'currency',
+                  'place')
+
+
+class RecurrentTransactionForm(forms.models.ModelForm):
+
+    category = forms.IntegerField()
+
+    class Meta(RecurrentBaseForm.Meta):
+        fields = ('account', 'category',) + RecurrentBaseForm.Meta.fields
+
+    account = forms.ModelChoiceField(queryset=Account.objects.all(),
+                                     empty_label="------------------",
+                                     widget=forms.Select(
+                                     attrs={'class': 'form-control'}))
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+                                      empty_label="------------------",
+                                      widget=forms.Select(
+                                      attrs={'class': 'form-control'}))
+
+    subcategory = forms.ModelChoiceField(queryset=SubCategory.objects.all(),
+                                         empty_label="------------------",
+                                         widget=forms.Select(
+                                         attrs={'class': 'form-control'}))
+
+    amount = forms.CharField(required=True,
+                             label="Amount",
+                             max_length=20,
+                             widget=forms.TextInput(attrs={'class':
+                                                    "form-control",
+                                                           'placeholder':
+                                                           "Amount mnk"})
+                             )
+
+    currency = forms.ModelChoiceField(queryset=Currency.objects.all(),
+                                      empty_label="------------------",
+                                      widget=forms.Select(
+                                      attrs={'class': 'form-control'}))
+
+    place = forms.CharField(required=True,
+                            label="Place",
+                            max_length=128,
+                            widget=forms.TextInput(attrs={'class':
+                                                          "form-control",
+                                                          'placeholder':
+                                                          'Place Name'}),)
+
+    def clean(self):
+        amount = self.cleaned_data.get('amount').replace(',', '')
+        self.cleaned_data['amount'] = amount
