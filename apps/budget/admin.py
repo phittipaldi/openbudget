@@ -104,3 +104,8 @@ class RecurrentAdmin(admin.ModelAdmin):
 @admin.register(models.RecurrentShedule)
 class RecurrentSheduleAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.RecurrentSheduleLine)
+class RecurrentSheduleLineAdmin(admin.ModelAdmin):
+    pass
