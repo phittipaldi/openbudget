@@ -1,13 +1,33 @@
-import string
+from celery.task.schedules import crontab
+import datetime
+from celery.decorators import periodic_task
+from celery.utils.log import get_task_logger
+from .models import RecurrentShedule
 
-from celery import shared_task
+logger = get_task_logger(__name__)
 
 
-@shared_task
-def register_amounts_budget(budget):
-    for i in range(total):
-        username = 'user_{}'.format(get_random_string(10, string.ascii_letters))
-        email = '{}@example.com'.format(username)
-        password = get_random_string(50)
-        User.objects.create_user(username=username, email=email, password=password)
-    return '{} random users created with success!'.format(total)
+@periodic_task(run_every=(crontab(minute="*/1", day_of_week="*")))
+def register_recurrent_transaction():
+    logger.info("Starting post shedule transactions)")
+    posting_pending_start_today()
+    posting_pending_for_today()
+
+    return "Registering recurrent transaction done..."
+
+
+def posting_pending_start_today():
+
+    recurrents = RecurrentShedule.objects.all_starts_today()
+
+    for recurrent in recurrents:
+        recurrent.post_transaction()
+        recurrent.set_shedule_lines()
+
+
+def posting_pending_for_today():
+
+    recurrents = RecurrentShedule.objects.all_pending_today()
+
+    for recurrent in recurrents:
+        recurrent.post_transaction()
