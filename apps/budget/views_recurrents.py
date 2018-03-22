@@ -126,6 +126,7 @@ class RecurrentSetShedule(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(RecurrentSetShedule, self).get_context_data(**kwargs)
+
         try:
             context['form'].fields[
                 'period_type'].initial = self.get_object().day.period_type.pk
@@ -135,10 +136,22 @@ class RecurrentSetShedule(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        if self.get_object().lines.count() == 0:
+            form.instance.set_next_shedule_line()
         return super(RecurrentSetShedule, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('budget:setting_recurrent')
+
+    def get_form(self, form_class=None):
+        form = super(RecurrentSetShedule, self).get_form(form_class)
+        if self.get_object().lines.count() > 0:
+            form.fields['period_type'].widget.attrs.update(
+                {'readonly': 'true'})
+            form.fields['day'].widget.attrs.update({'readonly': 'true'})
+            form.fields['start_posting'].widget.attrs.update(
+                {'readonly': 'true'})
+        return form
 
 
 class DaySheduleView(View):

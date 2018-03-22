@@ -254,8 +254,8 @@ class BudgetDetailGlobal(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         budget = Budget.objects.get(pk=kwargs.get('budget_pk'))
-        BudgetGlobal(budget, request.POST).register_amounts()
-        # BudgetGlobalThread(budget, request.POST).start()
+        BudgetGlobal(budget, request.POST).register_first_amounts()
+        BudgetGlobalThread(budget, request.POST).start()
         return HttpResponseRedirect(reverse('budget:detail',
                                     kwargs={'pk': kwargs.get('budget_pk')}))
 
@@ -318,10 +318,9 @@ class BudgetGlobal(BudgetGlobalAmount):
         BudgetGlobalAmount.__init__(self, budget)
         self.postlist = postlist
 
-    def register_amounts(self):
+    def register_first_amounts(self):
 
-        for period in self.budget.periods.all():
-
+        for period in self.budget.periods.all()[:1]:
             if len(period.details.all()) == 0:
                 self.set_lines_budget(period)
 

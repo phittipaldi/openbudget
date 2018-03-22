@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from apps.budget import managers
 from django.db.models import signals
 import uuid
+from apps.budget.services import RecurrentSheduleService, SheduleLineService
 
 
 class CurrencyUser(utils.CommonInfo):
@@ -145,11 +146,25 @@ class RecurrentTransaction(utils.CommonInfo):
         return "{}-{}".format(self.subcategory, self.amount)
 
 
-class RecurrentShedule(models.Model):
+class RecurrentShedule(models.Model, RecurrentSheduleService):
     recurrent_transaction = models.ForeignKey(RecurrentTransaction,
                                               related_name='shedule')
     day = models.ForeignKey(DayShedule, blank=True, null=True)
     start_posting = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return "{}".format(self.day)
+
+
+class RecurrentSheduleLine(models.Model, SheduleLineService):
+    shedule = models.ForeignKey(RecurrentShedule,
+                                related_name='lines')
+    et_date = models.DateField()
+    log_post_date = models.DateField(blank=True, null=True)
+    objects = managers.SheduleLineManager()
+
+    def __str__(self):
+        return "{}".format(self.et_date)
 
 
 class RecurrentHistory(models.Model):
