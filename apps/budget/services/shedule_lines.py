@@ -1,17 +1,15 @@
-# from apps.budget.models import Transaction
-
-
 class SheduleLineService(object):
 
     def post_transaction(self):
-        pass
-        # Transaction.objects.create(
-        #     account=self.recurrent.account,
-        #     trx_type=self.recurrent.trx_type,
-        #     subcategory=self.recurrent.subcategory,
-        #     currency=self.recurrent.currency,
-        #     amount=self.recurrent.amount,
-        #     exchange=1,
-        #     place=self.recurrent.place,
-        #     date=self.et_date,
-        #     user_insert=self.recurrent.account.user_insert)
+        from apps.budget.models import Transaction
+
+        Transaction.objects.create(
+            account=self.shedule.recurrent_transaction.account,
+            trx_type=self.shedule.recurrent_transaction.trx_type,
+            subcategory=self.shedule.recurrent_transaction.subcategory,
+            currency=self.shedule.recurrent_transaction.currency,
+            amount=self.shedule.recurrent_transaction.amount,
+            exchange=1,
+            place=self.shedule.recurrent_transaction.place,
+            date=self.et_date,
+            user_insert=self.shedule.recurrent_transaction.account.user_insert)

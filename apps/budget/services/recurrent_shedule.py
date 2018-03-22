@@ -13,8 +13,8 @@ class RecurrentSheduleService(object):
                 et_date=self.start_posting
             )
         else:
-            last_shedule_line = self.lines.all()[-1]
+            last_shedule_line = self.lines.all().last()
             next_date = last_shedule_line.et_date + (
                 relativedelta(months=1))
-            self.shedule_lines.create(
+            self.lines.create(
                 et_date=next_date)

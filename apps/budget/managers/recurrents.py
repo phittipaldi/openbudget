@@ -7,8 +7,10 @@ class RecurrentsManager(models.Manager):
     def all_my_recurrents(self, owner):
         return self.filter(user_insert__in=[owner])
 
-    def all_starts_today(self):
 
+class SheduleLineManager(models.Manager):
+
+    def all_recurrents_pending(self):
         return self.filter(
-            is_pending=True,
-            start_posting__lte=datetime.date.today())
+            et_date__lte=datetime.date.today(),
+            log_post_date__isnull=True)
