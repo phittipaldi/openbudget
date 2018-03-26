@@ -7,7 +7,7 @@ from .models import RecurrentSheduleLine
 logger = get_task_logger(__name__)
 
 
-@periodic_task(run_every=(crontab(minute="*/1", day_of_week="*")))
+@periodic_task(run_every=(crontab(minute=0, hour='*/3', day_of_week="*")))
 def register_recurrent_transaction():
 
     logger.info("Starting post shedule transactions)")
