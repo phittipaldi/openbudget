@@ -8,7 +8,8 @@ from django.views.generic.edit import (CreateView, View, UpdateView,
 from django.http.response import JsonResponse
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .models import (Transaction, Account, SubCategory,
-                     TransactionType, DurationFilter, Category)
+                     TransactionType, DurationFilter, Category,
+                     CurrencyUser)
 from .forms import TransactionForm
 from apps.utils.models import Currency
 
@@ -55,6 +56,9 @@ class TransactionAdd(LoginRequiredMixin, CreateView):
         form.instance.user_insert = self.request.user
         form.instance.trx_type = TransactionType.objects.get(pk=1)
         form.instance.exchange = 1
+        if form.instance.currency != form.instance.account.currency:
+            form.instance = self.set_amounts_account(
+                form.instance)
         form.save()
 
         if "_continue" in self.request.POST:
@@ -83,6 +87,17 @@ class TransactionAdd(LoginRequiredMixin, CreateView):
         choices = Account.objects.all_my_accounts(self.request.user)
         return choices
 
+    def set_amounts_account(self, transaction):
+        # conocer la moneda de la transaccion
+        currency_user = CurrencyUser.objects.get(
+            currency__pk=transaction.currency.pk,
+            owner__pk=transaction.user_insert.pk)
+        # conocer la tasa de cambio
+        rate = currency_user.inverse_ratio
+        transaction.amount_account = transaction.amount * rate
+        transaction.exchange = rate
+        return transaction
+
 
 class TransactionUpdate(LoginRequiredMixin, UpdateView):
     template_name = "transaction_update.html"
@@ -106,6 +121,9 @@ class TransactionUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user_update = self.request.user
+        if form.instance.currency != form.instance.account.currency:
+            form.instance = self.set_amounts_account(
+                form.instance)
         form.save()
         return super(TransactionUpdate, self).form_valid(form)
 
@@ -122,6 +140,17 @@ class TransactionUpdate(LoginRequiredMixin, UpdateView):
     def get_my_accounts(self):
         choices = Account.objects.all_my_accounts(self.request.user)
         return choices
+
+    def set_amounts_account(self, transaction):
+        # conocer la moneda de la transaccion
+        currency_user = CurrencyUser.objects.get(
+            currency__pk=transaction.currency.pk,
+            owner__pk=transaction.user_insert.pk)
+        # conocer la tasa de cambio
+        rate = currency_user.inverse_ratio
+        transaction.amount_account = transaction.amount * rate
+        transaction.exchange = rate
+        return transaction
 
 
 class TransactionDelete(LoginRequiredMixin, DeleteView):

@@ -57,8 +57,11 @@
 {% block extra_js %}
   <script>
   $( function() {
-    $( ".datepicker" ).datepicker();
-  } );
+      
+      $('.datepicker').Zebra_DatePicker({
+      });
+
+    });
   </script>
     <script type="text/javascript" src="{% static 'budget/shedule_days_filter.js' %}"></script>
 {% endblock %}

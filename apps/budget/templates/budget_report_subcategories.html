@@ -8,7 +8,7 @@
  <div class="card">
 
     <div class="header">
-        <h4 class="title">{{category}}</h4>
+        <h4 class="title">{{category}} / {{budget.currency}}</h4>
         <p class="category">{{period.description}}</p>
     </div>
     
@@ -29,9 +29,9 @@
                                 {{transaction.subcategory}}<br>
 
                             </td>
-                            <td>{{transaction.budgeted|intcomma}}</td>
+                            <td>{{transaction.budgeted|intcomma}}&nbsp;{{transaction.account.currency.name}}</td>
                             <td><a href="{% url 'budget:report_details' transaction.subcategory.pk transaction.period.pk %}" class="show-details">{{transaction.activity|intcomma}}</a></td>
-                            <td>{{transaction.available|intcomma}}</td>
+                            <td>{{transaction.available|intcomma}}&nbsp;{{transaction.account.currency.name}}</td>
                         </tr>
                     {% endfor %} 
                 </tbody>

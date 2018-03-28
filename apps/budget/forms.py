@@ -86,7 +86,7 @@ class BudgetForm(forms.models.ModelForm):
 
     class Meta:
         model = Budget
-        fields = ('name', 'year', 'period_type', 'accounts')
+        fields = ('name', 'year', 'period_type', 'currency', 'accounts')
 
     name = forms.CharField(required=True,
                            label="Name",
@@ -105,6 +105,11 @@ class BudgetForm(forms.models.ModelForm):
                                          empty_label="------------------",
                                          widget=forms.Select(
                                          attrs={'class': 'form-control'}))
+
+    currency = forms.ModelChoiceField(queryset=Currency.objects.all(),
+                                      empty_label="------------------",
+                                      widget=forms.Select(
+                                      attrs={'class': 'form-control'}))
 
     accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all(),
                                               widget=CheckboxSelectMultiple,
