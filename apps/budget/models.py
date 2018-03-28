@@ -98,6 +98,7 @@ class Transaction(utils.CommonInfo):
     note = models.TextField(blank=True, null=True)
     photo = models.FileField(upload_to='transactions', blank=True, null=True)
     date = models.DateTimeField()
+    amount_account = models.DecimalField(max_digits=10, decimal_places=2)
     objects = managers.TransactionManager()
 
     def __str__(self):
@@ -186,6 +187,7 @@ class Budget(utils.CommonInfo):
     period_type = models.ForeignKey(PeriodType)
     accounts = models.ManyToManyField(Account)
     owners = models.ManyToManyField(User, blank=True)
+    currency = models.ForeignKey(utils.Currency, blank=True, null=True)
     objects = managers.BudgetManager()
 
     def __str__(self):

@@ -2,11 +2,12 @@ from django.urls.base import reverse
 from django.conf import settings
 from django.http import Http404
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, View
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .models import Account, AccountType
 from .forms import AccountTransactionForm, AccountTransactionUpdateForm
 from apps.utils.models import Currency
+from django.http.response import JsonResponse
 
 
 class AccountList(LoginRequiredMixin, ListView):
@@ -89,3 +90,18 @@ class AccountDelete(LoginRequiredMixin, DeleteView):
                                  self.request.user]).count():
             raise Http404
         return obj
+
+
+class AccountView(View):
+    model = Account
+
+    def get(self, request, *args, **kwargs):
+
+        objects = self.model.objects.all_my_accounts_currency(
+            request.user, self.kwargs.get('currency_pk'))
+
+        result = []
+        for i in objects:
+            result.append({"id": i.pk, "name": i.name})
+
+        return JsonResponse(result, safe=False)

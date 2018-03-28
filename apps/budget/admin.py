@@ -86,6 +86,11 @@ class TransactionTypeAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(models.Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.CurrencyUser)
 class CurrencyUserAdmin(admin.ModelAdmin):
     pass

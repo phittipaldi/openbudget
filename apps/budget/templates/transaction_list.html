@@ -43,7 +43,12 @@
                             </td>
                             <td>{{transaction.place}}</td>
                             <td>{{transaction.date_display}}</td>
-                            <td>{{transaction.amount|intcomma}}&nbsp;{{transaction.currency}}</td>
+                            <td>
+                                {{transaction.amount|intcomma}}&nbsp;{{transaction.currency.name}}
+                                {% if transaction.account.currency.pk != transaction.currency.pk %}
+                                    <br><small>{{transaction.amount_account}} &nbsp; {{transaction.account.currency.name}}</small>
+                                {% endif %}
+                            </td>
                             <td class="td-actions text-center">
                                 <a id="link-update-{{transaction.pk}}" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Edit Transaction" href="{% url 'budget:transaction_update' transaction.pk %}">
                                     <i class="fa fa-edit"></i>

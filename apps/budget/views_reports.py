@@ -38,12 +38,16 @@ class BudgetReport(FormView):
         data = self.filter_data(budget, period)
         context = self.get_context_data(
             object_list=data, budget=budget, period=period, form=form)
+        context['form'].fields[
+            'period'].queryset = models.BudgetPeriod.objects.filter(
+            budget__pk=budget.pk)
         return self.render_to_response(context)
 
     def filter_data(self, budget, period):
         data = []
         details = period.details.values(
-            'subcategory__category').annotate(amount=Sum('amount'))
+            'subcategory__category').annotate(
+            amount=Sum('amount'))
         for detail in details.all():
             category = models.Category.objects.get(
                 pk=detail['subcategory__category'])
@@ -88,10 +92,10 @@ class BudgetData:
         data = models.Transaction.objects.filter(**filter_data)
         data = data.values(
             'subcategory__category').annotate(
-            amount=Sum('amount'))
+            amount_account=Sum('amount_account'))
 
         if len(data) > 0:
-            return data[0]['amount']
+            return data[0]['amount_account']
         else:
             return 0
 
@@ -153,10 +157,10 @@ class BudgetSubData:
         data = models.Transaction.objects.filter(**filter_data)
         data = data.values(
             'subcategory').annotate(
-            amount=Sum('amount'))
+            amount_account=Sum('amount_account'))
 
         if len(data) > 0:
-            return data[0]['amount']
+            return data[0]['amount_account']
         else:
             return 0
 

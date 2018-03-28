@@ -14,6 +14,8 @@ urlpatterns = [
         name='account_update'),
     url(r'accounts/_delete/(?P<pk>\d+)/$', views.AccountDelete.as_view(),
         name='account_delete'),
+    url(r'accounts/(?P<currency_pk>\d+)/json/$', views.AccountView.as_view(),
+        name='accounts_x_currency'),
 
     url(r'^$', views_budget.BudgetList.as_view(),
         name='list'),

@@ -12,7 +12,7 @@
             <div class="content table-responsive table-full-width">
                 <table id="id_list_table" class="table table-hover table-striped">
                  <thead>
-                    <tr role="row"><th>Name</th><th>Year</th><th>Period Type</th>
+                    <tr role="row"><th>Name</th><th>Currency</th><th>Year</th><th>Period Type</th>
                     <th>Created By</th><th class="text-center">Action</th></tr>
                 </thead>
                 <tbody>
@@ -24,6 +24,7 @@
                             {% endif %}
                             {{budget.name}}
                             </td>
+                            <td>{{budget.currency}}</td>
                             <td>{{budget.year}}</td>
                             <td>{{budget.period_type}}</td>
                             <td>{{budget.user_insert}}</td>

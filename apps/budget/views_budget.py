@@ -9,10 +9,12 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from .forms import BudgetForm, BudgetShareForm, ShareConfirmationForm
 from .models import (Budget, Category, BudgetLine, BudgetPeriod,
-                     BudgetShareMember, BudgetShareStatus, CurrencyUser)
+                     BudgetShareMember, BudgetShareStatus, CurrencyUser,
+                     Account)
 import threading
 from django.db.models import Sum
 from apps.utils.services import mail
+from apps.utils.models import Currency
 from django.conf import settings
 from django.template.loader import render_to_string
 
@@ -207,6 +209,9 @@ class BudgetCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(BudgetCreate, self).get_context_data(**kwargs)
+        context['form'].fields['currency'].queryset = self.get_my_currencies()
+        empty_query = CurrencyUser.objects.none()
+        context['form'].fields['accounts'].queryset = empty_query
         return context
 
     def form_valid(self, form):
@@ -217,6 +222,10 @@ class BudgetCreate(LoginRequiredMixin, CreateView):
             reverse('budget:budget_global_details',
                     kwargs={'budget_pk': form.instance.pk}))
 
+    def get_my_currencies(self):
+        choices = Currency.objects.all_my_currencies(self.request.user)
+        return choices
+
 
 class BudgetUpdate(LoginRequiredMixin, UpdateView):
     template_name = "budget_create.html"
@@ -226,10 +235,13 @@ class BudgetUpdate(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(BudgetUpdate, self).get_context_data(**kwargs)
+        context['form'].fields['currency'].queryset = self.get_my_currencies()
+        context['form'].fields['accounts'].queryset = self.get_my_accounts()
         return context
 
     def form_valid(self, form):
         form.instance.user_insert = self.request.user
+        self.remove_accounts_not_corresponding(form.instance)
         form.save()
         return HttpResponseRedirect(
             reverse('budget:budget_global_details',
@@ -241,6 +253,25 @@ class BudgetUpdate(LoginRequiredMixin, UpdateView):
         if not obj.user_insert == self.request.user:
             raise Http404
         return obj
+
+    def get_my_currencies(self):
+        choices = Currency.objects.all_my_currencies(self.request.user)
+        return choices
+
+    def get_my_accounts(self):
+        budget = self.get_object()
+        choices = Account.objects.all_my_accounts_currency(
+            self.request.user, budget.currency.pk)
+        return choices
+
+    def remove_accounts_not_corresponding(self, budget):
+        accounts = budget.accounts.filter().exclude(
+            currency__pk=budget.currency.pk)
+
+        for account in accounts:
+            budget.accounts.remove(account)
+
+        budget.save()
 
 
 class BudgetDetailGlobal(LoginRequiredMixin, ListView):
