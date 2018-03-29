@@ -35,7 +35,7 @@ class Currency(CommonInfo):
 
 
 class CurrencyRate(models.Model):
-    source = models.ForeignKey(Currency)
+    source = models.ForeignKey(Currency, related_name='rate')
 
     def __str__(self):
         return self.source.name
