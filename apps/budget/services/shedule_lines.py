@@ -9,6 +9,7 @@ class SheduleLineService(object):
             subcategory=self.shedule.recurrent_transaction.subcategory,
             currency=self.shedule.recurrent_transaction.currency,
             amount=self.shedule.recurrent_transaction.amount,
+            amount_account=self.shedule.recurrent_transaction.amount,
             exchange=1,
             place=self.shedule.recurrent_transaction.place,
             date=self.et_date,
