@@ -54,6 +54,7 @@ class TransactionAdd(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user_insert = self.request.user
+        form.instance.amount_account = form.instance.amount
         form.instance.trx_type = TransactionType.objects.get(pk=1)
         form.instance.exchange = 1
         if form.instance.currency != form.instance.account.currency:

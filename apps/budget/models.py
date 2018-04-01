@@ -98,7 +98,8 @@ class Transaction(utils.CommonInfo):
     note = models.TextField(blank=True, null=True)
     photo = models.FileField(upload_to='transactions', blank=True, null=True)
     date = models.DateTimeField()
-    amount_account = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_account = models.DecimalField(max_digits=10, decimal_places=2,
+                                         blank=True, null=True)
     objects = managers.TransactionManager()
 
     def __str__(self):
