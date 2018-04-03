@@ -28,6 +28,7 @@
                         <th>{% trans "Category" %}</th>
                         <th>{% trans "Place" %}</th>
                         <th>{% trans "Shedule" %}</th>
+                        <th>{% trans "Next Post" %}</th>
                         <th>{% trans "Amount" %}</th>
                         <th class="text-center">{% trans "Action" %}</th>
                     </tr>
@@ -43,6 +44,7 @@
                                 {{object.place}}
                             </td>
                             <td>{{object.shedule_display}}</td>
+                            <td>{{object.display_next_shedule|naturalday}}</td>
                             <td>
                                 {{object.amount|intcomma}}
                             </td>
