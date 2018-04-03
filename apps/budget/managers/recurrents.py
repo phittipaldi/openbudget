@@ -5,7 +5,7 @@ import datetime
 class RecurrentsManager(models.Manager):
 
     def all_my_recurrents(self, owner):
-        return self.filter(user_insert__in=[owner])
+        return self.filter(account__owners__in=[owner])
 
 
 class SheduleLineManager(models.Manager):
