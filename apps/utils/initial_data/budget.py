@@ -166,6 +166,43 @@ def data_default_budget():
     DayShedule.objects.get_or_create(period_type=monthly,
                                      name='First',
                                      value=1)
+
     DayShedule.objects.get_or_create(period_type=monthly,
                                      name='Last',
                                      value='last')
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='2nd',
+                                     value=2)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='3rd',
+                                     value=3)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='4th',
+                                     value=4)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='5th',
+                                     value=5)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='10th',
+                                     value=10)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='15th',
+                                     value=15)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='20th',
+                                     value=20)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='25th',
+                                     value=25)
+
+    DayShedule.objects.get_or_create(period_type=monthly,
+                                     name='30th',
+                                     value=30)
