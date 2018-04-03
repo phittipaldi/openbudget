@@ -151,6 +151,12 @@ class RecurrentTransaction(utils.CommonInfo):
     def shedule_display(self):
         return self.shedule.all()[0]
 
+    @property
+    def display_next_shedule(self):
+        shedule = self.shedule.all()[0]
+        value = shedule.lines.all().last()
+        return value
+
 
 class RecurrentShedule(models.Model, RecurrentSheduleService):
     recurrent_transaction = models.ForeignKey(RecurrentTransaction,
