@@ -96,3 +96,11 @@ class TransactionFactory(factory.django.DjangoModelFactory):
     place = 'Supermercado Nacional'
     user_insert = factory.SubFactory(UserFactory)
     date = datetime.now()
+
+
+class PeriodTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = 'budget.PeriodType'
+
+    name = 'Last'
+    value = 'last_day'

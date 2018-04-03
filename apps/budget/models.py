@@ -147,6 +147,10 @@ class RecurrentTransaction(utils.CommonInfo):
     def __str__(self):
         return "{}-{}".format(self.subcategory, self.amount)
 
+    @property
+    def shedule_display(self):
+        return self.shedule.all()[0]
+
 
 class RecurrentShedule(models.Model, RecurrentSheduleService):
     recurrent_transaction = models.ForeignKey(RecurrentTransaction,
@@ -155,7 +159,7 @@ class RecurrentShedule(models.Model, RecurrentSheduleService):
     start_posting = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return "{}".format(self.day)
+        return "{}/{}".format(self.day.name, self.day.period_type)
 
 
 class RecurrentSheduleLine(models.Model, SheduleLineService):

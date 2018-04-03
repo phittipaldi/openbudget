@@ -21,6 +21,7 @@ def register_recurrent_transaction():
         recurrent.log_post_date = datetime.date.today()
         recurrent.save()
         recurrent.shedule.set_next_shedule_line()
+        logger.info("recurrent #" + recurrent.pk)
 
     return "Registering recurrent transaction done..."
 
