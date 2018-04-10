@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from apps.budget.models import (IconCategory, Category, SubCategory,
                                 AccountType, TransactionType, PeriodType,
-                                DurationFilter, DayShedule)
+                                DurationFilter, DayShedule, Bank, TemplateFile)
 from apps.utils.models import Color
 from .users import create_super_user
 
@@ -206,3 +206,22 @@ def data_default_budget():
     DayShedule.objects.get_or_create(period_type=monthly,
                                      name='30th',
                                      value=30)
+
+    # --------------TEMPLATE BANKING ACCOUNT ---------------------
+    bank = Bank.objects.objects.get_or_create(name='Banco Popular Dominicano',
+                                              country='Dominican Republic',
+                                              is_active=True)[0]
+
+    TemplateFile.objects.get_or_create(bank=bank,
+                                       field_pos_date=1,
+                                       field_pos_amount=3,
+                                       field_pos_description=5,
+                                       field_pos_trans_type=4)
+
+
+    # field_post_trans_type = models.IntegerField(default=0)
+    # format_date = models.ForeignKey(FormatDate)
+    # file_type = models.ForeignKey(FileType)
+    # spend_char = models.CharField(max_length=5, blank=True, null=True)
+    # income_char = models.CharField(max_length=5, blank=True, null=True)
+    # split_char = models.CharField(max_length=1, blank=True, null=True)
