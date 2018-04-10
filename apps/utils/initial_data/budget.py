@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from apps.budget.models import (IconCategory, Category, SubCategory,
                                 AccountType, TransactionType, PeriodType,
-                                DurationFilter, DayShedule, Bank, TemplateFile)
+                                DurationFilter, DayShedule, Bank, TemplateFile,
+                                FormatDate, FileType)
 from apps.utils.models import Color
 from .users import create_super_user
 
@@ -208,20 +209,28 @@ def data_default_budget():
                                      value=30)
 
     # --------------TEMPLATE BANKING ACCOUNT ---------------------
-    bank = Bank.objects.objects.get_or_create(name='Banco Popular Dominicano',
-                                              country='Dominican Republic',
-                                              is_active=True)[0]
+    bank = Bank.objects.get_or_create(name='Banco Popular Dominicano',
+                                      country='Dominican Republic',
+                                      is_active=True,
+                                      user_insert=user)[0]
+
+    fdate = FormatDate.objects.get_or_create(name='ddmm',
+                                             pos_day=0,
+                                             pos_month=1,
+                                             pos_year=2,
+                                             split_char='/')
+
+    file_type = FileType.objects.get_or_create(name='Text File',
+                                               extention='txt')[0]
 
     TemplateFile.objects.get_or_create(bank=bank,
                                        field_pos_date=1,
                                        field_pos_amount=3,
                                        field_pos_description=5,
-                                       field_pos_trans_type=4)
-
-
-    # field_post_trans_type = models.IntegerField(default=0)
-    # format_date = models.ForeignKey(FormatDate)
-    # file_type = models.ForeignKey(FileType)
-    # spend_char = models.CharField(max_length=5, blank=True, null=True)
-    # income_char = models.CharField(max_length=5, blank=True, null=True)
-    # split_char = models.CharField(max_length=1, blank=True, null=True)
+                                       field_pos_trans_type=4,
+                                       format_date=fdate,
+                                       file_type=file_type,
+                                       spend_char='CR',
+                                       income_char='DB',
+                                       split_char=','
+                                       )
