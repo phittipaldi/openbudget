@@ -4,7 +4,18 @@ from django.contrib.auth.models import User
 from apps.budget import managers
 from django.db.models import signals
 import uuid
-from apps.budget.services import RecurrentSheduleService, SheduleLineService
+from apps.budget.services import (RecurrentSheduleService, SheduleLineService,
+                                  TransactionFileService)
+
+
+class Bank(utils.CommonInfo):
+    name = models.CharField(max_length=64)
+    country = models.CharField(max_length=120)
+    is_active = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='banks', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class CurrencyUser(utils.CommonInfo):
@@ -44,6 +55,7 @@ class Account(utils.CommonInfo):
     currency = models.ForeignKey(utils.Currency)
     color = models.ForeignKey(utils.Color, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+    bank = models.ForeignKey(Bank, blank=True, null=True)
     objects = managers.AccountManager()
 
     def __str__(self):
@@ -253,6 +265,71 @@ class DurationFilter(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class FormatDate(models.Model):
+    name = models.CharField(max_length=64)
+    pos_day = models.IntegerField(default=0)
+    pos_month = models.IntegerField(default=0)
+    pos_year = models.IntegerField(default=0)
+    has_year = models.BooleanField(default=False)
+    split_char = models.CharField(max_length=1, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class FileType(models.Model):
+    name = models.CharField(max_length=32)
+    extention = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.name
+
+
+class TemplateFile(models.Model, TransactionFileService):
+    bank = models.ForeignKey(Bank)
+    field_pos_date = models.IntegerField(default=0)
+    field_pos_amount = models.IntegerField(default=0)
+    field_pos_description = models.IntegerField(default=0)
+    field_pos_trans_type = models.IntegerField(default=0)
+    format_date = models.ForeignKey(FormatDate)
+    file_type = models.ForeignKey(FileType)
+    spend_char = models.CharField(max_length=5, blank=True, null=True)
+    income_char = models.CharField(max_length=5, blank=True, null=True)
+    split_char = models.CharField(max_length=1, blank=True, null=True)
+
+    def __str__(self):
+        return "{}/{}".format(self.bank, self.file_type)
+
+
+class TransactionUploaded(utils.CommonInfo):
+    account = models.ForeignKey(Account)
+    description = models.CharField(max_length=128)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateTimeField()
+    verified = models.BooleanField(default=False)
+    trx_type = models.ForeignKey(TransactionType)
+    subcategory = models.ForeignKey(SubCategory, blank=True, null=True)
+
+    def __str__(self):
+        return "{}/{}".format(self.account, self.description)
+
+    @property
+    def date_display(self):
+        return self.date.strftime('%b/%d/%Y')
+
+    @property
+    def date_format(self):
+        return self.date.strftime('%m/%d/%Y')
+
+
+class SubcategoryByDescription(utils.CommonInfo):
+    description = models.CharField(max_length=128)
+    subcategory = models.ForeignKey(SubCategory)
+
+    def __str__(self):
+        return "{}/{}".format(self.subcategory, self.description)
 
 
 def get_inverse_ratio_desc(currency_user):

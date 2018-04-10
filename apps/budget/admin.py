@@ -114,3 +114,28 @@ class RecurrentSheduleAdmin(admin.ModelAdmin):
 @admin.register(models.RecurrentSheduleLine)
 class RecurrentSheduleLineAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.Bank)
+class bankAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.TemplateFile)
+class TemplateFileAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.FileType)
+class FileTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.FormatDate)
+class FormatDateAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.TransactionUploaded)
+class TransactionUploadAdmin(admin.ModelAdmin):
+    pass

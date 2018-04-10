@@ -5,6 +5,7 @@ from . import views_reports
 from . import views_budget
 from . import views_settings
 from . import views_recurrents
+from . import views_file
 
 
 urlpatterns = [
@@ -16,6 +17,16 @@ urlpatterns = [
         name='account_delete'),
     url(r'accounts/(?P<currency_pk>\d+)/json/$', views.AccountView.as_view(),
         name='accounts_x_currency'),
+
+    url(r'^accounts/sync_file/(?P<account_pk>\d+)/$',
+        views_file.ImportTransaction.as_view(),
+        name='accounts_sync_file'),
+    url(r'^post_transactions_uploaded/$',
+        views_file.PostTransactionUploaded.as_view(),
+        name='post_transactions_uploaded'),
+    url(r'^update/transaction_uploaded/(?P<pk>\d+)/$',
+        views_file.UpdateUploadTransaction.as_view(),
+        name='update_transactions_uploaded'),
 
     url(r'^$', views_budget.BudgetList.as_view(),
         name='list'),
@@ -123,4 +134,6 @@ urlpatterns = [
     url(r'^setting/recurrent/(?P<pk>\d+)/delete/$',
         views_recurrents.RecurrentDelete.as_view(),
         name='setting_recurrent_delete'),
+
+
 ]

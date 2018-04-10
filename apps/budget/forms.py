@@ -5,7 +5,8 @@ from .models import (Account, AccountType,
                      Category, SubCategory, Transaction,
                      Budget, BudgetPeriod, PeriodType, DayShedule,
                      BudgetYear, CurrencyUser, BudgetShareMember,
-                     RecurrentTransaction, RecurrentShedule)
+                     RecurrentTransaction, RecurrentShedule, TemplateFile,
+                     TransactionUploaded)
 from apps.utils.models import Currency
 import datetime
 
@@ -136,6 +137,43 @@ class BudgetShareForm(forms.Form):
         label="Email",
         widget=forms.TextInput(attrs={'class': 'form-control',
                                       'placeholder': 'Email'}))
+
+
+class ImportTransactionForm(forms.Form):
+
+    template_file = forms.ModelChoiceField(queryset=TemplateFile.objects.all(),
+                                           empty_label="------------------",
+                                           widget=forms.Select(
+                                           attrs={'class': 'form-control'}))
+
+    account = forms.IntegerField(widget=forms.HiddenInput())
+
+    file = forms.FileField()
+
+
+class UploadTransactionBaseForm(forms.ModelForm):
+
+    class Meta:
+        model = TransactionUploaded
+        fields = ('subcategory',)
+
+
+class UploadedTransactionForm(forms.models.ModelForm):
+
+    category = forms.IntegerField()
+
+    class Meta(UploadTransactionBaseForm.Meta):
+        fields = ('category',) + UploadTransactionBaseForm.Meta.fields
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+                                      empty_label="------------------",
+                                      widget=forms.Select(
+                                      attrs={'class': 'form-control'}))
+
+    subcategory = forms.ModelChoiceField(queryset=SubCategory.objects.all(),
+                                         empty_label="------------------",
+                                         widget=forms.Select(
+                                         attrs={'class': 'form-control js-example-basic-single'}))
 
 
 class ShareConfirmationForm(forms.models.ModelForm):

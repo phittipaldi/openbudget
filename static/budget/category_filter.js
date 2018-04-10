@@ -50,4 +50,10 @@ $(function() {
 
     account_filter()
     category_filter()
+
+
+    $('#modal-import-file').on('show.bs.modal', function () {
+          category_filter()
+      })
+
 });
