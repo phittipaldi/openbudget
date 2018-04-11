@@ -293,6 +293,7 @@ class TemplateFile(models.Model, TransactionFileService):
     field_pos_amount = models.IntegerField(default=0)
     field_pos_description = models.IntegerField(default=0)
     field_pos_trans_type = models.IntegerField(default=0)
+    field_pos_reference = models.IntegerField(default=0)
     format_date = models.ForeignKey(FormatDate)
     file_type = models.ForeignKey(FileType)
     spend_char = models.CharField(max_length=5, blank=True, null=True)
@@ -311,6 +312,7 @@ class TransactionUploaded(utils.CommonInfo):
     verified = models.BooleanField(default=False)
     trx_type = models.ForeignKey(TransactionType)
     subcategory = models.ForeignKey(SubCategory, blank=True, null=True)
+    reference = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         return "{}/{}".format(self.account, self.description)

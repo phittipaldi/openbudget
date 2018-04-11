@@ -218,7 +218,7 @@ def data_default_budget():
                                              pos_day=0,
                                              pos_month=1,
                                              pos_year=2,
-                                             split_char='/')
+                                             split_char='/')[0]
 
     file_type = FileType.objects.get_or_create(name='Text File',
                                                extention='txt')[0]

@@ -15,29 +15,31 @@ class TransactionFileService(object):
             self.process_txt(file, account, user_insert)
 
     def process_txt(self, file, account, user_insert):
-
         for line in file:
             try:
                 fields = line.split(self.split_char)
                 date_v = self.set_date(fields[self.field_pos_date])
                 amount_v = self.set_amount(fields[self.field_pos_amount])
                 descrip_v = fields[self.field_pos_description]
+                reference_v = fields[self.field_pos_reference]
                 subcategory = self.set_category(descrip_v, user_insert)
                 trx_type_v = self.set_trx_type(
                     fields[self.field_pos_trans_type])
 
                 if trx_type_v.name == "Expense":
-                    self.model.TransactionUploaded.objects.create(
+
+                    self.model.TransactionUploaded.objects.get_or_create(
                         account=account,
                         description=descrip_v,
+                        reference=reference_v,
                         amount=amount_v,
                         date=date_v,
                         trx_type=trx_type_v,
                         subcategory=subcategory,
                         user_insert=user_insert
                     )
-            except Exception:
-                pass
+            except Exception as e:
+                print(e)
 
     def set_date(self, date_value):
 
@@ -80,7 +82,7 @@ class TransactionFileService(object):
             user_insert=user_insert
         )
         if categories:
-            category = categories[-1]
+            category = categories.last().subcategory
         else:
             category = self.model.SubCategory.objects.get(
                 name='General - Others',
