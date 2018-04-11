@@ -27,6 +27,9 @@ urlpatterns = [
     url(r'^update/transaction_uploaded/(?P<pk>\d+)/$',
         views_file.UpdateUploadTransaction.as_view(),
         name='update_transactions_uploaded'),
+    url(r'delete/transaction_deleted/(?P<pk>\d+)/$',
+        views_file.DeleteUploadTransaction.as_view(),
+        name='delete_transaction_uploaded'),
 
     url(r'^$', views_budget.BudgetList.as_view(),
         name='list'),
