@@ -175,14 +175,16 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-DEFAULT_FROM_EMAIL = "no-reply@getopenbudget.com"
-
-# EMAIL_HOST = 'smtp.sendgrid.net'
+DEFAULT_FROM_EMAIL = "noreply@mg.getopenbudget.com"
 EMAIL_HOST = 'smtp.mailgun.org'
-# EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_USER = 'noreply@mg.getopenbudget.com'
-EMAIL_HOST_PASSWORD = get_env_variable('APIKEY_MAIL')
+EMAIL_HOST_PASSWORD = get_env_variable('MGKEY_MAIL')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 CELERY_BROKER_URL = 'amqp://localhost'
+
+# DEFAULT_FROM_EMAIL = "no-reply@getopenbudget.com"
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_HOST_USER = 'apikey'
+# EMAIL_HOST_PASSWORD = get_env_variable('APIKEY_MAIL')
