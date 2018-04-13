@@ -1,9 +1,27 @@
 from django.contrib.auth.mixins import (LoginRequiredMixin)
-from django.views.generic import FormView, RedirectView, UpdateView
+from django.http import Http404
+from django.views.generic import FormView, RedirectView, UpdateView, DeleteView
 from django.http.response import HttpResponseForbidden
 from .forms import ImportTransactionForm, UploadedTransactionForm
 from . import models
 from django.urls import reverse
+
+
+class DeleteUploadTransaction(LoginRequiredMixin, DeleteView):
+    template_name = 'upload_transaction_delete.html'
+    model = models.TransactionUploaded
+
+    def get_success_url(self):
+        return reverse('budget:accounts_sync_file',
+                       kwargs={'account_pk': self.object.account.pk})
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(DeleteUploadTransaction, self).get_object()
+        if not obj.account.owners.filter(username__in=[
+                                         self.request.user]).count():
+            raise Http404
+        return obj
 
 
 class UpdateUploadTransaction(LoginRequiredMixin, UpdateView):
@@ -82,6 +100,11 @@ class ImportTransaction(LoginRequiredMixin, FormView):
     def get_account(self):
         account = models.Account.objects.get(
             pk=self.kwargs.get('account_pk'))
+
+        if not account.owners.filter(username__in=[
+                                     self.request.user]).count():
+            raise Http404
+
         return account
 
     def get_success_url(self):

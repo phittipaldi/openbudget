@@ -25,7 +25,6 @@
     <div class="content">
 
         <form method="post" novalidate="novalidate">
-          {% csrf_token %}
 
           {% for hidden_field in form.hidden_fields %}
             {{ hidden_field }}

@@ -6,20 +6,26 @@
 
  <div class="card">
     {% if transactions %}
-            <form method="get" novalidate>
-  
             <div class="header">
                 <h4 class="title">{% trans "Transactions" %}</h4>
 
                     <div class="form-group col-xs-3" style="padding-left: 0px;">
-                        <!-- render page select-->
-                    <label for="id_pb">Show&nbsp;</label>
-                        {{ form.pb }}
+                        
+                        <select id="duractions_filter" class="form-control input-sm">
+                        {% for duration in duration_filter %}
+                            {% if current_duration == duration.pk %}
+                                <option value="{{duration.pk}}" selected>{{duration.name}}</option>
+                            {% else %}}
+                                <option value="{{duration.pk}}">{{duration.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
                     </div>
                     <div class="col-xs-7">&nbsp;</div>
                     <div class="form-group col-xs-2" style="padding-left: 0px;">
-                        <!-- render search input -->
-                        {{form.q}}
+                        <form id="frm_search">
+                        <input class="form-control input-sm" type="text" style="height:30px" placeholder="{% trans 'Search' %}" name="q" value="{{query}}">
+                        </form>
                     </div>
 
             </div>
@@ -62,28 +68,47 @@
                     {% endfor %} 
                 </tbody>
                 </table>
-
             </div>
+
             <div class="row">
 
-                <div class="col-xs-6">
-                     Show {{object_list.count}} of {{paginator.count}} rows
+                <div id="div_id_pb" class="form-group col-xs-3">
+                    <div class="controls col-xs-7 pad-no">
+                        <select class="input-sm select form-control" id="id_pb" name="pb">
+                            <option value="5">{% trans "Show 5 Row" %}</option>
+                            <option value="10">{% trans "Show 10 Row" %}</option>
+                            <option value="25">{% trans "Show 25 Row" %}</option>
+                            <option value="50">{% trans "Show 50 Row" %}</option>
+                        </select> 
+                    </div>
                 </div>
 
-
-                <div class="col-xs-6 text-right">
+                    <div class="col-xs-3 col-xs-offset-5">
                     {% if is_paginated %}
-                     
-                            {% include 'paginator.html' %}
-
+                        <ul class="pagination" style="margin: 0px 0;">
+                            {% if page_obj.has_previous %}
+                              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                                <li class="active"><span>{{ page_obj.number }}<span class="sr-only"></span></span></li>
+                            {% if page_obj.has_next %}
+                              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                              <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
                     {% endif %}
-                </div>
-          </div>
+                    </div>
+
+            </div>
 
                 <div class="text-center">
                     <a href="{% url 'budget:transaction_add' %}" class="btn btn-info btn-fill">{% trans "New Transaction" %} +</a>
                 </div>
+
         </div>
+
 
     {% else %}
 
@@ -126,20 +151,21 @@
             {% endif %}
 
     {% endif %}
-</div>
+
+    </div>
 {% endblock %}
 
 {% block extra_js %}
 
     <script type="text/javascript">
         $(function() {
-          var paginate_by = function() {
-            $( "[name='pb']" ).on('change', function(){
-              $('form').submit()
-            })
-          }
-          paginate_by()
-
+            $('#duractions_filter').change(function() {
+                window.location.href = "/budget/transactions/_filter/"+this.value+"/";
+            });
+            $('#id_pb').change(function() {
+                var period = $('#duractions_filter').val();
+                window.location.href = "/budget/transactions/_filter/"+period+"/"+this.value+"/";
+            });
         });
     </script>
 

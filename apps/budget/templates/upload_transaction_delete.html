@@ -1,0 +1,27 @@
+{% extends 'base_template.html' %}
+{% load i18n %}
+
+{% block content %}
+
+ <div class="card">
+
+    <div class="header">
+        <h4 class="title">{{object.account}}</h4>
+        <p class="category">{{object.description}}/{{object.amount}}</p>
+    </div>
+
+
+    <div class="content">
+
+        <form method="post" novalidate="novalidate">
+          {% csrf_token %}
+            <h3>{% trans "Are you sure you want to delete this transaction uploaded " %}?</h3>
+            <a class="btn btn-default" href="{% url 'budget:accounts_sync_file' object.account.pk %}">{% trans "Cancel" %}</a>
+            <input class="btn btn-danger" type="submit" value="Delete" />
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

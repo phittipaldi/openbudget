@@ -58,6 +58,7 @@
             <th>{% trans "Description" %}</th>
             <th>{% trans "Category" %}</th>
             <th>{% trans "Amount" %}</th>
+            <th>&nbsp;</th>
             {% for transaction in transactions %}
               <tr>
                 <td><input type="checkbox" name="uploaded_transaction" value="{{transaction.pk}}"></td>
@@ -71,6 +72,11 @@
                     {% if transaction.account.currency.pk != transaction.currency.pk %}
                         <br><small>{{transaction.amount_account}} &nbsp; {{transaction.account.currency.name}}</small>
                     {% endif %}
+                </td>
+                <td class="td-actions text-center">
+                    <a id="link-delete-{{object.pk}}" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove" href="{% url 'budget:delete_transaction_uploaded' transaction.pk %}">
+                        <i class="fa fa-times"></i>
+                    </a>
                 </td>
               </tr>
             {% endfor %}
