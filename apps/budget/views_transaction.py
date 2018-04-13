@@ -2,7 +2,6 @@ from django.urls.base import reverse
 from django.contrib import messages
 from django.conf import settings
 from django.http import Http404
-from django.views.generic.list import ListView
 from django.views.generic.edit import (CreateView, View, UpdateView,
                                        DeleteView)
 from django.http.response import JsonResponse
@@ -12,28 +11,49 @@ from .models import (Transaction, Account, SubCategory,
                      CurrencyUser)
 from .forms import TransactionForm
 from apps.utils.models import Currency
+from apps.utils.views import SearchListView
+from django.db.models import Q
 
 
-class TransactionList(LoginRequiredMixin, ListView):
+class TransactionList(LoginRequiredMixin, SearchListView):
     template_name = "transaction_list.html"
     model = Transaction
     context_object_name = 'transactions'
-    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(TransactionList, self).get_context_data(**kwargs)
         context['duration_filter'] = DurationFilter.objects.all()
         if 'duration' in self.kwargs:
             context['current_duration'] = int(self.kwargs.get('duration'))
+
+        q = self.request.GET.get('q')
+        if q is not None:
+            context['query'] = q
+
+        if self.kwargs.get('pg'):
+            context['current_pg'] = self.kwargs.get('pg')
+
         return context
 
     def get_queryset(self):
         if 'duration' not in self.kwargs:
-            return self.model.objects.last_30_days_transactions(
+            object_list = self.model.objects.last_30_days_transactions(
                 self.request.user)
         else:
-            return self.model.objects.transactions_by_duration(
+            object_list = self.model.objects.transactions_by_duration(
                 self.request.user, self.kwargs['duration'])
+
+        query = self.request.GET.get('q', '')
+
+        if (query != ''):
+            object_list = object_list.filter(Q(place__contains=query))
+
+        return object_list
+
+    # def get_paginate_by(self, queryset):
+    #     if self.kwargs.get('pg'):
+    #         self.paginate_by = self.kwargs.get('pg')
+    #     return self.request.GET.get('paginate_by', self.paginate_by)
 
 
 class TransactionAdd(LoginRequiredMixin, CreateView):

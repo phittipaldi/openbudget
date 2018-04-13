@@ -15,6 +15,14 @@ class DeleteUploadTransaction(LoginRequiredMixin, DeleteView):
         return reverse('budget:accounts_sync_file',
                        kwargs={'account_pk': self.object.account.pk})
 
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(DeleteUploadTransaction, self).get_object()
+        if not obj.account.owners.filter(username__in=[
+                                         self.request.user]).count():
+            raise Http404
+        return obj
+
 
 class UpdateUploadTransaction(LoginRequiredMixin, UpdateView):
     template_name = 'modals/content_upload_transaction.html'
