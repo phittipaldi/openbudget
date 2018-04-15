@@ -175,11 +175,13 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-DEFAULT_FROM_EMAIL = "noreply@mg.getopenbudget.com"
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'noreply@mg.getopenbudget.com'
-EMAIL_HOST_PASSWORD = get_env_variable('MGKEY_MAIL')
-EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = "getopenbudget@gmail.com"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'getopenbudget@gmail.com'
+EMAIL_HOST_PASSWORD = 'getopenbudget2018'
+EMAIL_PORT = 465
 EMAIL_USE_TLS = True
 
 CELERY_BROKER_URL = 'amqp://localhost'
