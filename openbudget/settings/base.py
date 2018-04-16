@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'django_nose',
+    'djangobower',
     'openbudget',
     'factories',
     'apps.dashboard',
@@ -161,6 +162,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_PATH, 'components')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_INSTALLED_APPS = (
+    'chart.js',
+)
 
 MEDIA_URL = '/media/'
 

@@ -52,8 +52,12 @@
 
     {% block extra_js %}
   
-        
-
     {% endblock %}
+
+      <script>
+        $(document).ready(function(){
+          {% block jquery %}{% endblock %} 
+        })
+      </script>
 
 </html>
