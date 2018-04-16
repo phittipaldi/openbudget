@@ -36,13 +36,9 @@ class TransactionList(LoginRequiredMixin, SearchListView):
         return context
 
     def get_queryset(self):
-        if 'duration' not in self.kwargs:
-            object_list = self.model.objects.last_30_days_transactions(
-                self.request.user)
-        else:
-            object_list = self.model.objects.transactions_by_duration(
-                self.request.user, self.kwargs['duration'])
 
+        object_list = self.model.objects.all_my_transactions(
+            self.request.user)
         query = self.request.GET.get('q', '')
 
         if (query != ''):
@@ -221,3 +217,10 @@ class SubCategoryView(View):
             result.append({"id": i.pk, "name": i.name})
 
         return JsonResponse(result, safe=False)
+
+# if 'duration' not in self.kwargs:
+#     object_list = self.model.objects.last_30_days_transactions(
+#         self.request.user)
+# else:
+#     object_list = self.model.objects.transactions_by_duration(
+#         self.request.user, self.kwargs['duration'])
