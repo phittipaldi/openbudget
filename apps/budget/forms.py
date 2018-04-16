@@ -206,7 +206,8 @@ class AccountTransactionForm(forms.models.ModelForm):
     bank = forms.ModelChoiceField(queryset=Bank.objects.all(),
                                   empty_label="------------------",
                                   widget=forms.Select(
-                                  attrs={'class': 'form-control'}))
+                                  attrs={'class': 'form-control'}),
+                                  required=False)
 
     starting_amount = forms.CharField(required=True,
                                       label="Starting Amount",
@@ -245,7 +246,8 @@ class AccountTransactionUpdateForm(forms.models.ModelForm):
     bank = forms.ModelChoiceField(queryset=Bank.objects.all(),
                                   empty_label="------------------",
                                   widget=forms.Select(
-                                  attrs={'class': 'form-control'}))
+                                  attrs={'class': 'form-control'}),
+                                  required=False)
 
     starting_amount = forms.CharField(required=True,
                                       label="Starting Amount",

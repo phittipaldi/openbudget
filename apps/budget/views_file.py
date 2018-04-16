@@ -81,7 +81,11 @@ class ImportTransaction(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ImportTransaction, self).get_context_data(**kwargs)
-        context['account'] = self.get_account()
+        account = self.get_account()
+        context['account'] = account
+        context['form'].fields[
+            'template_file'].queryset = models.TemplateFile.objects.filter(
+                bank=account.bank)
         context['transactions'] = self.model.objects.pending_transactions(
             self.request.user)
         return context
