@@ -71,18 +71,19 @@ class UpdateUploadTransaction(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('budget:accounts_sync_file',
-                       kwargs={'account_pk': 1})
+                       kwargs={'account_pk': self.get_object().account.id})
 
 
 class ImportTransaction(LoginRequiredMixin, FormView):
     template_name = 'import_transaction_file.html'
     form_class = ImportTransactionForm
+    model = models.TransactionUploaded
 
     def get_context_data(self, **kwargs):
         context = super(ImportTransaction, self).get_context_data(**kwargs)
         context['account'] = self.get_account()
-        context['transactions'] = models.TransactionUploaded.objects.filter(
-            verified=False)
+        context['transactions'] = self.model.objects.pending_transactions(
+            self.request.user)
         return context
 
     def form_valid(self, form):

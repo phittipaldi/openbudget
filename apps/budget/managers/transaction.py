@@ -46,3 +46,13 @@ class TransactionManager(models.Manager):
         filter_data['date__range'] = [init_date, date_now]
         filter_data['account__owners__in'] = [owner]
         return self.filter(**filter_data).order_by('-date')
+
+
+class TransactionUploadedManager(models.Manager):
+
+    def pending_transactions(self, owner):
+        filter_data = dict()
+        filter_data['account__owners__in'] = [owner]
+        filter_data['verified'] = False
+
+        return self.filter(**filter_data).order_by('date')

@@ -6,7 +6,7 @@ from .models import (Account, AccountType,
                      Budget, BudgetPeriod, PeriodType, DayShedule,
                      BudgetYear, CurrencyUser, BudgetShareMember,
                      RecurrentTransaction, RecurrentShedule, TemplateFile,
-                     TransactionUploaded)
+                     TransactionUploaded, Bank)
 from apps.utils.models import Currency
 import datetime
 
@@ -188,7 +188,8 @@ class AccountTransactionForm(forms.models.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('name', 'account_type', 'starting_amount', 'currency')
+        fields = ('name', 'account_type', 'bank',
+                  'starting_amount', 'currency')
 
     name = forms.CharField(required=True,
                            label="Name",
@@ -201,6 +202,11 @@ class AccountTransactionForm(forms.models.ModelForm):
                                           empty_label="------------------",
                                           widget=forms.Select(
                                           attrs={'class': 'form-control'}))
+
+    bank = forms.ModelChoiceField(queryset=Bank.objects.all(),
+                                  empty_label="------------------",
+                                  widget=forms.Select(
+                                  attrs={'class': 'form-control'}))
 
     starting_amount = forms.CharField(required=True,
                                       label="Starting Amount",
@@ -220,7 +226,8 @@ class AccountTransactionUpdateForm(forms.models.ModelForm):
 
     class Meta:
         model = Account
-        fields = ('name', 'account_type', 'starting_amount', 'currency')
+        fields = ('name', 'account_type', 'bank',
+                  'starting_amount', 'currency')
 
     name = forms.CharField(required=True,
                            label="Name",
@@ -234,6 +241,11 @@ class AccountTransactionUpdateForm(forms.models.ModelForm):
                                           empty_label="------------------",
                                           widget=forms.Select(
                                           attrs={'class': 'form-control'}))
+
+    bank = forms.ModelChoiceField(queryset=Bank.objects.all(),
+                                  empty_label="------------------",
+                                  widget=forms.Select(
+                                  attrs={'class': 'form-control'}))
 
     starting_amount = forms.CharField(required=True,
                                       label="Starting Amount",
