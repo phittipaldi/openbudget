@@ -12,9 +12,9 @@ var myChart = new Chart(ctx, {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data: [50, 19, 3, 5, 2, 3],
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 99, 132, 132)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
@@ -36,7 +36,8 @@ var myChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:true,
+                    max: 100
                 }
             }]
         }
@@ -47,6 +48,28 @@ var myChart = new Chart(ctx, {
 
 {% block content %}
 
-    <canvas id="myChart" width="400" height="400"></canvas>
+     <div class="card">
+
+        <div class="row">
+        <div class="col-xs-4">
+            <div class="header form-group">
+
+                <select class="form-control">
+                    <option>--------------------</option>
+                </select>
+
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <div class="content">
+
+            <canvas id="myChart" width="400" height="400"></canvas>
+
+        </div>
+    </div>
 
 {% endblock %}
