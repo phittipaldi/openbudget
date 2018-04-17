@@ -28,6 +28,7 @@ urlpatterns = [
     # url(r'^accounts/', include('allauth.urls')),
     url(r'^budget/', include('apps.budget.urls', namespace='budget')),
     url(r'^utils/', include('apps.utils.urls', namespace="utils")),
+    url(r'^api/v1/', include('apps.api.urls', namespace='apiv1')),
     url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 
