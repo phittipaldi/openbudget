@@ -90,3 +90,46 @@ class DataBudget(APIView):
             ln_colors.append(category.icon.color.border_code)
 
         return ln_colors
+
+
+class DataBudgetActivity(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = []
+
+    def get(self, request, **kwargs):
+        queryset = self.filter_data(kwargs)
+        data = self.set_defaults(queryset, kwargs)
+        return Response(data)
+
+    def set_defaults(self, queryset, kwargs):
+        default_items = []
+        for item in queryset:
+            category = models.Category.objects.get(
+                pk=item['subcategory__category'])
+            period = models.BudgetPeriod.objects.get(
+                pk=kwargs['period'])
+
+            budget_data = views_reports.BudgetData(
+                period.budget, period, category, item['amount'])
+
+            default_item = dict(category=budget_data.category.name,
+                                budgeted='{:,}'.format(budget_data.budgeted),
+                                activity='{:,}'.format(budget_data.activity()),
+                                available='{:,}'.format(
+                                    budget_data.available()),
+                                icon=budget_data.category.icon.css,
+                                color=budget_data.category.icon.color.css,
+                                currency=period.budget.currency.code)
+
+            default_items.append(default_item)
+
+        return default_items
+
+    def filter_data(self, kwargs):
+        period = models.BudgetPeriod.objects.get(
+            pk=kwargs['period'])
+        queryset = period.details.values(
+            'subcategory__category').annotate(
+            amount=Sum('amount'))
+
+        return queryset

@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import TemplateView
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from apps.budget.forms import BudgetReportForm
 from django.views.generic import FormView
 from apps.budget import models
 import datetime
-
-
-# class HomePage(LoginRequiredMixin, TemplateView):
-#     template_name = "dashboard_old.html"
-
-
-# class DashboardPage(LoginRequiredMixin, TemplateView):
-#     template_name = "dashboard_old.html"
 
 
 class DashboardPage(LoginRequiredMixin, FormView):
