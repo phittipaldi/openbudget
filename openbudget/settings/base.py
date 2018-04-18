@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.humanize',
     'debug_toolbar',
+    'rest_framework',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -188,6 +189,13 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 DEFAULT_FROM_EMAIL = "getopenbudget@gmail.com"
@@ -203,3 +211,5 @@ CELERY_BROKER_URL = 'amqp://localhost'
 # EMAIL_HOST = 'smtp.sendgrid.net'
 # EMAIL_HOST_USER = 'apikey'
 # EMAIL_HOST_PASSWORD = get_env_variable('APIKEY_MAIL')
+
+# REST Framework

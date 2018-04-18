@@ -17,17 +17,20 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.dashboard.views import DashboardPage
+from apps.dashboard.views import DashboardPage, DashboardPageFilter
 import debug_toolbar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', DashboardPage.as_view(), name='home'),
     url(r'^dashboard/$', DashboardPage.as_view(), name='dashboard'),
+    url(r'^dashboard/(?P<budget>\d+)/(?P<period>\d+)/$',
+        DashboardPageFilter.as_view(), name='dashboard_filter'),
     url(r'^accounts/', include('apps.security.urls')),
     # url(r'^accounts/', include('allauth.urls')),
     url(r'^budget/', include('apps.budget.urls', namespace='budget')),
     url(r'^utils/', include('apps.utils.urls', namespace="utils")),
+    url(r'^api/v1/', include('apps.api.urls', namespace='apiv1')),
     url(r'^__debug__/', include(debug_toolbar.urls)),
 ]
 
