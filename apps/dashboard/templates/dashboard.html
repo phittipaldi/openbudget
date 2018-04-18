@@ -1,49 +1,110 @@
 {% extends "base_template.html" %}
+ {% load staticfiles %}
 {% load i18n %}
+{% load humanize %}
 
 
 <script>
 {% block jquery %}
 
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [50, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 132)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+var period = $('#id_period').val()
+var endpoint = '/api/v1/chart_data_budget/'+ period + '/'
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels,
+        defaultData = data.default,
+        bgColors = data.bg_colors,
+        lnColors = data.ln_colors
+        setChart()
+        setPie()
     },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true,
-                    max: 100
-                }
-            }]
-        }
+    error: function(error_data){
+        console.log("error ")
+        console.log(error_data)
     }
+})
+
+
+function setChart()
+{
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type:'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# Budget',
+                data: defaultData,
+                backgroundColor: bgColors,
+                borderColor: lnColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        max: 100
+                    }
+                }]
+            }
+        }
+    })
+
+
+}//end setChart
+
+function setPie()
+{
+
+    var ctx = document.getElementById("myPie").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type:'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# Budget',
+                data: defaultData,
+                backgroundColor: bgColors,
+                borderColor: lnColors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true,
+                        max: 100
+                    }
+                }]
+            }
+        }
+    })
+
+
+}
+
+$( "#id_period" ).change(function() {
+  changePeriod($( this ).val())
 });
-{% endblock %}
+
+function changePeriod(period_selected){
+    var url = '/dashboard/'
+    var budget = $('#id_budget').val()
+    if (period_selected && budget)
+        this.document.location.href = url + budget +'/'+ period_selected +'/';
+}
+
+{% endblock %}  
+
 </script>
 
 {% block content %}
@@ -52,24 +113,73 @@ var myChart = new Chart(ctx, {
 
         <div class="row">
         <div class="col-xs-4">
-            <div class="header form-group">
+            <div class="header">
 
-                <select class="form-control">
-                    <option>--------------------</option>
-                </select>
+                    <table class="">
+                    <tr>
+                    <form method="post" novalidate="novalidate" class="form-inline">
+                      {% csrf_token %}
 
+                      {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                      {% endfor %}
+
+                          {% for field in form.visible_fields %}
+                                <td>
+                                <div class="form-group">
+                                  {{ field.errors }}
+
+                                  {{ field }}
+                                  {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                  {% endif %}
+                                </div>
+                                </td>
+                                <td>&nbsp;</td>
+                          {% endfor %}
+
+                    </form>
+                    </tr>
+                    </table>
+            
             </div>
         </div>
         </div>
 
     </div>
 
-    <div class="card">
-        <div class="content">
+    <div class="row">
 
-            <canvas id="myChart" width="400" height="400"></canvas>
+            <div class="col-xs-6">
 
-        </div>
-    </div>
+                    <div class="card">
+                        <div class="content">
 
+                            <canvas id="myChart" width="420" height="420"></canvas>
+
+                        </div>
+                    </div>
+                
+            </div>   
+
+            <div class="col-xs-6">
+                    <div class="card">
+                        <div class="content">
+
+                            <canvas id="myPie" width="400" height="400"></canvas>
+
+                        </div>
+                    </div>
+            </div> 
+
+    </div> 
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+  
+  <script src="{% static 'budget/periods_filter.js' %}"></script>
+  
 {% endblock %}
