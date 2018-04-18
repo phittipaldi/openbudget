@@ -121,7 +121,10 @@ class PostTransactionUploaded(LoginRequiredMixin, RedirectView):
 
     def post(self, request, *args, **kwargs):
 
-        self.register_transaction(request)
+        if self.request.POST['submit'] == 'Submit Validation':
+            self.register_transaction(request)
+        else:
+            self.delete_transactions(request)
 
         self.url = reverse('budget:accounts_sync_file',
                            kwargs={'account_pk': request.POST['account']})
@@ -160,3 +163,10 @@ class PostTransactionUploaded(LoginRequiredMixin, RedirectView):
             description=transaction.place,
             user_insert=transaction.user_insert
         )
+
+    def delete_transactions(self, request):
+
+        uploadeds = self.request.POST.getlist('uploaded_transaction')
+
+        models.TransactionUploaded.objects.filter(
+            pk__in=uploadeds).delete()

@@ -42,7 +42,9 @@ class TransactionList(LoginRequiredMixin, SearchListView):
         query = self.request.GET.get('q', '')
 
         if (query != ''):
-            object_list = object_list.filter(Q(place__contains=query))
+            object_list = object_list.filter(
+                Q(place__icontains=query) |
+                Q(account__name__icontains=query))
 
         return object_list
 
