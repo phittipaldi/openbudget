@@ -20,6 +20,8 @@ class CommonInfo(models.Model):
 class Color(models.Model):
     name = models.CharField(max_length=30)
     css = models.CharField(max_length=30)
+    bg_code = models.CharField(max_length=128, blank=True, null=True)
+    border_code = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         return self.name
