@@ -9,6 +9,7 @@
 
 var period = $('#id_period').val()
 var endpoint = '/api/v1/chart_data_budget/'+ period + '/'
+var endpoint_table = '/api/v1/activity_data_budget/'+ period + '/'
 
 $.ajax({
     method: "GET",
@@ -27,6 +28,35 @@ $.ajax({
     }
 })
 
+
+$.ajax({
+    method: "GET",
+    url: endpoint_table,
+    success: function(data){
+        fill_table(data)
+    },
+    error: function(error_data){
+        console.log("error ")
+        console.log(error_data)
+    }
+})
+
+
+function fill_table(data)
+{
+    var table = $('#comparative_table');
+
+    for (var index = 0; index < data.length; ++index) {
+
+        table.append('<tr>' +
+            '<td><p class="text-'+ data[index].color +'"><i class="'+data[index].icon+'"></i> &nbsp;'+ 
+            data[index].category +'</p></td>' +
+            '<td>'+ data[index].budgeted +' '+ data[index].currency + '</td>' +
+            '<td>'+ data[index].activity + ' '+ data[index].currency + '</td>' +
+            '<td>'+ data[index].available + ' '+ data[index].currency + '</td></tr>')
+    }//end for
+
+}// end function fill_table
 
 function setChart()
 {
@@ -173,6 +203,43 @@ function changePeriod(period_selected){
             </div> 
 
     </div> 
+
+    <div class="row">
+        
+        <div class="col-xs-12">
+            
+        <div class="card">
+            <div class="content">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="comparative_table">
+                        <tbody>
+                        <th>{% trans "Category" %}</th>
+                        <th>{% trans "Budgeted" %}</th>
+                        <th>{% trans "Activity" %}</th>
+                        <th>{% trans "Available" %}</th>
+                        {% for object in object_list %}
+                          <tr>
+                            <td>
+                 
+                              <p class="text-{{object.category.icon.color.css}} ">
+                                <i class="{{object.category.icon.css}}"></i>
+                                {{object.category}}
+                              </p>
+                            </td>
+                            <td>{{object.budgeted|intcomma}}</td>
+                            <td><a href="{% url 'budget:report_subcategories' object.budget.pk object.category.pk object.period.pk %}">{{object.activity|intcomma}}</a></td>
+                            <td>{{object.available|intcomma}}</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
 
 
 {% endblock %}

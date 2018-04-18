@@ -55,7 +55,13 @@
             <th>{% trans "Available" %}</th>
             {% for object in object_list %}
               <tr>
-                <td>{{object.category}}</td>
+                <td>
+     
+                  <p class="text-{{object.category.icon.color.css}} ">
+                    <i class="{{object.category.icon.css}}"></i>
+                    {{object.category}}
+                  </p>
+                </td>
                 <td>{{object.budgeted|intcomma}}</td>
                 <td><a href="{% url 'budget:report_subcategories' object.budget.pk object.category.pk object.period.pk %}">{{object.activity|intcomma}}</a></td>
                 <td>{{object.available|intcomma}}</td>
