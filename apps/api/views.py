@@ -119,7 +119,7 @@ class DataBudgetActivity(APIView):
                                     budget_data.available()),
                                 icon=budget_data.category.icon.css,
                                 color=budget_data.category.icon.color.css,
-                                currency=period.budget.currency.code)
+                                currency=period.budget.currency.name)
 
             default_items.append(default_item)
 
