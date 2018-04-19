@@ -86,16 +86,16 @@ class UserRegistration(FormView):
             expiration_date=expiration)
         return result
 
-    def send_notification_email(recipient, email_subject, email_body):
+    # def send_notification_email(recipient, email_subject, email_body):
 
-        from django.core.mail import EmailMessage
+    #     from django.core.mail import EmailMessage
 
-        if not type(recipient) == list:
-            recipient = [recipient]
+    #     if not type(recipient) == list:
+    #         recipient = [recipient]
 
-        email = EmailMessage(email_subject, email_body, to=recipient)
-        email.content_subtype = "html"
-        return email.send(fail_silently=False)
+    #     email = EmailMessage(email_subject, email_body, to=recipient)
+    #     email.content_subtype = "html"
+    #     return email.send(fail_silently=False)
 
 
 class LogoutView(RedirectView):

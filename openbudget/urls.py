@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^dashboard/(?P<budget>\d+)/(?P<period>\d+)/$',
         DashboardPageFilter.as_view(), name='dashboard_filter'),
     url(r'^accounts/', include('apps.security.urls')),
-    # url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^budget/', include('apps.budget.urls', namespace='budget')),
     url(r'^utils/', include('apps.utils.urls', namespace="utils")),
     url(r'^api/v1/', include('apps.api.urls', namespace='apiv1')),
