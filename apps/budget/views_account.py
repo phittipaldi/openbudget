@@ -1,4 +1,3 @@
-from django.urls.base import reverse
 from django.conf import settings
 from django.http import Http404
 from django.views.generic.list import ListView

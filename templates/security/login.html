@@ -1,7 +1,7 @@
     {% extends "security/base_security.html" %}
     {% load i18n %}
     {% load socialaccount %}
-      
+
       {% block head_title %} Welcome to Open Budget {% endblock %}
 
       {% block title_content %}
@@ -56,11 +56,11 @@
               </div>
           </div>
       </div>
-                    
+
       <div class="social-login">
           <h3>...or login with:</h3>
           <div class="social-login-buttons">
-            <a class="btn btn-link-1 btn-link-1-github" href="">
+            <a class="btn btn-link-1 btn-link-1-github" href="{% provider_login_url 'github' %}">
               <i class="fa fa-github"></i> Github
             </a>
             <a class="btn btn-link-1 btn-link-1-facebook" href="#">
