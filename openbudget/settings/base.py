@@ -202,7 +202,7 @@ DEFAULT_FROM_EMAIL = "getopenbudget@gmail.com"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'getopenbudget@gmail.com'
 EMAIL_HOST_PASSWORD = 'getopenbudget2018'
-EMAIL_PORT = 465
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 CELERY_BROKER_URL = 'amqp://localhost'
