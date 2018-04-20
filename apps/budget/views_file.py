@@ -154,6 +154,7 @@ class PostTransactionUploaded(LoginRequiredMixin, RedirectView):
             self.add_history_data(transaction)
 
             trx_up.verified = True
+            trx_up.trx_match = transaction
             trx_up.save()
 
     def add_history_data(self, transaction):

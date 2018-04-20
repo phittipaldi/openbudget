@@ -313,6 +313,7 @@ class TransactionUploaded(utils.CommonInfo):
     trx_type = models.ForeignKey(TransactionType)
     subcategory = models.ForeignKey(SubCategory, blank=True, null=True)
     reference = models.CharField(max_length=128, blank=True, null=True)
+    trx_match = models.ForeignKey(Transaction, blank=True, null=True)
     objects = managers.TransactionUploadedManager()
 
     def __str__(self):
