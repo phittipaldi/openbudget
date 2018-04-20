@@ -50,9 +50,10 @@ class TransactionManager(models.Manager):
 
 class TransactionUploadedManager(models.Manager):
 
-    def pending_transactions(self, owner):
+    def pending_transactions(self, owner, account):
         filter_data = dict()
         filter_data['account__owners__in'] = [owner]
         filter_data['verified'] = False
+        filter_data['account__pk'] = account.pk
 
         return self.filter(**filter_data).order_by('date')
