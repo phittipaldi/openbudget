@@ -7,6 +7,7 @@ from .models import Account, AccountType
 from .forms import AccountTransactionForm, AccountTransactionUpdateForm
 from apps.utils.models import Currency
 from django.http.response import JsonResponse
+from django.urls import reverse
 
 
 class AccountList(LoginRequiredMixin, ListView):
