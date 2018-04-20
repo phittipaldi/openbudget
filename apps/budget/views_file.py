@@ -87,7 +87,7 @@ class ImportTransaction(LoginRequiredMixin, FormView):
             'template_file'].queryset = models.TemplateFile.objects.filter(
                 bank=account.bank)
         context['transactions'] = self.model.objects.pending_transactions(
-            self.request.user)
+            self.request.user, account)
         return context
 
     def form_valid(self, form):
@@ -154,6 +154,7 @@ class PostTransactionUploaded(LoginRequiredMixin, RedirectView):
             self.add_history_data(transaction)
 
             trx_up.verified = True
+            trx_up.trx_match = transaction
             trx_up.save()
 
     def add_history_data(self, transaction):
