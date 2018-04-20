@@ -1,9 +1,23 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.mixins import (LoginRequiredMixin)
 from apps.budget.forms import BudgetReportForm
-from django.views.generic import FormView
+from django.views.generic import FormView, RedirectView
 from apps.budget import models
 import datetime
+from django.urls import reverse
+
+
+class DashboardRedirect(LoginRequiredMixin, RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        budgets = models.Budget.objects.all_my_budgets(
+            self.request.user)
+
+        if budgets.count() > 0:
+            url = reverse('dashboard')
+        else:
+            url = reverse('budget:list')
+        return url
 
 
 class DashboardPage(LoginRequiredMixin, FormView):
@@ -12,10 +26,11 @@ class DashboardPage(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardPage, self).get_context_data(**kwargs)
+
         my_budgets = self.get_my_budgets()
         context['form'].fields['budget'].queryset = my_budgets
-        context['form'].fields['period'].queryset = my_budgets[0].periods
 
+        context['form'].fields['period'].queryset = my_budgets[0].periods
         context['form'].fields[
             'budget'].initial = my_budgets[0].pk
 
