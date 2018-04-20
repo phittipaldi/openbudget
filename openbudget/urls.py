@@ -17,12 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.dashboard.views import DashboardPage, DashboardPageFilter
+from apps.dashboard.views import (DashboardPage, DashboardPageFilter,
+                                  DashboardRedirect)
 import debug_toolbar
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', DashboardPage.as_view(), name='home'),
+    url(r'^$', DashboardRedirect.as_view(), name='home'),
     url(r'^dashboard/$', DashboardPage.as_view(), name='dashboard'),
     url(r'^dashboard/(?P<budget>\d+)/(?P<period>\d+)/$',
         DashboardPageFilter.as_view(), name='dashboard_filter'),
