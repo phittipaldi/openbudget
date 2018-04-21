@@ -11,6 +11,7 @@ var period = $('#id_period').val()
 var endpoint = '/api/v1/chart_data_budget/'+ period + '/'
 var endpoint_table = '/api/v1/activity_data_budget/'+ period + '/'
 
+
 $.ajax({
     method: "GET",
     url: endpoint,
