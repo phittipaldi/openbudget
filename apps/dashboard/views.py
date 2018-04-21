@@ -58,10 +58,11 @@ class DashboardPageFilter(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super(DashboardPageFilter, self).get_context_data(**kwargs)
         my_budgets = self.get_my_budgets()
-        context['form'].fields['budget'].queryset = my_budgets
-        context['form'].fields['period'].queryset = my_budgets[0].periods
-
         budget_selected = my_budgets.filter(pk=self.kwargs.get('budget'))[0]
+
+        context['form'].fields['budget'].queryset = my_budgets
+        context['form'].fields['period'].queryset = budget_selected.periods
+
         context['form'].fields[
             'budget'].initial = budget_selected
 
