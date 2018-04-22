@@ -58,7 +58,10 @@ class TransactionFileService(object):
         return value
 
     def set_amount(self, amount_value):
-        value = Decimal(amount_value)
+        try:
+            value = Decimal(amount_value)
+        except Exception:
+            value = Decimal(amount_value[2:])
         return value
 
     def set_trx_type(self, trx_type_value):
