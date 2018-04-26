@@ -98,11 +98,15 @@ class DataBudgetActivity(APIView):
 
     def get(self, request, **kwargs):
         queryset = self.filter_data(kwargs)
-        data = self.set_defaults(queryset, kwargs)
-        return Response(data)
+        data, totals = self.set_defaults(queryset, kwargs)
+        data_json = {'data': data, 'totals': totals}
+        return Response(data_json)
 
     def set_defaults(self, queryset, kwargs):
         default_items = []
+        budgeted = 0
+        activity = 0
+        available = 0
         for item in queryset:
             category = models.Category.objects.get(
                 pk=item['subcategory__category'])
@@ -123,7 +127,15 @@ class DataBudgetActivity(APIView):
 
             default_items.append(default_item)
 
-        return default_items
+            budgeted = budgeted + budget_data.budgeted
+            activity = activity + budget_data.activity()
+            available = available + budget_data.available()
+
+        totals = {'budgeted': '{:,}'.format(budgeted),
+                  'activity': '{:,}'.format(activity),
+                  'available': '{:,}'.format(available)}
+
+        return default_items, totals
 
     def filter_data(self, kwargs):
         period = models.BudgetPeriod.objects.get(

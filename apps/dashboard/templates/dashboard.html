@@ -37,7 +37,6 @@ $.ajax({
         fill_table(data)
     },
     error: function(error_data){
-        console.log("error ")
         console.log(error_data)
     }
 })
@@ -47,15 +46,21 @@ function fill_table(data)
 {
     var table = $('#comparative_table');
 
-    for (var index = 0; index < data.length; ++index) {
+    for (var index = 0; index < data['data'].length; ++index) {
 
         table.append('<tr>' +
-            '<td><p class="text-'+ data[index].color +'"><i class="'+data[index].icon+'"></i> &nbsp;'+ 
-            data[index].category +'</p></td>' +
-            '<td>'+ data[index].budgeted +' '+ data[index].currency + '</td>' +
-            '<td>'+ data[index].activity + ' '+ data[index].currency + '</td>' +
-            '<td>'+ data[index].available + ' '+ data[index].currency + '</td></tr>')
+            '<td><p class="text-'+ data['data'][index].color +'"><i class="'+data['data'][index].icon+'"></i> &nbsp;'+ 
+            data['data'][index].category +'</p></td>' +
+            '<td>'+ data['data'][index].budgeted +' '+ data['data'][index].currency + '</td>' +
+            '<td>'+ data['data'][index].activity + ' '+ data['data'][index].currency + '</td>' +
+            '<td>'+ data['data'][index].available + ' '+ data['data'][index].currency + '</td></tr>')
     }//end for
+
+    table.append('<tr>' +
+        '<td><p>Totals</p></td>' +
+        '<td>'+ data['totals'].budgeted + '</td>' +
+        '<td>'+ data['totals'].activity + '</td>' +
+        '<td>'+ data['totals'].available + '</td></tr>')
 
 }// end function fill_table
 
