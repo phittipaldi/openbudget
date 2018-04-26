@@ -15,10 +15,10 @@ class TransactionManager(models.Manager):
         filter_data['subcategory__category__in'] = [category]
         return self.filter(**filter_data).order_by('-date')
 
-    def my_transactions_by_subcategory(self, owner, subcategory, period):
+    def my_transactions_by_subcategory(self, accounts, subcategory, period):
         filter_data = dict()
         filter_data['date__range'] = [period.init_date, period.end_date]
-        filter_data['account__owners__in'] = [owner]
+        filter_data['account__in'] = accounts
         filter_data['subcategory__in'] = [subcategory]
         return self.filter(**filter_data).order_by('-date')
 

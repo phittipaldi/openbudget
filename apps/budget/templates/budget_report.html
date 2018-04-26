@@ -67,7 +67,14 @@
                 <td>{{object.available|intcomma}}</td>
               </tr>
             {% endfor %}
+            <tr>
+              <td>TOTAL</td>
+              <td>{{totals.budgeted|intcomma}}</td>
+              <td>{{totals.activity|intcomma}}</td>
+              <td>{{totals.available|intcomma}}</td>
+            </tr>
         </table>
+
 
 
     </div>

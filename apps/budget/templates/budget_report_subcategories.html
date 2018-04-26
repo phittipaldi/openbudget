@@ -30,7 +30,7 @@
 
                             </td>
                             <td>{{transaction.budgeted|intcomma}}&nbsp;{{transaction.account.currency.name}}</td>
-                            <td><a href="{% url 'budget:report_details' transaction.subcategory.pk transaction.period.pk %}" class="show-details">{{transaction.activity|intcomma}}</a></td>
+                            <td><a href="{% url 'budget:report_details' budget.pk transaction.subcategory.pk transaction.period.pk %}" class="show-details">{{transaction.activity|intcomma}}</a></td>
                             <td>{{transaction.available|intcomma}}&nbsp;{{transaction.account.currency.name}}</td>
                         </tr>
                     {% endfor %} 
