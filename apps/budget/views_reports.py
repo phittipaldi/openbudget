@@ -34,9 +34,10 @@ class BudgetReport(FormView):
     def form_valid(self, form):
         budget = form.cleaned_data.get('budget')
         period = form.cleaned_data.get('period')
-        data = self.filter_data(budget, period)
+        data, totals = self.filter_data(budget, period)
         context = self.get_context_data(
-            object_list=data, budget=budget, period=period, form=form)
+            object_list=data, budget=budget, period=period,
+            form=form, totals=totals)
         context['form'].fields[
             'period'].queryset = models.BudgetPeriod.objects.filter(
             budget__pk=budget.pk)
@@ -44,6 +45,9 @@ class BudgetReport(FormView):
 
     def filter_data(self, budget, period):
         data = []
+        budgeted = 0
+        activity = 0
+        available = 0
         details = period.details.values(
             'subcategory__category').annotate(
             amount=Sum('amount'))
@@ -54,8 +58,14 @@ class BudgetReport(FormView):
                                      category,
                                      detail['amount'])
             data.append(budget_data)
+            budgeted = budgeted + budget_data.budgeted
+            activity = activity + budget_data.activity()
+            available = available + budget_data.available()
+            totals = {'budgeted': budgeted,
+                      'activity': activity,
+                      'available': available}
 
-        return data
+        return data, totals
 
 
 class BudgetPeriodView(View):
@@ -113,6 +123,8 @@ class BudgetbySubcategories(ListView):
             pk=int(self.kwargs['category']))
         context['period'] = models.BudgetPeriod.objects.get(
             pk=int(self.kwargs['period']))
+        context['budget'] = models.Budget.objects.get(
+            pk=int(self.kwargs['budget']))
         return context
 
     def get_queryset(self):
@@ -191,5 +203,8 @@ class TransactionDetails(ListView):
             pk=int(self.kwargs['subcategory']))
         period = models.BudgetPeriod.objects.get(
             pk=int(self.kwargs['period']))
+        budget = models.Budget.objects.get(
+            pk=int(self.kwargs['b']))
+        accounts = budget.accounts.values('pk')
         return self.model.objects.my_transactions_by_subcategory(
-            self.request.user, subcategory, period)
+            accounts, subcategory, period)

@@ -79,7 +79,7 @@ urlpatterns = [
     url(r'^reports/(?P<budget>\d+)/(?P<category>\d+)/(?P<period>\d+)/$',
         views_reports.BudgetbySubcategories.as_view(),
         name='report_subcategories'),
-    url(r'^reports/details/(?P<subcategory>\d+)/(?P<period>\d+)/$',
+    url(r'^reports/details/(?P<b>\d+)/(?P<subcategory>\d+)/(?P<period>\d+)/$',
         views_reports.TransactionDetails.as_view(),
         name='report_details'),
     url(r'^periods/json/(?P<budget>\d+)/$',
