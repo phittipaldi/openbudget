@@ -333,8 +333,8 @@ class BudgetGlobalThread(threading.Thread, BudgetGlobalAmount):
     def run(self):
         for period in self.budget.periods.all():
 
-            if len(period.details.all()) == 0:
-                self.set_lines_budget(period)
+            # if len(period.details.all()) == 0:
+            self.set_lines_budget(period)
 
             for line in period.details.all():
                 amount_fixed = self.postlist.get(

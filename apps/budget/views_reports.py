@@ -61,9 +61,11 @@ class BudgetReport(FormView):
             budgeted = budgeted + budget_data.budgeted
             activity = activity + budget_data.activity()
             available = available + budget_data.available()
-            totals = {'budgeted': budgeted,
-                      'activity': activity,
-                      'available': available}
+
+        totals = {'budgeted': budgeted,
+                  'activity': activity,
+                  'available': available}
+
 
         return data, totals
 
