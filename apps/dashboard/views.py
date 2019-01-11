@@ -40,7 +40,9 @@ class DashboardPage(LoginRequiredMixin, FormView):
         return context
 
     def get_my_budgets(self):
+        current_date = datetime.datetime.today()
         choices = models.Budget.objects.all_my_budgets(self.request.user)
+        choices = choices.filter(year__value=current_date.year.real)
         return choices
 
     def set_current_period(self, budget):
@@ -48,7 +50,9 @@ class DashboardPage(LoginRequiredMixin, FormView):
         current_periods = budget.periods.filter(
             init_date__lte=current_date,
             end_date__gte=current_date)
-        return current_periods[0]
+
+        if current_periods.count() > 0:
+            return current_periods[0]
 
 
 class DashboardPageFilter(LoginRequiredMixin, FormView):
