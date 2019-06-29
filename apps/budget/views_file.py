@@ -137,7 +137,8 @@ class PostTransactionUploaded(LoginRequiredMixin, RedirectView):
 
         for trx in uploadeds:
 
-            trx_up = models.TransactionUploaded.objects.get(pk=trx)
+            trx_up = models.TransactionUploaded.objects.get(
+                pk=trx.replace(',', ''))
             transaction = models.Transaction.objects.create(
                 account=trx_up.account,
                 trx_type=trx_up.trx_type,
